@@ -8,7 +8,7 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
-     *
+     * table contents for migration
      * @return void
      */
     public function up()
@@ -23,7 +23,7 @@ return new class extends Migration
 
     /**
      * Reverse the migrations.
-     *
+     * roll back migration
      * @return void
      */
     public function down()
