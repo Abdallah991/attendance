@@ -1,8 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\PostsController;
-
+use App\Models\post;
+use App\Http\Controllers\StudentsController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,5 +18,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// posts endpoint
-Route::get('/posts', [PostsController::class,'index']);
+// students endpoint
+
+Route::get('/students',[StudentsController::class, 'index']);
+

@@ -8,26 +8,25 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
-     * table contents for migration
+     *
      * @return void
      */
     public function up()
     {
-        Schema::create('post', function (Blueprint $table) {
+        Schema::create('students', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('title');
-            $table->mediumText('body');
+            $table->string('name');
             $table->timestamps();
         });
     }
 
     /**
      * Reverse the migrations.
-     * roll back migration
+     *
      * @return void
      */
     public function down()
     {
-        Schema::dropIfExists('post');
+        Schema::dropIfExists('students');
     }
 };
