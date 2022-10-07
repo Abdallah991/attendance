@@ -20,5 +20,5 @@ Route::get('/', function () {
 
 // students endpoint
 
-Route::get('/students',[StudentsController::class, 'index']);
+Route::resource('/students', StudentsController::class);;
 
