@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Models\post;
 use App\Http\Controllers\StudentsController;
+use App\Http\Controllers\StudentLogsController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,7 +19,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// students endpoint
-
-Route::resource('/students', StudentsController::class);;
+// students endpoint, 
+// These have to be registered in the web for it to work.
+Route::resource('/students', StudentsController::class);
+Route::resource('/logs', StudentLogsController::class);;
 

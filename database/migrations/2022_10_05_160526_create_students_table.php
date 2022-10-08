@@ -22,13 +22,15 @@ return new class extends Migration
         Schema::create('students_log', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('student_id');
-            $table->time('log');
+            $table->dateTime('log');
             $table->timestamps();
             $table->foreign('student_id')
             ->references('id')
             ->on('students')
             ->onDelete('cascade');
         });
+
+       
     }
 
     /**

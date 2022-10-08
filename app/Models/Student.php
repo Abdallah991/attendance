@@ -17,12 +17,14 @@ class Student extends Model
     // fillable items in the create method
     protected $fillable = ['name'];
     // hide elemnets in the response, just like the password for example
-    protected $hidden = ['created_at'];
+    // protected $hidden = ['created_at'];
     // what you want to show in the response only
-    protected $visible = ['name', 'id', 'updated_at'];
+    protected $visible = ['name', 'id', 'updated_at','created_at'];
 
+    // students has many logs
+    // you can access all the logs on the students from this function
     public function studentLogs() {
-        return $this->hasMany(StudenLog::class);
+        return $this->hasMany(StudentLog::class);
     }
    
 

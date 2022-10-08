@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Student;
 use App\Models\StudentLog;
 
-class StudentsController extends Controller
+
+class StudentLogsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +15,7 @@ class StudentsController extends Controller
      */
     public function index()
     {
-       return Student::all();
+        return StudentLog::all();
     }
 
     /**
@@ -48,8 +48,6 @@ class StudentsController extends Controller
     public function show($id)
     {
         //
-        dd($id);
-        
     }
 
     /**
