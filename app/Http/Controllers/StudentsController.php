@@ -5,6 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Student;
 use App\Models\StudentLog;
+// import resource to use it
+use App\Http\Resources\StudentResource;
+use App\Http\Resources\StudentCollection;
+// import query service
+use App\Filters\StudentFilter;
+
 
 class StudentsController extends Controller
 {
@@ -13,9 +19,26 @@ class StudentsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-       return Student::all();
+        // returning the values formated 
+        // returning the values paginated
+    //    return new StudentCollection(Student::paginate());
+
+    //    filter query code
+    $filter = new StudentFilter();
+    $queryItems = $filter->transform($request);
+
+    if(count($queryItems) ==0) {
+        // Log::debug('Some message.');
+        return new StudentCollection(Student::paginate());
+
+    } else {
+        // keep the query for pagination 
+        $students = Student::where($queryItems)->paginate();
+        return new StudentCollection($students->appends($request->query()));   
+     }
+
     }
 
     /**
@@ -47,8 +70,8 @@ class StudentsController extends Controller
      */
     public function show($id)
     {
-        //
-        dd($id);
+        $student = Student::find($id);
+        return new StudentResource($student);
         
     }
 

@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\StudentLog;
+use App\Http\Resources\StudentLogResource;
+use App\Http\Resources\StudentLogCollection;
+use App\Filters\StudentLogFilter;
 
 
 class StudentLogsController extends Controller
@@ -13,9 +16,26 @@ class StudentLogsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return StudentLog::all();
+        // provides links which include API calls for 
+        // 1- next page
+        // 2- last page
+        // 3- previous page
+        // 4- first page
+        $filter = new StudentLogFilter();
+        $queryItems = $filter->transform($request);
+        if(count($queryItems) ==0) {
+            // return normal response
+            return new StudentLogCollection(StudentLog::paginate());
+        } else {
+            // return query response
+            // to account for pagination and keep the filters
+            $studentLogs = StudentLog::where($queryItems)->paginate();
+            return new StudentLogCollection($studentLogs->appends($request->query()));
+
+
+        }
     }
 
     /**
@@ -47,7 +67,9 @@ class StudentLogsController extends Controller
      */
     public function show($id)
     {
-        //
+        //show a student log
+        $studentLog = StudentLog::find($id);
+        return new StudentLogResource($studentLog);
     }
 
     /**
