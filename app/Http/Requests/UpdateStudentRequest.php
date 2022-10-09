@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+
 
 class UpdateStudentRequest extends FormRequest
 {
@@ -13,7 +15,7 @@ class UpdateStudentRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,8 +25,22 @@ class UpdateStudentRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            //
-        ];
+        $method = $this->method();
+        if ($method == 'PUT'){
+
+            return [
+                //
+                'name' => ['required'],
+    
+            ];
+        }
+        else {
+            // this is the PATCH request
+            return [
+                //
+                'name' => ['required', 'sometimes'],
+    
+            ];
+        }
     }
 }

@@ -12,6 +12,7 @@ use App\Http\Resources\StudentCollection;
 use App\Filters\StudentFilter;
 // import requests
 use App\Http\Requests\StoreStudentRequest;
+use App\Http\Requests\UpdateStudentRequest;
 
 
 class StudentsController extends Controller
@@ -91,9 +92,12 @@ class StudentsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateStudentRequest $request, $id)
     {
-        //
+        // get the student 
+        $student = Student::find($id);
+        // update the values
+        $student->update($request->all());
     }
 
     /**
