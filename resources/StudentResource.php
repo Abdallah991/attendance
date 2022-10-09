@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\StudentLogResource;
 
 class StudentResource extends JsonResource
 {
@@ -18,7 +19,8 @@ class StudentResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'createdAt' => $this->created_at,
-            'updatedAt' => $this->updated_at
+            'updatedAt' => $this->updated_at,
+            'studentLogs'=> StudentLogResource::collection($this->whenLoaded('studentLogs'))
         ];
     }
 }

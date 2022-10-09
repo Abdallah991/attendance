@@ -12,6 +12,7 @@ Class StudentFilter extends ApiFilter {
         'name'=> ['eq'],
         'createdAt'=> ['eq'],
         'updatedAt'=> ['eq'],
+
     ];
 
     // paramter that were transformed in the rosource 

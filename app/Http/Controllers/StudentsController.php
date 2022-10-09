@@ -10,6 +10,8 @@ use App\Http\Resources\StudentResource;
 use App\Http\Resources\StudentCollection;
 // import query service
 use App\Filters\StudentFilter;
+// import requests
+use App\Http\Requests\StoreStudentRequest;
 
 
 class StudentsController extends Controller
@@ -28,16 +30,11 @@ class StudentsController extends Controller
     //    filter query code
     $filter = new StudentFilter();
     $queryItems = $filter->transform($request);
-
-    if(count($queryItems) ==0) {
-        // Log::debug('Some message.');
-        return new StudentCollection(Student::paginate());
-
-    } else {
-        // keep the query for pagination 
-        $students = Student::where($queryItems)->paginate();
-        return new StudentCollection($students->appends($request->query()));   
-     }
+    // if query items are null, then its like there is no condition so it will pull all the
+        $students = Student::where($queryItems);
+        $students = $students->with('studentLogs');
+        return new StudentCollection($students->paginate()->appends($request->query()));   
+    //  }
 
     }
 
@@ -46,10 +43,10 @@ class StudentsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        //
-    }
+    // public function create()
+    // {
+    //     //
+    // }
 
     /**
      * Store a newly created resource in storage.
@@ -57,9 +54,10 @@ class StudentsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreStudentRequest $request)
     {
         //
+        return new StudentResource(Student::create($request->all()));
     }
 
     /**
@@ -71,7 +69,7 @@ class StudentsController extends Controller
     public function show($id)
     {
         $student = Student::find($id);
-        return new StudentResource($student);
+        return new StudentResource($student->loadMissing('studentLogs'));
         
     }
 
