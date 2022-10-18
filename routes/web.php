@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Models\post;
 use App\Http\Controllers\StudentsController;
 use App\Http\Controllers\StudentLogsController;
+use App\Http\Controllers\UserController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -21,6 +22,8 @@ Route::get('/', function () {
 
 // students endpoint, 
 // These have to be registered in the web for it to work.
+// speciall the edit and show and update apis
 Route::resource('/students', StudentsController::class);
 Route::resource('/logs', StudentLogsController::class);;
+Route::resource('/users', UserController::class);;
 
