@@ -27,6 +27,9 @@ use App\Http\Controllers\UserController;
 // students APIs
 Route::get('/students',[StudentsController::class,'index']);
 
+// students APIs
+Route::get('/users',[UserController::class,'index']);
+
 // Logs API
 Route::get('/studentLogs',[StudentsController::class,'index']);
 
