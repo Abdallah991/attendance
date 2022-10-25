@@ -13,10 +13,21 @@ use App\Filters\StudentFilter;
 // import requests
 use App\Http\Requests\StoreStudentRequest;
 use App\Http\Requests\UpdateStudentRequest;
+// Auth
+use Illuminate\Support\Facades\Auth;
 
 
 class StudentsController extends Controller
 {
+
+
+    public function __construct() {
+
+        // only authenticated users can access these functions
+        // TODO: How to presist user authentication
+        // $this->middleware('auth:sanctum')->only(['create', 'update', 'edit', 'destroy', 'store','show','index']);
+
+    }
     /**
      * Display a listing of the resource.
      *

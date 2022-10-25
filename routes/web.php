@@ -20,10 +20,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// students endpoint, 
+// students endpoint.
 // These have to be registered in the web for it to work.
-// speciall the edit and show and update apis
-Route::resource('/students', StudentsController::class);
-Route::resource('/logs', StudentLogsController::class);;
-Route::resource('/users', UserController::class);;
+// speciall the edit and show and update apis.
+// TODO
+// Route::resource('/students', StudentsController::class);
+// Route::resource('/logs', StudentLogsController::class);
+// Route::resource('/users', UserController::class);
 

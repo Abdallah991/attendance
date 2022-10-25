@@ -15,21 +15,34 @@ use App\Http\Resources\UserResource;
 // import requests
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
-
-
+// Auth
+use Illuminate\Support\Facades\Auth;
+// trait
+use App\Traits\HttpResponses;
 class UserController extends Controller
 {
-    
+    use HttpResponses;
+
   
     // register functionality and creating a user and their authenitication info
-function register(Request $request) {
+function register(StoreUserRequest $request) {
 
-    $user = new User;
-    $user->name = $request->input('name');
-    $user->email = $request->input('email');
-    $user->password = Hash::make($request->input('password'));
-    $user->save();
-    return $user;
+    // Validate request
+    $request->validated($request->all());
+
+    // create user
+    $user = User::create([
+        'name' => $request->name,
+        'email' => $request->email,
+        'password' => Hash::make($request->password),
+    ]);
+   
+// success response
+// return the user & token
+    return $this->success([
+        'user' => $user,
+        'token' => $user->createToken('API token of '. $user->name)->plainTextToken,
+    ]);
 }
 
 // login functionality for the users
@@ -38,15 +51,32 @@ function register(Request $request) {
 // TODO: need to tie this functionality to the guard in the front end
 function login(Request $request) {
 
-    $user = User::where('email',$request->email)->first();
 
-    if(!$user || !Hash::check($request->password, $user->password)) {
+    // if(!$user || !Hash::check($request->password, $user->password)) {
 
-        return ["ERROR", "Email or Password are not matched"];
+    //     return ["ERROR", "Email or Password are not matched"];
+    // }
+
+    // return $user;
+
+    if (!Auth::attempt($request->only('email', 'password'))) {
+        return response()->json([
+            'message' => 'Invalid login details'
+        ], 401);
     }
 
-    return $user;
+     $user = User::where('email',$request->email)->first();
+     $request->session()->regenerate();
+     return $user;
 
+}
+
+public function logout(Request $request)
+{
+  Auth::logout();
+  $request->session()->invalidate();
+  $request->session()->regenerateToken();
+  return "Logged out successfully";
 }
 
 

@@ -19,22 +19,35 @@ use App\Http\Controllers\UserController;
 |
 */
 
-// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
-
 // APIs
-// students APIs
-Route::get('/students',[StudentsController::class,'index']);
 
 // students APIs
-Route::get('/users',[UserController::class,'index']);
+Route::Resource('/students',StudentsController::class)
+// ->middleware('auth:sanctum')
+;
+
+// users APIs
+Route::Resource('/users',UserController::class)
+// ->middleware('auth:sanctum')
+;
 
 // Logs API
-Route::get('/studentLogs',[StudentsController::class,'index']);
+Route::resource('/logs', StudentLogsController::class)
+// ->middleware('auth:sanctum')
+;
 
-// Register API
-Route::post('/register',[UserController::class, 'register']);
- 
+ // Register API
+Route::post('/register',[UserController::class, 'register'])
+// ->middleware('auth:sanctum')
+;
+
 // Login API
 Route::post('/login',[UserController::class, 'login']);
+
+// Logout API
+Route::post('/logout', [UserController::class, 'logout'])
+// ->middleware('auth:sanctum')
+;
+
+
+
