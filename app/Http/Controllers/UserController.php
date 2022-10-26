@@ -15,83 +15,83 @@ use App\Http\Resources\UserResource;
 // import requests
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Http\Requests\LoginUserRequest;
 // Auth
 use Illuminate\Support\Facades\Auth;
 // trait
 use App\Traits\HttpResponses;
+
 class UserController extends Controller
 {
     use HttpResponses;
 
-  
+
     // register functionality and creating a user and their authenitication info
-function register(StoreUserRequest $request) {
+    function register(StoreUserRequest $request)
+    {
 
-    // Validate request
-    $request->validated($request->all());
+        // Validate request
+        $request->validated($request->all());
 
-    // create user
-    $user = User::create([
-        'name' => $request->name,
-        'email' => $request->email,
-        'password' => Hash::make($request->password),
-    ]);
-   
-// success response
-// return the user & token
-    return $this->success([
-        'user' => $user,
-        'token' => $user->createToken('API token of '. $user->name)->plainTextToken,
-    ]);
-}
+        // create user
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
 
-// login functionality for the users
-// returns the use as info 
-// TODO: need to manage session and token 
-// TODO: need to tie this functionality to the guard in the front end
-function login(Request $request) {
-
-
-    // if(!$user || !Hash::check($request->password, $user->password)) {
-
-    //     return ["ERROR", "Email or Password are not matched"];
-    // }
-
-    // return $user;
-
-    if (!Auth::attempt($request->only('email', 'password'))) {
-        return response()->json([
-            'message' => 'Invalid login details'
-        ], 401);
+        // success response
+        // return the user & token
+        return $this->success([
+            'user' => $user,
+            'token' => $user->createToken('API token of ' . $user->name)->plainTextToken,
+        ]);
     }
 
-     $user = User::where('email',$request->email)->first();
-     $request->session()->regenerate();
-     return $user;
+    // login functionality for the users
+    // returns the use as info 
+    // TODO: need to manage session and token 
+    // TODO: need to tie this functionality to the guard in the front end
+    function login(LoginUserRequest $request)
+    {
 
-}
-
-public function logout(Request $request)
-{
-  Auth::logout();
-  $request->session()->invalidate();
-  $request->session()->regenerateToken();
-  return "Logged out successfully";
-}
+        // validate request
+        $request->validated($request->all());
 
 
+        if (!Auth::attempt($request->only(['email', 'password']))) {
+            return $this->error('', 'Credentails do not match', 401);
+        }
 
-// Get all users implemnetation
+        $user = User::where('email', $request->email)->first();
+        $request->session()->regenerate();
+        return $this->success([
+            'users' => $user,
+            'token' => $user->createToken('Api token of ' . $user->name)->plainTextToken
+        ]);
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return "Logged out successfully";
+    }
+
+
+
+    // Get all users implemnetation
     public function index(Request $request)
     {
-    
+
         $filter = new UserFilter();
         $queryItems = $filter->transform($request);
-    // if query items are null, then its like there is no condition so it will pull all the
+        // if query items are null, then its like there is no condition so it will pull all the
         $users = User::where($queryItems);
         // $students = $students->with('studentLogs');
-        return new UserCollection($users->paginate()->appends($request->query()));   
-    //  }
+        return new UserCollection($users->paginate()->appends($request->query()));
+        //  }
 
     }
 
@@ -127,7 +127,6 @@ public function logout(Request $request)
     {
         $user = User::find($id);
         return new UserResource($user);
-        
     }
 
     /**
@@ -155,6 +154,4 @@ public function logout(Request $request)
         // update the values
         $user->update($request->all());
     }
-
-
 }

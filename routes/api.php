@@ -22,32 +22,33 @@ use App\Http\Controllers\UserController;
 // APIs
 
 // students APIs
-Route::Resource('/students',StudentsController::class)
-// ->middleware('auth:sanctum')
+Route::Resource('/students', StudentsController::class)
+    // ->middleware('auth:sanctum')
 ;
 
 // users APIs
-Route::Resource('/users',UserController::class)
-// ->middleware('auth:sanctum')
+Route::Resource('/users', UserController::class)
+    // ->middleware('auth:sanctum')
 ;
 
 // Logs API
 Route::resource('/logs', StudentLogsController::class)
-// ->middleware('auth:sanctum')
+    // ->middleware('auth:sanctum')
 ;
 
- // Register API
-Route::post('/register',[UserController::class, 'register'])
-// ->middleware('auth:sanctum')
+// Register API
+Route::post('/register', [UserController::class, 'register'])
+    // ->middleware('auth:sanctum')
 ;
 
 // Login API
-Route::post('/login',[UserController::class, 'login']);
+
+Route::group(['middleware' => ['web']], function () {
+
+    Route::post('/login', [UserController::class, 'login']);
+});
 
 // Logout API
 Route::post('/logout', [UserController::class, 'logout'])
-// ->middleware('auth:sanctum')
+    // ->middleware('auth:sanctum')
 ;
-
-
-
