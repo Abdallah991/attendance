@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Student;
-use App\Models\StudentLog;
 // import resource to use it
 use App\Http\Resources\StudentResource;
 use App\Http\Resources\StudentCollection;
@@ -14,14 +13,14 @@ use App\Filters\StudentFilter;
 use App\Http\Requests\StoreStudentRequest;
 use App\Http\Requests\UpdateStudentRequest;
 // Auth
-use Illuminate\Support\Facades\Auth;
 
 
 class StudentsController extends Controller
 {
 
 
-    public function __construct() {
+    public function __construct()
+    {
 
         // only authenticated users can access these functions
         // TODO: How to presist user authentication
@@ -37,16 +36,16 @@ class StudentsController extends Controller
     {
         // returning the values formated 
         // returning the values paginated
-    //    return new StudentCollection(Student::paginate());
+        // return new StudentCollection(Student::paginate());
 
-    //    filter query code
-    $filter = new StudentFilter();
-    $queryItems = $filter->transform($request);
-    // if query items are null, then its like there is no condition so it will pull all the
+        //    filter query code
+        $filter = new StudentFilter();
+        $queryItems = $filter->transform($request);
+        // if query items are null, then its like there is no condition so it will pull all the
         $students = Student::where($queryItems);
         $students = $students->with('studentLogs');
-        return new StudentCollection($students->paginate()->appends($request->query()));   
-    //  }
+        return new StudentCollection($students->paginate()->appends($request->query()));
+        //  }
 
     }
 
@@ -82,7 +81,6 @@ class StudentsController extends Controller
     {
         $student = Student::find($id);
         return new StudentResource($student->loadMissing('studentLogs'));
-        
     }
 
     /**

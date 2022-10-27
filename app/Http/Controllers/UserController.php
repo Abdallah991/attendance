@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Http\Response;
 // import model 
 use App\Models\User;
 // import Filters
@@ -20,9 +19,12 @@ use App\Http\Requests\LoginUserRequest;
 use Illuminate\Support\Facades\Auth;
 // trait
 use App\Traits\HttpResponses;
+// sanctum
+use Laravel\Sanctum\Sanctum;
 
 class UserController extends Controller
 {
+    // use custom responses
     use HttpResponses;
 
 
@@ -73,10 +75,19 @@ class UserController extends Controller
 
     public function logout(Request $request)
     {
-        Auth::logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-        return "Logged out successfully";
+        // $request->user()->currentAccessToken()->delete();
+        // $request->user()->tokens()->delete();
+
+        if ($token = $request->bearerToken()) {
+            $model = Sanctum::$personalAccessTokenModel;
+            $accessToken = $model::findToken($token);
+            $accessToken->delete();
+        }
+
+        // TODO: check if this is neccessary anymore
+        // $request->session()->invalidate();
+        // $request->session()->regenerateToken();
+        return $this->success('', "Logged out successfully");
     }
 
 
@@ -94,17 +105,6 @@ class UserController extends Controller
         //  }
 
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    // public function create()
-    // {
-    //     //
-    // }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -125,6 +125,10 @@ class UserController extends Controller
      */
     public function show($id)
     {
+        // ! we need to link the ids together
+        // if (Auth::user()->id != $id) {
+        //     return $this->error('', 'The user is not authorized!', 403);
+        // }
         $user = User::find($id);
         return new UserResource($user);
     }
