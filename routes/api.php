@@ -41,7 +41,6 @@ Route::group(['middleware' => ['web']], function () {
     // TODO: make sure the API have captch
     // TODO: make sure of the limit of the calls
     Route::post('/register', [UserController::class, 'register']);
+    // Logout API
+    Route::post('/logout', [UserController::class, 'logout']);
 });
-
-// Logout API
-Route::post('/logout', [UserController::class, 'logout']);
