@@ -19,8 +19,6 @@ use App\Http\Requests\LoginUserRequest;
 use Illuminate\Support\Facades\Auth;
 // trait
 use App\Traits\HttpResponses;
-// sanctum
-use Laravel\Sanctum\Sanctum;
 
 class UserController extends Controller
 {
@@ -77,7 +75,11 @@ class UserController extends Controller
     {
         // $request->user()->tokens()->delete();
         // TODO: Figure out a way to destroy the token
-        $request->user()->currentAccessToken()->delete();
+        // $request->user()->currentAccessToken()->delete();
+
+        // Auth::user()->tokens->each(function ($token, $key) {
+        //     $token->delete();
+        // });
 
 
 
