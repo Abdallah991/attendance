@@ -75,23 +75,13 @@ class UserController extends Controller
 
     public function logout(Request $request)
     {
-        // $request->user()->currentAccessToken()->delete();
-        $user = request()->user(); //or Auth::user()
-        // $user->tokens()->where('id', $user->currentAccessToken()->id)->delete();
-        // 
-        $user->tokens()->delete();
+        // $request->user()->tokens()->delete();
+        // TODO: Figure out a way to destroy the token
+        $request->user()->currentAccessToken()->delete();
 
 
-        if ($token = $request->bearerToken()) {
-            $model = Sanctum::$personalAccessTokenModel;
-            $accessToken = $model::findToken($token);
-            $accessToken->delete();
-        }
 
-        // TODO: check if this is neccessary anymore
-        // $request->session()->invalidate();
-        // $request->session()->regenerateToken();
-        return $this->success('', "Logged out successfully");
+        return $this->success('', "Logged out successfully, Your token have been deleted!");
     }
 
 
