@@ -25,17 +25,10 @@ class StudentLogsController extends Controller
         // 4- first page
         $filter = new StudentLogFilter();
         $queryItems = $filter->transform($request);
-        if(count($queryItems) ==0) {
-            // return normal response
-            return new StudentLogCollection(StudentLog::paginate());
-        } else {
-            // return query response
-            // to account for pagination and keep the filters
-            $studentLogs = StudentLog::where($queryItems)->paginate();
-            return new StudentLogCollection($studentLogs->appends($request->query()));
-
-
-        }
+        // to account for the filters
+        $studentLogs = StudentLog::where($queryItems);
+        // paginate the request with the query
+        return new StudentLogCollection($studentLogs->paginate()->appends($request->query()));
     }
 
     /**
@@ -57,6 +50,7 @@ class StudentLogsController extends Controller
     public function store(Request $request)
     {
         //
+        return new StudentLogResource(StudentLog::create($request->all()));
     }
 
     /**
@@ -92,7 +86,8 @@ class StudentLogsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        //TODO: We will check if we need that or not
+        // ? Depends on the data of access control
     }
 
     /**
@@ -103,6 +98,14 @@ class StudentLogsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        // get the student log
+        $studentLog = StudentLog::find($id);
+        // delete the student log
+        $studentLog->delete();
+
+        return $this->success([
+            'log' => $studentLog,
+            'message' => 'The student log has been deleted!'
+        ]);
     }
 }

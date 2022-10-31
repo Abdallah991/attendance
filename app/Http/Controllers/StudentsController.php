@@ -37,16 +37,14 @@ class StudentsController extends Controller
         // returning the values formated 
         // returning the values paginated
         // return new StudentCollection(Student::paginate());
-
-        //    filter query code
+        // filter query code
         $filter = new StudentFilter();
         $queryItems = $filter->transform($request);
         // if query items are null, then its like there is no condition so it will pull all the
         $students = Student::where($queryItems);
+        // ? get the students log 
         $students = $students->with('studentLogs');
         return new StudentCollection($students->paginate()->appends($request->query()));
-        //  }
-
     }
 
     /**
@@ -117,6 +115,14 @@ class StudentsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        // get the student
+        $student = Student::find($id);
+        // delete the student
+        $student->delete();
+
+        return $this->success([
+            'student' => $student,
+            'message' => 'The user has been deleted!'
+        ]);
     }
 }

@@ -96,10 +96,8 @@ class UserController extends Controller
         $queryItems = $filter->transform($request);
         // if query items are null, then its like there is no condition so it will pull all the
         $users = User::where($queryItems);
-        // $students = $students->with('studentLogs');
+        // return users and paginate through query
         return new UserCollection($users->paginate()->appends($request->query()));
-        //  }
-
     }
     /**
      * Store a newly created resource in storage.
@@ -121,10 +119,7 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        // ! we need to link the ids together
-        // if (Auth::user()->id != $id) {
-        //     return $this->error('', 'The user is not authorized!', 403);
-        // }
+
         $user = User::find($id);
         return new UserResource($user);
     }
@@ -153,5 +148,24 @@ class UserController extends Controller
         $user = User::find($id);
         // update the values
         $user->update($request->all());
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        // get the user
+        $user = User::find($id);
+        // delete the user
+        $user->delete();
+
+        return $this->success([
+            'user' => $user,
+            'message' => 'The user has been deleted!'
+        ]);
     }
 }
