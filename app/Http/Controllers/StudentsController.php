@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Student;
+use App\Models\StudentLog;
 // import resource to use it
 use App\Http\Resources\StudentResource;
 use App\Http\Resources\StudentCollection;
@@ -13,20 +14,16 @@ use App\Filters\StudentFilter;
 use App\Http\Requests\StoreStudentRequest;
 use App\Http\Requests\UpdateStudentRequest;
 // Auth
+use App\Traits\HttpResponses;
+
 
 
 class StudentsController extends Controller
 {
 
+    // use custom responses
+    use HttpResponses;
 
-    public function __construct()
-    {
-
-        // only authenticated users can access these functions
-        // TODO: How to presist user authentication
-        // $this->middleware('auth:sanctum')->only(['create', 'update', 'edit', 'destroy', 'store','show','index']);
-
-    }
     /**
      * Display a listing of the resource.
      *
@@ -43,8 +40,12 @@ class StudentsController extends Controller
         // if query items are null, then its like there is no condition so it will pull all the
         $students = Student::where($queryItems);
         // ? get the students log 
+        // TODO: Figure out a way to return the logs with the students
         $students = $students->with('studentLogs');
-        return new StudentCollection($students->paginate()->appends($request->query()));
+        // return the message in success format
+        return $this->success([
+            'students' => new StudentCollection($students->paginate()->appends($request->query())),
+        ]);
     }
 
     /**
@@ -52,10 +53,7 @@ class StudentsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    // public function create()
-    // {
-    //     //
-    // }
+
 
     /**
      * Store a newly created resource in storage.
@@ -66,7 +64,11 @@ class StudentsController extends Controller
     public function store(StoreStudentRequest $request)
     {
         //
-        return new StudentResource(Student::create($request->all()));
+        // return new created student
+        return $this->success([
+            'student' => new StudentResource(Student::create($request->all())),
+            'message' => "Student was successfull created!"
+        ]);
     }
 
     /**
@@ -78,7 +80,12 @@ class StudentsController extends Controller
     public function show($id)
     {
         $student = Student::find($id);
-        return new StudentResource($student->loadMissing('studentLogs'));
+        // return student and logs
+        $logs = StudentLog::whereBelongsTo($student)->get();
+        return $this->success([
+            'students' => new StudentResource($student->loadMissing('studentLogs')),
+            'logs' => $logs
+        ]);
     }
 
     /**
@@ -105,6 +112,11 @@ class StudentsController extends Controller
         $student = Student::find($id);
         // update the values
         $student->update($request->all());
+        // return the value of the updated student
+        return $this->success([
+            'student' => new $student,
+
+        ]);
     }
 
     /**
@@ -120,6 +132,7 @@ class StudentsController extends Controller
         // delete the student
         $student->delete();
 
+        // return the value of the deleted student
         return $this->success([
             'student' => $student,
             'message' => 'The user has been deleted!'

@@ -50,7 +50,6 @@ class UserController extends Controller
 
     // login functionality for the users
     // returns the use as info 
-    // TODO: need to manage session and token 
     // TODO: need to tie this functionality to the guard in the front end
     function login(LoginUserRequest $request)
     {
@@ -96,8 +95,11 @@ class UserController extends Controller
         $queryItems = $filter->transform($request);
         // if query items are null, then its like there is no condition so it will pull all the
         $users = User::where($queryItems);
+
         // return users and paginate through query
-        return new UserCollection($users->paginate()->appends($request->query()));
+        return $this->success([
+            'users' => new UserCollection($users->paginate()->appends($request->query())),
+        ]);
     }
     /**
      * Store a newly created resource in storage.
@@ -107,8 +109,11 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
-        //
-        return new UserResource(User::create($request->all()));
+        //return the created user
+        return $this->success([
+            'user' => new  UserResource(User::create($request->all())),
+            'message' => "User was successfull created!"
+        ]);
     }
 
     /**
@@ -121,7 +126,11 @@ class UserController extends Controller
     {
 
         $user = User::find($id);
-        return new UserResource($user);
+        // return the quered user
+        return $this->success([
+            'user' => new UserResource($user),
+
+        ]);
     }
 
     /**
@@ -148,6 +157,12 @@ class UserController extends Controller
         $user = User::find($id);
         // update the values
         $user->update($request->all());
+        // return the updated user 
+        // TODO: make sure if no is needed or not
+        return $this->success([
+            'user' => new $user,
+
+        ]);
     }
 
     /**
@@ -163,6 +178,7 @@ class UserController extends Controller
         // delete the user
         $user->delete();
 
+        // return the deleted user
         return $this->success([
             'user' => $user,
             'message' => 'The user has been deleted!'
