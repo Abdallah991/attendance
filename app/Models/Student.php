@@ -11,14 +11,17 @@ class Student extends Model
 
     // these are all optional fields 
     // name of the table
-    protected $table ='students';
-    protected $fillable=['name'];
+    protected $table = 'students';
+    // fillable items in the create method
+    protected $fillable = [
+        'first_name', 'last_name', 'email', 'nationality',
+        'cohort', 'supported_by_tamkeen', 'gender', 'phone', 'dob'
+    ];
 
     //  primary key setting
     protected $primaryKey = 'id';
     protected $with = array('studentLogs');
 
-    // fillable items in the create method
     // protected $fillable = ['name'];
     // hide elemnets in the response, just like the password for example
     // protected $hidden = ['created_at'];
@@ -27,10 +30,8 @@ class Student extends Model
 
     // students has many logs
     // you can access all the logs on the students from this function
-    public function studentLogs() {
+    public function studentLogs()
+    {
         return $this->hasMany(StudentLog::class);
     }
-   
-
-
 }
