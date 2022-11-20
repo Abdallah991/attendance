@@ -26,20 +26,21 @@ class UpdateStudentRequest extends FormRequest
     public function rules()
     {
         $method = $this->method();
-        if ($method == 'PUT'){
+        if ($method == 'PUT') {
 
             return [
                 //
-                'name' => ['required'],
-    
+                'first_name' => ['required'],
+                'last_name' => ['required'],
+
             ];
-        }
-        else {
+        } else {
             // this is the PATCH request
             return [
                 //
-                'name' => ['required', 'sometimes'],
-    
+                'first_name' => ['required'],
+                'last_name' => ['required'],
+
             ];
         }
     }

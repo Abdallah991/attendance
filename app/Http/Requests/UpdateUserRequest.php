@@ -27,26 +27,23 @@ class UpdateUserRequest extends FormRequest
         // this is the put method
         // TODO: make sure regarding the password
         // TODO: make sure regarding the required and sometimes fields
-        if ($method == 'PUT'){
+        if ($method == 'PUT') {
 
             return [
                 //
-                'name' => ['required', 'sometimes'],
-                'user' => ['required', 'sometimes'],
-                'password' => ['required', 'sometimes'],
-    
+                'firstName' => ['required', 'sometimes'],
+                'lastName' => ['required', 'sometimes'],
+
             ];
-        }
-        else {
+        } else {
             // this is the PATCH request
             // TODO: make sure regarding the password
             // TODO: make sure regarding the required and sometimes fields
             return [
                 //
-                'name' => ['required', 'sometimes'],
-                'user' => ['required', 'sometimes'],
-                'password' => ['required', 'sometimes'],
-    
+                'firstName' => ['required', 'sometimes'],
+                'lastName' => ['required', 'sometimes'],
+
             ];
         }
     }

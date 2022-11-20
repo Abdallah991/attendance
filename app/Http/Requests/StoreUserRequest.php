@@ -25,14 +25,18 @@ class StoreUserRequest extends FormRequest
     {
         return [
             //
-            
-                'name' => ['required'],
-                // make sure that the users have unique email
-                // otherwise they will receive an error with  email being in use
-                'email' => ['required', 'unique:users'],
-                'password' => ['required','min:6'],
-            
-    
+
+            'firstName' => ['required'],
+            'lastName' => ['required'],
+            'phone' => ['required'],
+            'dob' => ['required'],
+            'permission' => ['required'],
+            // make sure that the users have unique email
+            // otherwise they will receive an error with  email being in use
+            'email' => ['required', 'unique:users'],
+            'password' => ['required', 'min:6'],
+
+
         ];
     }
 }

@@ -26,9 +26,15 @@ class StoreStudentRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required'],
+            'firstName' => ['required'],
+            'lastName' => ['required'],
+            'nationality' => ['required'],
+            'email' => ['required'],
+            'supportedByTamkeen' => ['required'],
+            'gender' => ['required'],
+            'phone' => ['required'],
+            'dob' => ['required'],
+            'cohortId' => ['required'],
         ];
-
-        
     }
 }

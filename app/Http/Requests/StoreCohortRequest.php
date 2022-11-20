@@ -13,7 +13,7 @@ class StoreCohortRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -25,6 +25,9 @@ class StoreCohortRequest extends FormRequest
     {
         return [
             //
+            'name' => ['required'],
+            'year' => ['required'],
+
         ];
     }
 }

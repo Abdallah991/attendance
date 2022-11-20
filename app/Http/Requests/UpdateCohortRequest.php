@@ -13,7 +13,7 @@ class UpdateCohortRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,8 +23,21 @@ class UpdateCohortRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            //
-        ];
+        $method = $this->method();
+        if ($method == 'PUT') {
+
+            return [
+                //
+                'name' => ['required'],
+
+            ];
+        } else {
+            // this is the PATCH request
+            return [
+                //
+                'name' => ['required', 'sometimes'],
+
+            ];
+        }
     }
 }
