@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\CohortController;
+use App\Http\Controllers\EventController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StudentLogsController;
 use App\Http\Controllers\StudentsController;
@@ -29,6 +31,10 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::Resource('/users', UserController::class);
     // Logs API
     Route::resource('/logs', StudentLogsController::class);
+    // Events API
+    Route::resource('/events', EventController::class);
+    // cohort API
+    Route::resource('/cohorts', CohortController::class);
 });
 
 
