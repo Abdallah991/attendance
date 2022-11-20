@@ -35,8 +35,16 @@ class Student extends Model
         return $this->hasMany(StudentLog::class);
     }
 
+    // retun the cohort a student belongs to
     public function cohort()
     {
         return $this->belongsTo(Cohort::class);
+    }
+
+
+    // return all the events the student signed up into 
+    public function event()
+    {
+        $this->belongsToMany(Event::class);
     }
 }

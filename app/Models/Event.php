@@ -25,5 +25,9 @@ class Event extends Model
     //  primary key setting
     protected $primaryKey = 'id';
 
-    // TODO: create the relationships
+    // return the students involved in an event
+    public function students()
+    {
+        $this->belongsToMany(Student::class);
+    }
 }
