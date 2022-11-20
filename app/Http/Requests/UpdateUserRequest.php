@@ -24,9 +24,7 @@ class UpdateUserRequest extends FormRequest
     public function rules()
     {
         $method = $this->method();
-        // this is the put method
-        // TODO: make sure regarding the password
-        // TODO: make sure regarding the required and sometimes fields
+
         if ($method == 'PUT') {
 
             return [
@@ -36,9 +34,7 @@ class UpdateUserRequest extends FormRequest
 
             ];
         } else {
-            // this is the PATCH request
-            // TODO: make sure regarding the password
-            // TODO: make sure regarding the required and sometimes fields
+
             return [
                 //
                 'firstName' => ['required', 'sometimes'],

@@ -22,10 +22,19 @@ class StudentResource extends JsonResource
         // ! => means : in javascript context
         // ! -> means . in javascript context
         return [
-            'id'=>$this->id,
-            'name'=>$this->name,
-            'createdAt'=>$this->created_at,
-            'updatedAt'=>$this->updated_at,
+            'id' => $this->id,
+            'firstName' => $this->first_name,
+            'lastName' => $this->last_name,
+            'nationality' => $this->nationality,
+            'email' => $this->email,
+            'supportedByTamkeen' => $this->supported_by_tamkeen,
+            'gender' => $this->gender,
+            'phone' => $this->phone,
+            'fcmToken' => $this->fcm_token,
+            'dob' => $this->dob,
+            'cohortId' => $this->cohort_id,
+            'createdAt' => $this->created_at,
+            'updatedAt' => $this->updated_at,
         ];
     }
 }
