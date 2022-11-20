@@ -13,7 +13,7 @@ use App\Filters\StudentFilter;
 // import requests
 use App\Http\Requests\StoreStudentRequest;
 use App\Http\Requests\UpdateStudentRequest;
-// Auth
+// response
 use App\Traits\HttpResponses;
 
 
@@ -64,9 +64,28 @@ class StudentsController extends Controller
     public function store(StoreStudentRequest $request)
     {
         //
+
+        // Validate request
+        $request->validated($request->all());
+
+        // create student
+        $student = Student::create([
+            'firstName' => $request->firstName,
+            'lastName' => $request->lastName,
+            'nationality' => $request->nationality,
+            'supportedByTamkeen' => $request->supportedByTamkeen,
+            'gender' => $request->gender,
+            'dob' => $request->dob,
+            'phone' => $request->phone,
+            'fcmToken' => $request->fcmToken,
+            'email' => $request->email,
+            'cohortId' => $request->cohortId,
+
+
+        ]);
         // return new created student
         return $this->success([
-            'student' => new StudentResource(Student::create($request->all())),
+            'student' => $student,
             'message' => "Student was successfull created!"
         ]);
     }
@@ -135,7 +154,7 @@ class StudentsController extends Controller
         // return the value of the deleted student
         return $this->success([
             'student' => $student,
-            'message' => 'The user has been deleted!'
+            'message' => 'The student has been deleted!'
         ]);
     }
 }

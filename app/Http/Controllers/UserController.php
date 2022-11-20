@@ -35,9 +35,19 @@ class UserController extends Controller
 
         // create user
         $user = User::create([
-            'name' => $request->name,
+            'firstName' => $request->firstName,
+            'lastName' => $request->lastName,
+            'position' => $request->position,
+            'joinDate' => $request->joinDate,
+            'gender' => $request->gender,
+            'dob' => $request->dob,
+            'phone' => $request->phone,
+            'fcmToken' => $request->fcmToken,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'permission' => $request->permission,
+
+
         ]);
 
         // success response
