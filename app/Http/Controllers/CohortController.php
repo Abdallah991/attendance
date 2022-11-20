@@ -114,11 +114,11 @@ class CohortController extends Controller
      */
     public function update(UpdateCohortRequest $request, $id)
     {
-        // get the student 
+        // get the cohort 
         $cohort = Cohort::find($id);
         // update the values
         $cohort->update($request->all());
-        // return the value of the updated student
+        // return the value of the updated cohort
         return $this->success([
             'cohort' => new $cohort,
 
