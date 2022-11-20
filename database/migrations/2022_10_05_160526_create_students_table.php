@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('first_name');
             $table->string('last_name');
             $table->string('nationality');
+            // TODO: create the relationship
             $table->string('cohort');
             $table->string('email')->unique();
             $table->string('password')->nullable();
@@ -26,6 +27,11 @@ return new class extends Migration
             $table->string('phone');
             $table->string('fcm_token')->nullable();
             $table->timestamp('dob');
+            $table->unsignedInteger('cohort_id');
+            $table->foreign('cohort_id')
+                ->references('id')
+                ->on('cohorts')
+                ->onDelete('cascade');
             $table->timestamps();
         });
 
@@ -38,6 +44,7 @@ return new class extends Migration
                 ->references('id')
                 ->on('students')
                 ->onDelete('cascade');
+            // ? TODO: might add users for their attendance 
         });
     }
 

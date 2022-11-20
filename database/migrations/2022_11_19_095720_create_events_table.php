@@ -23,8 +23,11 @@ return new class extends Migration
             $table->string('location');
             $table->string('status')->nullable();
             $table->string('type')->nullable();
+            // ? multiple images
             $table->binary('image');
+            // ? multiple hosts
             $table->string('host')->nullable();
+            // ? multiple guests
             $table->string('guest')->nullable();
             // TODO: add students relationship MANY-MANY
             $table->timestamps();

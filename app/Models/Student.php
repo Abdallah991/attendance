@@ -34,4 +34,9 @@ class Student extends Model
     {
         return $this->hasMany(StudentLog::class);
     }
+
+    public function cohort()
+    {
+        return $this->belongsTo(Cohort::class);
+    }
 }
