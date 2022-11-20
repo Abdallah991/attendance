@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('first_name');
             $table->string('last_name');
             $table->string('nationality');
-            $table->string('cohort');
             $table->string('email')->unique();
             $table->string('password')->nullable();
             $table->string('supported_by_tamkeen');
