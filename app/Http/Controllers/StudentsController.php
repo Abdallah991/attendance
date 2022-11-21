@@ -69,20 +69,21 @@ class StudentsController extends Controller
         $request->validated($request->all());
 
         // create student
-        $student = Student::create([
-            'firstName' => $request->firstName,
-            'lastName' => $request->lastName,
-            'nationality' => $request->nationality,
-            'supportedByTamkeen' => $request->supportedByTamkeen,
-            'gender' => $request->gender,
-            'dob' => $request->dob,
-            'phone' => $request->phone,
-            'fcmToken' => $request->fcmToken,
-            'email' => $request->email,
-            'cohortId' => $request->cohortId,
+        $student = new StudentResource(Student::create($request->all()));
+        // $student = Student::create([
+        //     'firstName' => $request->firstName,
+        //     'lastName' => $request->lastName,
+        //     'nationality' => $request->nationality,
+        //     'supportedByTamkeen' => $request->supportedByTamkeen,
+        //     'gender' => $request->gender,
+        //     'dob' => $request->dob,
+        //     'phone' => $request->phone,
+        //     'fcmToken' => $request->fcmToken,
+        //     'email' => $request->email,
+        //     'cohortId' => $request->cohortId,
 
 
-        ]);
+        // ]);
         // return new created student
         return $this->success([
             'student' => $student,

@@ -34,21 +34,23 @@ class UserController extends Controller
         $request->validated($request->all());
 
         // create user
-        $user = User::create([
-            'firstName' => $request->firstName,
-            'lastName' => $request->lastName,
-            'position' => $request->position,
-            'joinDate' => $request->joinDate,
-            'gender' => $request->gender,
-            'dob' => $request->dob,
-            'phone' => $request->phone,
-            'fcmToken' => $request->fcmToken,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'permission' => $request->permission,
+        $user = new UserResource(User::create($request->all()));
+
+        // $user = User::create([
+        //     'firstName' => $request->firstName,
+        //     'lastName' => $request->lastName,
+        //     'position' => $request->position,
+        //     'joinDate' => $request->joinDate,
+        //     'gender' => $request->gender,
+        //     'dob' => $request->dob,
+        //     'phone' => $request->phone,
+        //     'fcmToken' => $request->fcmToken,
+        //     'email' => $request->email,
+        //     'password' => Hash::make($request->password),
+        //     'permission' => $request->permission,
 
 
-        ]);
+        // ]);
 
         // success response
         // return the user & token

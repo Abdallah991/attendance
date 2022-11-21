@@ -15,7 +15,7 @@ class Student extends Model
     // fillable items in the create method
     protected $fillable = [
         'first_name', 'last_name', 'email', 'nationality',
-        'cohort', 'supported_by_tamkeen', 'gender', 'phone', 'dob'
+        'cohort_id', 'supported_by_tamkeen', 'gender', 'phone', 'dob'
     ];
 
     //  primary key setting
