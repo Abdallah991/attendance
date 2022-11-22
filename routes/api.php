@@ -21,16 +21,16 @@ use App\Http\Controllers\UserController;
 
 // *protected routes 
 Route::group(['middleware' => ['auth:sanctum']], function () {
-    // // students APIs
-    // Route::Resource('/students', StudentsController::class);
-    // // users APIs
-    // Route::Resource('/users', UserController::class);
-    // // Logs API
-    // Route::resource('/logs', StudentLogsController::class);
-    // // Events API
-    // Route::resource('/events', EventController::class);
-    // // cohort API
-    // Route::resource('/cohorts', CohortController::class);
+    // students APIs
+    Route::Resource('/students', StudentsController::class);
+    // users APIs
+    Route::Resource('/users', UserController::class);
+    // Logs API
+    Route::resource('/logs', StudentLogsController::class);
+    // Events API
+    Route::resource('/events', EventController::class);
+    // cohort API
+    Route::resource('/cohorts', CohortController::class);
 });
 
 
@@ -45,17 +45,4 @@ Route::group(['middleware' => ['web']], function () {
     Route::post('/register', [UserController::class, 'register']);
     // Logout API
     Route::post('/logout', [UserController::class, 'logout']);
-
-    // TODO: Remove later 
-
-    // students APIs
-    Route::Resource('/students', StudentsController::class);
-    // users APIs
-    Route::Resource('/users', UserController::class);
-    // Logs API
-    Route::resource('/logs', StudentLogsController::class);
-    // Events API
-    Route::resource('/events', EventController::class);
-    // cohort API
-    Route::resource('/cohorts', CohortController::class);
 });
