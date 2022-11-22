@@ -34,7 +34,7 @@ class CohortController extends Controller
         // if query items are null, then its like there is no condition so it will pull all the
         $cohorts = Cohort::where($queryItems);
         // TODO: Figure our a way to return the students with the cohort
-        $cohorts = $cohorts->with('students');
+        // $cohorts = $cohorts->with('students');
         // return the message in success format
         return $this->success([
             'cohorts' => new CohortCollection($cohorts->paginate()->appends($request->query())),

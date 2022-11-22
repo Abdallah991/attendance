@@ -23,16 +23,16 @@ class StudentResource extends JsonResource
         // ! -> means . in javascript context
         return [
             'id' => $this->id,
-            'firstName' => $this->first_name,
-            'lastName' => $this->last_name,
+            'firstName' => $this->firstName,
+            'lastName' => $this->lastName,
             'nationality' => $this->nationality,
             'email' => $this->email,
-            'supportedByTamkeen' => $this->supported_by_tamkeen,
+            'supportedByTamkeen' => $this->supportedByTamkeen,
             'gender' => $this->gender,
             'phone' => $this->phone,
-            'fcmToken' => $this->fcm_token,
+            'fcmToken' => $this->fcmToken,
             'dob' => $this->dob,
-            'cohortId' => $this->cohort_id,
+            'cohortId' => $this->cohortId,
             'createdAt' => $this->created_at,
             'updatedAt' => $this->updated_at,
         ];

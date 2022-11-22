@@ -33,7 +33,7 @@ class EventController extends Controller
         // if query items are null, then its like there is no condition so it will pull all the
         $events = Event::where($queryItems);
         // TODO: Figure our a way to return the students with the event
-        $events = $events->with('students');
+        // $events = $events->with('students');
         // return the message in success format
         return $this->success([
             'events' => new EventCollection($events->paginate()->appends($request->query())),
@@ -63,12 +63,8 @@ class EventController extends Controller
         $request->validated($request->all());
 
         // create event
-        $event = Event::create([
-            'name' => $request->name,
-            'year' => $request->year,
+        $event = new EventResource(Event::create($request->all()));
 
-
-        ]);
         // return new created event
         return $this->success([
             'event' => $event,

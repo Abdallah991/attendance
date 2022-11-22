@@ -24,7 +24,11 @@ class User extends Authenticatable
         'password',
         'phone',
         'dob',
-        'permission'
+        'permission',
+        'position',
+        'gender',
+        'joinDate'
+
     ];
 
     /**

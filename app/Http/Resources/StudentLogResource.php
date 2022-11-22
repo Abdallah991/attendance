@@ -15,11 +15,11 @@ class StudentLogResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id'=> $this->id,
-            'studentId'=> $this->student_id,
-            'log'=> $this->log,
-            'createdAt'=> $this->created_at,
-            'updatedAt'=> $this->updatedAt,
+            'id' => $this->id,
+            'studentId' => $this->studentId,
+            'log' => $this->log,
+            'createdAt' => $this->created_at,
+            'updatedAt' => $this->updatedAt,
         ];
     }
 }

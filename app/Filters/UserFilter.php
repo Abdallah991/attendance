@@ -30,9 +30,9 @@ class UserFilter extends ApiFilter
     protected $columnMap = [
         'createdAt' => 'created_at',
         'updatedAt' => 'updated_at',
-        'firstName' => 'first_name',
-        'lastName' => 'last_name',
-        'fcmToken' => 'fcm_token',
-        'joinDate' => 'join_date',
+        'firstName' => 'firstName',
+        'lastName' => 'lastName',
+        'fcmToken' => 'fcmToken',
+        'joinDate' => 'joinDate',
     ];
 }

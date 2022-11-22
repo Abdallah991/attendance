@@ -27,12 +27,12 @@ class StudentFilter extends ApiFilter
 
     // paramter that were transformed in the rosource 
     protected $columnMap = [
+        'firstName' => 'firstName',
+        'lastName' => 'lastName',
+        'supportedByTamkeen' => 'supportedByTamkeen',
+        'cohortId' => 'cohortId',
+        'fcmToken' => 'fcmToken',
         'createdAt' => 'created_at',
         'updatedAt' => 'updated_at',
-        'firstName' => 'first_name',
-        'lastName' => 'last_name',
-        'supportedByTamkeen' => 'supported_by_tamkeen',
-        'cohortId' => 'cohort_id',
-        'fcmToken' => 'fcm_token',
     ];
 }

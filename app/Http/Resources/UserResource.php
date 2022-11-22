@@ -23,18 +23,18 @@ class UserResource extends JsonResource
         // ! -> means . in javascript context
         return [
             'id' => $this->id,
-            'firstName' => $this->first_name,
-            'lastName' => $this->last_name,
+            'firstName' => $this->firstName,
+            'lastName' => $this->lastName,
             'position' => $this->position,
-            'joinDate' => $this->join_date,
+            'joinDate' => $this->joinDate,
             'gender' => $this->gender,
             'phone' => $this->phone,
-            'fcmToken' => $this->fcm_token,
+            'fcmToken' => $this->fcmToken,
             'dob' => $this->dob,
             'permission' => $this->permission,
             'email' => $this->email,
             'password' => $this->password,
-            'rememberToken' => $this->remember_token,
+            'rememberToken' => $this->rememberToken,
             'createdAt' => $this->created_at,
             'updatedAt' => $this->updated_at,
         ];

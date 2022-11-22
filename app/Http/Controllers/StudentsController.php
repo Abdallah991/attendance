@@ -36,15 +36,19 @@ class StudentsController extends Controller
         // return new StudentCollection(Student::paginate());
         // filter query code
         $filter = new StudentFilter();
+        // dump($filter);
         $queryItems = $filter->transform($request);
         // if query items are null, then its like there is no condition so it will pull all the
         $students = Student::where($queryItems);
         // ? get the students log 
         // TODO: Figure out a way to return the logs with the students
-        $students = $students->with('studentLogs');
+        // $students = $students->with('studentLogs');
         // return the message in success format
         return $this->success([
-            'students' => new StudentCollection($students->paginate()->appends($request->query())),
+            'students' => new StudentCollection(
+                $students->paginate()
+                    ->appends($request->query())
+            ),
         ]);
     }
 
@@ -70,7 +74,7 @@ class StudentsController extends Controller
 
         // create student
         $student = new StudentResource(Student::create($request->all()));
-        // $student = Student::create([
+        // $student = new StudentResource(Student::create([
         //     'firstName' => $request->firstName,
         //     'lastName' => $request->lastName,
         //     'nationality' => $request->nationality,
@@ -83,7 +87,7 @@ class StudentsController extends Controller
         //     'cohortId' => $request->cohortId,
 
 
-        // ]);
+        // ]));
         // return new created student
         return $this->success([
             'student' => $student,
@@ -101,10 +105,13 @@ class StudentsController extends Controller
     {
         $student = Student::find($id);
         // return student and logs
-        $logs = StudentLog::whereBelongsTo($student)->get();
+        // $logs = StudentLog::whereBelongsTo($student)->get();
         return $this->success([
-            'students' => new StudentResource($student->loadMissing('studentLogs')),
-            'logs' => $logs
+            'student' => new StudentResource(
+                $student
+                // ->loadMissing('studentLogs')
+            ),
+            // 'logs' => $logs
         ]);
     }
 

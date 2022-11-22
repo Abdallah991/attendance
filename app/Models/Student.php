@@ -14,13 +14,13 @@ class Student extends Model
     protected $table = 'students';
     // fillable items in the create method
     protected $fillable = [
-        'first_name', 'last_name', 'email', 'nationality',
-        'cohort_id', 'supported_by_tamkeen', 'gender', 'phone', 'dob'
+        'firstName', 'lastName', 'email', 'nationality',
+        'cohortId', 'supportedByTamkeen', 'gender', 'phone', 'dob'
     ];
 
     //  primary key setting
     protected $primaryKey = 'id';
-    protected $with = array('studentLogs');
+    // protected $with = array('studentLogs');
 
     // protected $fillable = ['name'];
     // hide elemnets in the response, just like the password for example

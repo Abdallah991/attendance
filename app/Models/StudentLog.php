@@ -9,13 +9,14 @@ class StudentLog extends Model
 {
     use HasFactory;
     // table name
-    protected $table ='students_log';
+    protected $table = 'student_logs';
     //  primary key setting
     protected $primaryKey = 'id';
 
-     // students has many logs
+    // students has many logs
     // you can access all the logs on the students from this function
-    public function student() {
+    public function student()
+    {
         return $this->belongsTo(Student::class);
     }
 }

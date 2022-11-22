@@ -30,16 +30,16 @@ class UpdateStudentRequest extends FormRequest
 
             return [
                 //
-                'first_name' => ['required'],
-                'last_name' => ['required'],
+                'firstName' => ['required'],
+                'lastName' => ['required'],
 
             ];
         } else {
             // this is the PATCH request
             return [
                 //
-                'first_name' => ['required'],
-                'last_name' => ['required'],
+                'firstName' => ['required'],
+                'lastName' => ['required'],
 
             ];
         }

@@ -15,14 +15,14 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('first_name');
-            $table->string('last_name');
-            $table->string('position')->nullable();
-            $table->timestamp('join_date')->nullable();
-            $table->string('gender')->nullable();
+            $table->string('firstName');
+            $table->string('lastName');
+            $table->string('position');
+            $table->timestamp('joinDate');
+            $table->string('gender');
             $table->string('phone');
             $table->timestamp('dob');
-            $table->string('fcm_token')->nullable();
+            $table->string('fcmToken')->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');

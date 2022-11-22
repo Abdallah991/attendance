@@ -25,7 +25,7 @@ class StoreEventRequest extends FormRequest
     {
         return [
             //
-            'title' => ['required'],
+            'title' => ['required', 'sometimes'],
             'description' => ['required'],
             'date' => ['required'],
             'time' => ['required'],
