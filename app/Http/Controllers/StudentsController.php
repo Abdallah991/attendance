@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Student;
-use App\Models\StudentLog;
 // import resource to use it
 use App\Http\Resources\StudentResource;
 use App\Http\Resources\StudentCollection;

@@ -16,6 +16,7 @@ use App\Traits\HttpResponses;
 use Illuminate\Http\Request;
 
 
+
 class CohortController extends Controller
 {
 
@@ -28,7 +29,6 @@ class CohortController extends Controller
      */
     public function index(Request $request)
     {
-        //
         $filter = new CohortFilter();
         $queryItems = $filter->transform($request);
         // if query items are null, then its like there is no condition so it will pull all the

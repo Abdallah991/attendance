@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BioTimeController;
 use App\Http\Controllers\CohortController;
 use App\Http\Controllers\EventController;
 use Illuminate\Support\Facades\Route;
@@ -57,4 +58,6 @@ Route::group(['middleware' => ['web']], function () {
     Route::resource('/events', EventController::class);
     // cohort API
     Route::resource('/cohorts', CohortController::class);
+    // attendance API
+    Route::resource('/attendance', BioTimeController::class);
 });
