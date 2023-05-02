@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
 
 
@@ -66,6 +65,7 @@ class CandidateController extends Controller
      * @param  \App\Models\Cohort  $cohort
      * @return \Illuminate\Http\Response
      */
+    //? get specific user info using emp_code
     public function show($id)
     {
         // you can define the response size

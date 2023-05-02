@@ -17,9 +17,11 @@ class BioTimeController extends Controller
      * @return \Illuminate\Http\Response
      */
     // Getting the employees list from attendance system
+    //? get first page of users on biotime
     public function index()
     {
         // you can define the response size
+
         $pageSize = 10;
         // directly call the api using ::get
         // get all employees students and admin and staff
@@ -101,6 +103,7 @@ class BioTimeController extends Controller
      * @param  \App\Models\Cohort  $cohort
      * @return \Illuminate\Http\Response
      */
+    //? Pagination for users on bio time
     public function show($id)
     {
         // you can define the response size
