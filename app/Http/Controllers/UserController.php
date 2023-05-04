@@ -48,8 +48,6 @@ class UserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'permission' => $request->permission,
-
-
         ]);
 
         // success response

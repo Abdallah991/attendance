@@ -5,6 +5,7 @@ use App\Http\Controllers\BioTimeController;
 use App\Http\Controllers\CandidateController;
 use App\Http\Controllers\CohortController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\SearchController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StudentLogsController;
 use App\Http\Controllers\StudentsController;
@@ -64,6 +65,10 @@ Route::group(['middleware' => ['web']], function () {
     Route::resource('/attendance', BioTimeController::class);
     // attendance API
     Route::resource('/candidate', AttendanceController::class);
-    // candidateAPI API
+    // bio time user API
     Route::resource('/candidate-info', CandidateController::class);
+    // search Bio time API
+    Route::resource('/search', SearchController::class);
+
+    // Route::post('/search', [SearchController::class, 'searchCandidates']);
 });
