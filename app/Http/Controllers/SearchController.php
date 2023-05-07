@@ -56,7 +56,7 @@ class SearchController extends Controller
         // loop over all the records
         // TODO: Implement better code for searching using one of ways to reduce o(n)
         for ($i = 1; $i < $usersLength; $i++) {
-            if (str_contains($response['data'][$i]['full_name'], $searchValue))
+            if (str_contains(strtolower($response['data'][$i]['full_name']), strtolower($searchValue)))
                 array_push($filteredArray, $response->json()['data'][$i]);
         }
 
