@@ -14,6 +14,9 @@ use App\Http\Requests\StoreStudentRequest;
 use App\Http\Requests\UpdateStudentRequest;
 // response
 use App\Traits\HttpResponses;
+// using graphql
+use Illuminate\Support\Facades\Http;
+
 
 
 
@@ -28,27 +31,72 @@ class StudentsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
     public function index(Request $request)
     {
-        // returning the values formated 
-        // returning the values paginated
-        // return new StudentCollection(Student::paginate());
-        // filter query code
-        $filter = new StudentFilter();
-        // dump($filter);
-        $queryItems = $filter->transform($request);
-        // if query items are null, then its like there is no condition so it will pull all the
-        $students = Student::where($queryItems);
-        // ? get the students log 
-        // TODO: Figure out a way to return the logs with the students
-        // $students = $students->with('studentLogs');
-        // return the message in success format
-        return $this->success([
-            'students' => new StudentCollection(
-                $students->paginate()
-                    ->appends($request->query())
-            ),
+
+
+        $query = <<<GQL
+     query {
+         user {
+        email
+      firstName
+      lastName
+      phone: attrs(path: "Phone")
+      email
+      sessions {
+        final_score
+        updated_at
+      }
+         }
+     }
+     GQL;
+
+
+
+        $response = Http::withHeaders([
+            'Accept' => 'application/json',
+            'Content-Type' => 'application/json',
+            // ! this token have to be recreated every 2 days
+            // maybe a cron function will work that
+            'Authorization' => 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMCIsImlhdCI6MTY4MzQ2MzA0NiwiaXAiOiIxMC4xLjIwMS4xMDQsIDE3Mi4xOC4wLjIiLCJleHAiOjE2ODM4OTUwNDYsImh0dHBzOi8vaGFzdXJhLmlvL2p3dC9jbGFpbXMiOnsieC1oYXN1cmEtYWxsb3dlZC1yb2xlcyI6WyJ1c2VyIiwiYWRtaW5fcmVhZF9vbmx5Il0sIngtaGFzdXJhLWNhbXB1c2VzIjoie30iLCJ4LWhhc3VyYS1kZWZhdWx0LXJvbGUiOiJhZG1pbl9yZWFkX29ubHkiLCJ4LWhhc3VyYS11c2VyLWlkIjoiMTAiLCJ4LWhhc3VyYS10b2tlbi1pZCI6IjZmYmNjZTg1LTlmNjktNDZlYy04MWY0LWE1MGIyYWI1MTM4MCJ9fQ.N-1MvxYba7YQWwTXtUH7PCcYfqodrD_xZ7LoE0Ss-1Y'
+        ])->post('https://learn.reboot01.com/api/graphql-engine/v1/graphql', [
+            'query' => $query
         ]);
+
+        // var_dump($response->json()['data']['user']);
+
+        // convert from string to array of students only
+        // $filteredArray = Arr::where($response['data'], function ($value, $key) {
+        //     return $value['department']['id'] == 2;
+        // });
+        // return response
+        // TODO: create a resource for the attendnace
+        return [
+            "data" => $response->json()['data']['user'],
+            "count" => count($response->json()['data']['user']),
+            // "pages" => ceil($response->json()['count'] / 10)
+
+        ];
+        // // returning the values formated 
+        // // returning the values paginated
+        // // return new StudentCollection(Student::paginate());
+        // // filter query code
+        // $filter = new StudentFilter();
+        // // dump($filter);
+        // $queryItems = $filter->transform($request);
+        // // if query items are null, then its like there is no condition so it will pull all the
+        // $students = Student::where($queryItems);
+        // // ? get the students log 
+        // // TODO: Figure out a way to return the logs with the students
+        // // $students = $students->with('studentLogs');
+        // // return the message in success format
+        // return $this->success([
+        //     'students' => new StudentCollection(
+        //         $students->paginate()
+        //             ->appends($request->query())
+        //     ),
+        // ]);
     }
 
     /**
