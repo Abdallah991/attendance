@@ -57,8 +57,6 @@ Route::group(['middleware' => ['web']], function () {
     Route::Resource('/users', UserController::class);
     // Logs API
     Route::resource('/logs', StudentLogsController::class);
-    // Events API
-    Route::resource('/events', EventController::class);
     // cohort API
     Route::resource('/cohorts', CohortController::class);
     // attendance API

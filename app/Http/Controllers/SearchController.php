@@ -36,7 +36,7 @@ class SearchController extends Controller
      * @param  \App\Models\Cohort  $cohort
      * @return \Illuminate\Http\Response
      */
-    //? Pagination for users on bio time
+    //? search from the bio time directly
     public function show($id, Request $request)
     {
         // get the search value

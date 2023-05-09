@@ -48,6 +48,7 @@ class AttendanceController extends Controller
      * @param  \App\Models\Cohort  $cohort
      * @return \Illuminate\Http\Response
      */
+    // ? get method with id of student to get attendance
     public function show($id)
     {
         // you can define the response max size

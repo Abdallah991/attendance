@@ -17,7 +17,7 @@ class BioTimeController extends Controller
      * @return \Illuminate\Http\Response
      */
     // Getting the employees list from attendance system
-    //? get first page of users on biotime
+    //? get first page of students on biotime
     public function index()
     {
         // you can define the response size
@@ -32,6 +32,7 @@ class BioTimeController extends Controller
         ])->get('http://10.1.50.4:80/personnel/api/employees/?page_size=' . $pageSize);
 
         // convert from string to array of students only
+        // ! make sure to filter between probation and official
         $filteredArray = Arr::where($response['data'], function ($value, $key) {
             return $value['department']['id'] == 2;
         });

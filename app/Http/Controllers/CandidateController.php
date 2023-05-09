@@ -65,7 +65,7 @@ class CandidateController extends Controller
      * @param  \App\Models\Cohort  $cohort
      * @return \Illuminate\Http\Response
      */
-    //? get specific user info using emp_code
+    //? get specific student info using emp_code/student id
     public function show($id)
     {
         // you can define the response size
