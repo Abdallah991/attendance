@@ -30,21 +30,14 @@ class Student extends Model
 
     // students has many logs
     // you can access all the logs on the students from this function
-    public function studentLogs()
+    public function transactions()
     {
-        return $this->hasMany(StudentLog::class);
+        return $this->hasMany(Transaction::class);
     }
 
     // retun the cohort a student belongs to
     public function cohort()
     {
         return $this->belongsTo(Cohort::class);
-    }
-
-
-    // return all the events the student signed up into 
-    public function event()
-    {
-        $this->belongsToMany(Event::class);
     }
 }

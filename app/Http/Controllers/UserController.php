@@ -47,7 +47,7 @@ class UserController extends Controller
             'fcmToken' => $request->fcmToken,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'permission' => $request->permission,
+            'roleId' => $request->roleId,
         ]);
 
         // success response
@@ -82,6 +82,7 @@ class UserController extends Controller
 
     public function logout(Request $request)
     {
+        // !
         // $request->user()->tokens()->delete();
         // TODO: Figure out a way to destroy the token
         // $request->user()->currentAccessToken()->delete();

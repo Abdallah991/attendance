@@ -18,17 +18,22 @@ return new class extends Migration
             $table->string('firstName');
             $table->string('lastName');
             $table->string('position');
-            $table->timestamp('joinDate');
+            $table->date('joinDate');
             $table->string('gender');
             $table->string('phone');
-            $table->timestamp('dob');
+            $table->date('dob');
             $table->string('fcmToken')->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->string('permission');
             $table->rememberToken();
             $table->timestamps();
+            //? a user belongs to one role
+            $table->unsignedInteger('roleId');
+            $table->foreign('roleId')
+                ->references('id')
+                ->on('roles')
+                ->onDelete('cascade');
         });
     }
 

@@ -13,16 +13,17 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('student_event', function (Blueprint $table) {
-            $table->integer('studentId')->unsigned();
-            $table->integer('eventId')->unsigned();
-            $table->foreign('studentId')
+        Schema::create('permission_roles', function (Blueprint $table) {
+            //? tmid table 
+            $table->integer('role_id')->unsigned();
+            $table->integer('permission_id')->unsigned();
+            $table->foreign('role_id')
                 ->references('id')
-                ->on('students')
+                ->on('roles')
                 ->onDelete('cascade');
-            $table->foreign('eventId')
+            $table->foreign('permission_id')
                 ->references('id')
-                ->on('events')
+                ->on('permissions')
                 ->onDelete('cascade');
         });
     }
@@ -34,6 +35,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('student_events');
+        Schema::dropIfExists('permission_roles');
     }
 };

@@ -14,29 +14,38 @@ return new class extends Migration
     public function up()
     {
         Schema::create('students', function (Blueprint $table) {
-            $table->increments('id');
+            // our students array
+            $table->unsignedBigInteger('id')->primary();
+            $table->string('platformId');
             $table->string('firstName');
             $table->string('lastName');
-            $table->string('nationality');
             $table->string('email')->unique();
+            $table->string('phone');
+            $table->string('gender');
+            $table->string('nationality');
+            $table->timestamp('dob');
+            $table->string('acadamicQualification');
+            $table->string('acadamicSpecialization');
+            $table->string('scholarship');
             $table->string('password')->nullable();
             $table->string('supportedByTamkeen');
-            $table->string('gender');
-            $table->string('phone');
             $table->string('fcmToken')->nullable();
-            $table->timestamp('dob');
+            $table->timestamps();
+            //? linking a student to the cohort
             $table->unsignedInteger('cohortId');
             $table->foreign('cohortId')
                 ->references('id')
                 ->on('cohorts')
                 ->onDelete('cascade');
-            $table->timestamps();
         });
 
-        Schema::create('student_logs', function (Blueprint $table) {
+        // this is the transction date
+        Schema::create('transactions', function (Blueprint $table) {
+
             $table->increments('id');
-            $table->unsignedInteger('studentId');
-            $table->dateTime('log');
+            $table->unsignedBigInteger('studentId');
+            $table->timestamp('time');
+            $table->string('area');
             $table->timestamps();
             $table->foreign('studentId')
                 ->references('id')

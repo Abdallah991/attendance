@@ -36,6 +36,7 @@ class StudentsController extends Controller
     {
 
 
+        //! start of platform inegrartion
         $query = <<<GQL
      query {
          user {

@@ -13,11 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('cohorts', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('school');
-            $table->string('name');
-            $table->string('year');
+        Schema::create('permissions', function (Blueprint $table) {
+            // !permission can be belong to many roles
+            $table->increments("id");
+            $table->string("name");
+            $table->string("access");
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('cohorts');
+        Schema::dropIfExists('permissions');
     }
 };

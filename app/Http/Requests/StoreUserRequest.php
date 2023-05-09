@@ -24,13 +24,12 @@ class StoreUserRequest extends FormRequest
     public function rules()
     {
         return [
-            //
-
+            //the roles for this request
             'firstName' => ['required'],
             'lastName' => ['required'],
             'phone' => ['required'],
             'dob' => ['required'],
-            'permission' => ['required'],
+            'roleId' => ['required'],
             // make sure that the users have unique email
             // otherwise they will receive an error with  email being in use
             'email' => ['required', 'unique:users'],
