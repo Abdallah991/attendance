@@ -15,7 +15,7 @@ class UserFilter extends ApiFilter
         'firstName' => ['eq'],
         'lastName' => ['eq'],
         'email' => ['eq'],
-        'permission' => ['eq', 'gt', 'gte', 'lt', 'lte'],
+        'roleId' => ['eq', 'gt', 'gte', 'lt', 'lte'],
         'createdAt' => ['eq'],
         'updatedAt' => ['eq'],
         'nationality' => ['eq', 'ne'],
