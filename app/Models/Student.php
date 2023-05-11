@@ -14,6 +14,8 @@ class Student extends Model
     protected $table = 'students';
     // fillable items in the create method
     protected $fillable = [
+        'id', 'platformId', 'acadamicQualification', 'acadamicSpecialization', 'scholarship',
+
         'firstName', 'lastName', 'email', 'nationality',
         'cohortId', 'supportedByTamkeen', 'gender', 'phone', 'dob'
     ];

@@ -12,6 +12,7 @@ class StudentFilter extends ApiFilter
     // parameters you are allowed to filter on
     protected $safeParam = [
         'id' => ['eq', 'gt', 'lt'],
+        'platfromId' => ['eq', 'gt', 'lt'],
         'firstName' => ['eq'],
         'lastName' => ['eq'],
         'email' => ['eq'],
@@ -19,6 +20,7 @@ class StudentFilter extends ApiFilter
         'updatedAt' => ['eq'],
         'cohortId' => ['eq', 'gt', 'lt'],
         'supportedByTamkeen' => ['eq', 'ne'],
+        'scholarship' => ['eq', 'ne'],
         'nationality' => ['eq', 'ne'],
         'phone' => ['eq'],
         'dob' => ['eq', 'lte', 'gte', 'lt', 'gt'],
