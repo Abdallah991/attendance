@@ -19,20 +19,23 @@ class StudentResource extends JsonResource
     {
 
         // Transform the response in the way you wish for
-        // ! => means : in javascript context
-        // ! -> means . in javascript context
+
         return [
             'id' => $this->id,
+            'platformId' => $this->platformId,
             'firstName' => $this->firstName,
             'lastName' => $this->lastName,
+            'gender' => $this->gender,
+            'phone' => $this->phone,
             'nationality' => $this->nationality,
             'email' => $this->email,
             'supportedByTamkeen' => $this->supportedByTamkeen,
-            'gender' => $this->gender,
-            'phone' => $this->phone,
-            'fcmToken' => $this->fcmToken,
+            'acadamicQualification' => $this->acadamicQualification,
+            'acadamicSpecialization' => $this->acadamicSpecialization,
+            'scholarship' => $this->scholarship,
             'dob' => $this->dob,
             'cohortId' => $this->cohortId,
+            'fcmToken' => $this->fcmToken,
             'createdAt' => $this->created_at,
             'updatedAt' => $this->updated_at,
         ];

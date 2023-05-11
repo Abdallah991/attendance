@@ -67,6 +67,8 @@ class CohortController extends Controller
         $cohort = Cohort::create([
             'name' => $request->name,
             'year' => $request->year,
+            'school' => $request->school,
+
 
 
         ]);

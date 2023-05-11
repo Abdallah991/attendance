@@ -15,6 +15,7 @@ class Cohort extends Model
     protected $fillable = [
         'name',
         'year',
+        'school'
     ];
 
     //  primary key setting

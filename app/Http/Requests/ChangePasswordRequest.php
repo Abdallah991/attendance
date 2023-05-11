@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateCohortRequest extends FormRequest
+class ChangePasswordRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,21 +23,11 @@ class UpdateCohortRequest extends FormRequest
      */
     public function rules()
     {
-        $method = $this->method();
-        if ($method == 'PUT') {
-
-            return [
-                //
-                // 'name' => ['required'],
-
-            ];
-        } else {
-            // this is the PATCH request
-            return [
-                //
-                // 'name' => ['required', 'sometimes'],
-
-            ];
-        }
+        return [
+            // from email column and the password should be 6 character at least
+            'oldPassword' => ['required', 'min:6'],
+            'newPassword' => ['required', 'min:6'],
+            'id' => ['required']
+        ];
     }
 }

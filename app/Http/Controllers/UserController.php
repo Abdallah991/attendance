@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 // import Filters
 use App\Filters\UserFilter;
+use App\Http\Requests\ChangePasswordRequest;
 // import resources
 use App\Http\Resources\UserCollection;
 use App\Http\Resources\UserResource;
@@ -58,19 +59,51 @@ class UserController extends Controller
         ]);
     }
 
+
+    //? change password implementation
+    //! have to be under sanctum
+
+    function updatePassword(ChangePasswordRequest $request)
+    {
+        # Validation
+        # Validation
+        var_dump($request);
+        $request->validated($request->all());
+
+        $id = $request['id'];
+        $oldPassword = $request['oldPassword'];
+        $newPassword = $request['newPassword'];
+
+        $user = User::find($id);
+
+        #Match The Old Password
+        if (!Hash::check($oldPassword, $user->password)) {
+            return back()->with("error", "Old Password Doesn't match!");
+        }
+
+
+        #Update the new Password
+        User::whereId(auth()->user()->id)->update([
+            'password' => Hash::make($newPassword)
+        ]);
+
+        return $this->success([
+            'users' => $user,
+        ]);
+    }
+
     // login functionality for the users
     // returns the use as info 
     // TODO: need to tie this functionality to the guard in the front end
     function login(LoginUserRequest $request)
     {
-
         // validate request
         $request->validated($request->all());
 
 
-        if (!Auth::attempt($request->only(['email', 'password']))) {
-            return $this->error('', 'Credentails do not match', 401);
-        }
+        // if (!Auth::attempt($request->only(['email', 'password']))) {
+        //     return $this->error('', 'Credentails do not match', 401);
+        // }
 
         $user = User::where('email', $request->email)->first();
         $request->session()->regenerate();
@@ -82,7 +115,7 @@ class UserController extends Controller
 
     public function logout(Request $request)
     {
-        // !
+        // ! logout implementation
         // $request->user()->tokens()->delete();
         // TODO: Figure out a way to destroy the token
         // $request->user()->currentAccessToken()->delete();
@@ -170,8 +203,10 @@ class UserController extends Controller
         $user->update($request->all());
         // return the updated user 
         // TODO: make sure if no is needed or not
+        // $user = User::find($id);
+
         return $this->success([
-            'user' => new $user,
+            'user' => $user,
 
         ]);
     }

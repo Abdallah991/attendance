@@ -27,6 +27,8 @@ class StoreCohortRequest extends FormRequest
             //
             'name' => ['required'],
             'year' => ['required'],
+            'school' => ['required'],
+
 
         ];
     }

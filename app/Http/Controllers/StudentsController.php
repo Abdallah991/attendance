@@ -6,9 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Student;
 // import resource to use it
 use App\Http\Resources\StudentResource;
-use App\Http\Resources\StudentCollection;
 // import query service
-use App\Filters\StudentFilter;
 // import requests
 use App\Http\Requests\StoreStudentRequest;
 use App\Http\Requests\UpdateStudentRequest;
@@ -16,8 +14,6 @@ use App\Http\Requests\UpdateStudentRequest;
 use App\Traits\HttpResponses;
 // using graphql
 use Illuminate\Support\Facades\Http;
-
-
 
 
 class StudentsController extends Controller
@@ -62,6 +58,7 @@ class StudentsController extends Controller
             // maybe a cron function will work that
             'Authorization' => 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMCIsImlhdCI6MTY4MzQ2MzA0NiwiaXAiOiIxMC4xLjIwMS4xMDQsIDE3Mi4xOC4wLjIiLCJleHAiOjE2ODM4OTUwNDYsImh0dHBzOi8vaGFzdXJhLmlvL2p3dC9jbGFpbXMiOnsieC1oYXN1cmEtYWxsb3dlZC1yb2xlcyI6WyJ1c2VyIiwiYWRtaW5fcmVhZF9vbmx5Il0sIngtaGFzdXJhLWNhbXB1c2VzIjoie30iLCJ4LWhhc3VyYS1kZWZhdWx0LXJvbGUiOiJhZG1pbl9yZWFkX29ubHkiLCJ4LWhhc3VyYS11c2VyLWlkIjoiMTAiLCJ4LWhhc3VyYS10b2tlbi1pZCI6IjZmYmNjZTg1LTlmNjktNDZlYy04MWY0LWE1MGIyYWI1MTM4MCJ9fQ.N-1MvxYba7YQWwTXtUH7PCcYfqodrD_xZ7LoE0Ss-1Y'
         ])->post('https://learn.reboot01.com/api/graphql-engine/v1/graphql', [
+
             'query' => $query
         ]);
 
@@ -119,23 +116,76 @@ class StudentsController extends Controller
 
         // Validate request
         $request->validated($request->all());
+        $platformId = $request->platformId;
+
+        //! start of platform inegrartion
+        $query = <<<GQL
+     query {
+         user (where:{login:{_eq:$platformId}}) {
+        email
+      firstName
+      lastName
+      phone: attrs(path: "Phone")
+      email
+      login
+      sessions {
+        final_score
+        updated_at
+      }
+         }
+     }
+     GQL;
+
+
+
+        $response = Http::withHeaders([
+            'Accept' => 'application/json',
+            'Content-Type' => 'application/json',
+            // ! this token have to be recreated every 2 days
+            // maybe a cron function will work that
+            'Authorization' => 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMCIsImlhdCI6MTY4MzQ2MzA0NiwiaXAiOiIxMC4xLjIwMS4xMDQsIDE3Mi4xOC4wLjIiLCJleHAiOjE2ODM4OTUwNDYsImh0dHBzOi8vaGFzdXJhLmlvL2p3dC9jbGFpbXMiOnsieC1oYXN1cmEtYWxsb3dlZC1yb2xlcyI6WyJ1c2VyIiwiYWRtaW5fcmVhZF9vbmx5Il0sIngtaGFzdXJhLWNhbXB1c2VzIjoie30iLCJ4LWhhc3VyYS1kZWZhdWx0LXJvbGUiOiJhZG1pbl9yZWFkX29ubHkiLCJ4LWhhc3VyYS11c2VyLWlkIjoiMTAiLCJ4LWhhc3VyYS10b2tlbi1pZCI6IjZmYmNjZTg1LTlmNjktNDZlYy04MWY0LWE1MGIyYWI1MTM4MCJ9fQ.N-1MvxYba7YQWwTXtUH7PCcYfqodrD_xZ7LoE0Ss-1Y'
+        ])->post('https://learn.reboot01.com/api/graphql-engine/v1/graphql', [
+
+            'query' => $query
+        ]);
+
+        // var_dump($response->json()['data']['user']);
+
+        // convert from string to array of students only
+        // $filteredArray = Arr::where($response['data'], function ($value, $key) {
+        //     return $value['department']['id'] == 2;
+        // });
+        // return response
+        // TODO: create a resource for the attendnace
+        // return [
+        //     "data" => $response->json()['data']['user'][0],
+        //     // "pages" => ceil($response->json()['count'] / 10)
+
+        // ];
+        $platformUser = $response->json()['data']['user'][0];
 
         // create student
-        $student = new StudentResource(Student::create($request->all()));
-        // $student = new StudentResource(Student::create([
-        //     'firstName' => $request->firstName,
-        //     'lastName' => $request->lastName,
-        //     'nationality' => $request->nationality,
-        //     'supportedByTamkeen' => $request->supportedByTamkeen,
-        //     'gender' => $request->gender,
-        //     'dob' => $request->dob,
-        //     'phone' => $request->phone,
-        //     'fcmToken' => $request->fcmToken,
-        //     'email' => $request->email,
-        //     'cohortId' => $request->cohortId,
+        // $student = new StudentResource(Student::create($request->all()));
+        $student = new StudentResource(Student::create([
+            'id' => $request->id,
+            'platformId' => $platformId,
+            'firstName' => $request->firstName,
+            'lastName' => $request->lastName,
+            'email' => $platformUser->email,
+            'phone' => $platformUser->phone,
+            'gender' => $platformUser->gender,
+            'nationality' => $platformUser->nationality,
+            'dob' => $platformUser->dob,
+            'acadamicQualification' => $platformUser->acadamicQualification,
+            'acadamicSpecialization' => $request->acadamicSpecialization,
+            'scholarship' => 'Tamkeen',
+            'supportedByTamkeen' => 'Yes',
+            'fcmToken' => $request->fcmToken,
+            // ! change later
+            'cohortId' => 1,
 
 
-        // ]));
+        ]));
         // return new created student
         return $this->success([
             'student' => $student,

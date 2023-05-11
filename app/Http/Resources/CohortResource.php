@@ -18,6 +18,7 @@ class CohortResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'year' => $this->year,
+            'school' => $this->school,
             'createdAt' => $this->created_at,
             'updatedAt' => $this->updated_at,
 

@@ -19,8 +19,7 @@ class UserResource extends JsonResource
     {
 
         // Transform the response in the way you wish for
-        // ! => means : in javascript context
-        // ! -> means . in javascript context
+
         return [
             'id' => $this->id,
             'firstName' => $this->firstName,
@@ -31,7 +30,7 @@ class UserResource extends JsonResource
             'phone' => $this->phone,
             'fcmToken' => $this->fcmToken,
             'dob' => $this->dob,
-            'permission' => $this->permission,
+            'roleId' => $this->roleId,
             'email' => $this->email,
             'password' => $this->password,
             'rememberToken' => $this->rememberToken,

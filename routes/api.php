@@ -4,10 +4,8 @@ use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\BioTimeController;
 use App\Http\Controllers\CandidateController;
 use App\Http\Controllers\CohortController;
-use App\Http\Controllers\EventController;
 use App\Http\Controllers\SearchController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\StudentLogsController;
 use App\Http\Controllers\StudentsController;
 use App\Http\Controllers\UserController;
 /*
@@ -43,6 +41,10 @@ Route::group(['middleware' => ['web']], function () {
     // Login API
     Route::post('/login', [UserController::class, 'login']);
 
+    // update password
+    Route::get('/password', [UserController::class, 'updatePassword']);
+
+
     // Register API
     // TODO: make sure the API have captcha
     // TODO: make sure of the limit of the calls
@@ -55,8 +57,8 @@ Route::group(['middleware' => ['web']], function () {
     Route::Resource('/students', StudentsController::class);
     // users APIs
     Route::Resource('/users', UserController::class);
-    // Logs API
-    Route::resource('/logs', StudentLogsController::class);
+    // transactions API
+    // Route::resource('/logs', StudentLogsController::class);
     // cohort API
     Route::resource('/cohorts', CohortController::class);
     // attendance API
