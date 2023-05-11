@@ -3,7 +3,6 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
 
 class UpdateStudentRequest extends FormRequest
@@ -26,20 +25,51 @@ class UpdateStudentRequest extends FormRequest
     public function rules()
     {
         $method = $this->method();
+        // for put method
         if ($method == 'PUT') {
 
             return [
                 //
-                'firstName' => ['required'],
-                'lastName' => ['required'],
+                'firstName' => ['sometimes'],
+                'lastName' => ['sometimes'],
+                'id' => ['required'],
+                'platformId' => ['sometimes'],
+                'firstName' => ['sometimes'],
+                'lastName' => ['sometimes'],
+                'email' => ['sometimes'],
+                'phone' => ['sometimes'],
+                'gender' => ['sometimes'],
+                'nationality' => ['sometimes'],
+                'dob' => ['sometimes'],
+                'acadamicQualification' => ['sometimes'],
+                'acadamicSpecialization' => ['sometimes'],
+                'scholarship' => ['sometimes'],
+                'supportedByTamkeen' => ['sometimes'],
+                'fcmToken' => ['sometimes'],
+                'cohortId' => ['sometimes'],
 
             ];
         } else {
             // this is the PATCH request
             return [
                 //
-                'firstName' => ['required'],
-                'lastName' => ['required'],
+                'firstName' => ['sometimes'],
+                'lastName' => ['sometimes'],
+                'id' => ['required'],
+                'platformId' => ['sometimes'],
+                'firstName' => ['sometimes'],
+                'lastName' => ['sometimes'],
+                'email' => ['sometimes'],
+                'phone' => ['sometimes'],
+                'gender' => ['sometimes'],
+                'nationality' => ['sometimes'],
+                'dob' => ['sometimes'],
+                'acadamicQualification' => ['sometimes'],
+                'acadamicSpecialization' => ['sometimes'],
+                'scholarship' => ['sometimes'],
+                'supportedByTamkeen' => ['sometimes'],
+                'fcmToken' => ['sometimes'],
+                'cohortId' => ['sometimes'],
 
             ];
         }

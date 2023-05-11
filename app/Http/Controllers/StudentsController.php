@@ -31,8 +31,6 @@ class StudentsController extends Controller
 
     public function index(Request $request)
     {
-
-
         $filter = new StudentFilter();
         // dump($filter);
         $queryItems = $filter->transform($request);
@@ -147,9 +145,7 @@ class StudentsController extends Controller
         return $this->success([
             'student' => new StudentResource(
                 $student
-                // ->loadMissing('studentLogs')
             ),
-            // 'logs' => $logs
         ]);
     }
 
@@ -173,14 +169,13 @@ class StudentsController extends Controller
      */
     public function update(UpdateStudentRequest $request, $id)
     {
-        // get the student 
+        // get the student using the id
         $student = Student::find($id);
         // update the values
         $student->update($request->all());
         // return the value of the updated student
         return $this->success([
             'student' => new $student,
-
         ]);
     }
 
