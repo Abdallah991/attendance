@@ -16,7 +16,9 @@ use App\Http\Resources\StudentCollection;
 use App\Traits\HttpResponses;
 use Illuminate\Support\Facades\Http;
 
-
+// !
+// !
+// ! Remember to find a way to generate token to be used by the platforms
 class StudentsController extends Controller
 {
 
@@ -94,14 +96,23 @@ class StudentsController extends Controller
             'Content-Type' => 'application/json',
             // ! this token have to be recreated every 2 days
             // maybe a cron function will work that
-            'Authorization' => 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMCIsImlhdCI6MTY4MzQ2MzA0NiwiaXAiOiIxMC4xLjIwMS4xMDQsIDE3Mi4xOC4wLjIiLCJleHAiOjE2ODM4OTUwNDYsImh0dHBzOi8vaGFzdXJhLmlvL2p3dC9jbGFpbXMiOnsieC1oYXN1cmEtYWxsb3dlZC1yb2xlcyI6WyJ1c2VyIiwiYWRtaW5fcmVhZF9vbmx5Il0sIngtaGFzdXJhLWNhbXB1c2VzIjoie30iLCJ4LWhhc3VyYS1kZWZhdWx0LXJvbGUiOiJhZG1pbl9yZWFkX29ubHkiLCJ4LWhhc3VyYS11c2VyLWlkIjoiMTAiLCJ4LWhhc3VyYS10b2tlbi1pZCI6IjZmYmNjZTg1LTlmNjktNDZlYy04MWY0LWE1MGIyYWI1MTM4MCJ9fQ.N-1MvxYba7YQWwTXtUH7PCcYfqodrD_xZ7LoE0Ss-1Y'
+            'Authorization' => 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMCIsImlhdCI6MTY4NDU4NjMwNCwiaXAiOiIxMC4xLjIwMS40MSwgMTcyLjE4LjAuMiIsImV4cCI6MTY4NTAxODMwNCwiaHR0cHM6Ly9oYXN1cmEuaW8vand0L2NsYWltcyI6eyJ4LWhhc3VyYS1hbGxvd2VkLXJvbGVzIjpbInVzZXIiLCJhZG1pbl9yZWFkX29ubHkiXSwieC1oYXN1cmEtY2FtcHVzZXMiOiJ7fSIsIngtaGFzdXJhLWRlZmF1bHQtcm9sZSI6ImFkbWluX3JlYWRfb25seSIsIngtaGFzdXJhLXVzZXItaWQiOiIxMCIsIngtaGFzdXJhLXRva2VuLWlkIjoiNmRiYTY2YTMtMmUwZS00NmE2LWIxMjQtNzY2ZjlkNDBmYjBiIn19.dC2tKrRk2J9CZrhRWW48rBlqSbWZ9mKURMADDd3xI8s'
         ])->post('https://learn.reboot01.com/api/graphql-engine/v1/graphql', [
-
             'query' => $query
         ]);
 
         // get the item from an array
-        $platformUser = $response->json()['data']['user'][0];
+        if ($response->json()['data']['user']) {
+            $platformUser = $response->json()['data']['user'][0];
+        } else {
+
+            // return new created student
+            return $this->error(
+                ['platformId' => $platformId],
+                'No student found',
+                404
+            );
+        }
 
         // create student
         $student = new StudentResource(Student::create([

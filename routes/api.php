@@ -21,6 +21,10 @@ use App\Http\Controllers\UserController;
 // APIs
 // There is public routes and protetcted routes
 
+//!
+//!
+//! Add Sanctum
+
 // *protected routes 
 Route::group(['middleware' => ['auth:sanctum']], function () {
     // // students APIs
