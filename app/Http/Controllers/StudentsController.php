@@ -109,7 +109,7 @@ class StudentsController extends Controller
             // return new created student
             return $this->error(
                 ['platformId' => $platformId],
-                'No student found',
+                'No student found،',
                 404
             );
         }
