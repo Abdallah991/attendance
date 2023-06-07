@@ -30,6 +30,7 @@ class StoreStudentRequest extends FormRequest
             'firstName' => ['required', 'sometimes'],
             'lastName' => ['required'],
             'platformId' => ['required'],
+            'cpr' => ['required'],
             'acadamicSpecialization' => ['required'],
             'cohortId' => ['required'],
 

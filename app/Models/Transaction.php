@@ -4,12 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Laravel\Scout\Searchable;
 
 class Transaction extends Model
 {
 
-    use Searchable;
+    // use Searchable;
     use HasFactory;
     // table name
     protected $table = 'transactions';

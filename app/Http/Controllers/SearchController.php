@@ -4,10 +4,11 @@ namespace App\Http\Controllers;
 
 // TODO: search api
 use App\Http\Requests\SearchRequest;
+use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
-
+use function PHPSTORM_META\map;
 
 class SearchController extends Controller
 {
@@ -37,37 +38,65 @@ class SearchController extends Controller
      * @return \Illuminate\Http\Response
      */
     //? search from the bio time directly
-    public function show($id, Request $request)
+    public function searchStudents(Request $request)
     {
-        // get the search value
-        $searchValue = $request->searchValue;
-        $pageSize = 1000;
-        // get all employees students and admin and staff
-        $response = Http::withHeaders([
-            'Accept' => 'application/json',
-            'Content-Type' => 'application/json',
-            'Authorization' => 'Token 48e111ccd207225fff4b28cc5f7e6d68acf6b479'
-        ])->get('http://10.1.50.4:80/personnel/api/employees/?page_size=' . $pageSize);
+        // ! V1 of search functuonality
+        // // get the search value
+        // $searchValue = $request->searchValue;
+        // $pageSize = 1000;
+        // // get all employees students and admin and staff
+        // $response = Http::withHeaders([
+        //     'Accept' => 'application/json',
+        //     'Content-Type' => 'application/json',
+        //     'Authorization' => 'Token 48e111ccd207225fff4b28cc5f7e6d68acf6b479'
+        // ])->get('http://10.1.50.4:80/personnel/api/employees/?page_size=' . $pageSize);
 
-        // convert from string to array of students only
+        // // convert from string to array of students only
+        // $usersLength = count($response['data']);
+
+        // // loop over all the records
+        // // TODO: Implement better code for searching using one of ways to reduce o(n)
+        // for ($i = 1; $i < $usersLength; $i++) {
+        //     if (str_contains(strtolower($response['data'][$i]['full_name']), strtolower($searchValue)))
+        //         array_push($filteredArray, $response->json()['data'][$i]);
+        // }
+
+
+        // // paginated response
+        // return [
+        //     "data" => $filteredArray,
+        //     "count" => count($filteredArray),
+        //     "pages" => ceil(count($filteredArray) / 10)
+
+        // ];
+
+        // TODO: V2 of Search function 
         $filteredArray = [];
-        $usersLength = count($response['data']);
+        $searchValue = $request->searchValue;
+        $students = Student::all();
 
-        // loop over all the records
-        // TODO: Implement better code for searching using one of ways to reduce o(n)
-        for ($i = 1; $i < $usersLength; $i++) {
-            if (str_contains(strtolower($response['data'][$i]['full_name']), strtolower($searchValue)))
-                array_push($filteredArray, $response->json()['data'][$i]);
+
+        // return $request;
+        for ($i = 0; $i < count($students); $i++) {
+
+            if (
+                str_contains($students[$i]['email'], $searchValue) ||
+                str_contains($students[$i]['firstName'], $searchValue) ||
+                str_contains($students[$i]['lastName'], $searchValue) ||
+                str_contains($students[$i]['cpr'], $searchValue) ||
+                str_contains($students[$i]['platformId'], $searchValue)
+            ) {
+
+                array_push($filteredArray, $students[$i]);
+            }
         }
 
+        return $filteredArray;
+    }
 
-        // paginated response
-        return [
-            "data" => $filteredArray,
-            "count" => count($filteredArray),
-            "pages" => ceil(count($filteredArray) / 10)
 
-        ];
+    function userExists($user, $searchValue)
+    {
     }
 
     /**

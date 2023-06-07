@@ -4,12 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Laravel\Scout\Searchable;
 
 class Student extends Model
 {
 
-    use Searchable;
+    // use Searchable;
     use HasFactory;
 
     // these are all optional fields 
@@ -19,7 +18,8 @@ class Student extends Model
     protected $fillable = [
         'id', 'platformId', 'acadamicQualification', 'acadamicSpecialization', 'scholarship',
 
-        'firstName', 'lastName', 'email', 'nationality',
+        'firstName', 'lastName', 'email', 'nationality', 'gender',
+
         'cohortId', 'supportedByTamkeen', 'gender', 'phone', 'dob'
     ];
 

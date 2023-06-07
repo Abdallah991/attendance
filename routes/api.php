@@ -72,7 +72,6 @@ Route::group(['middleware' => ['web']], function () {
     // bio time user API
     Route::resource('/candidate-info', CandidateController::class);
     // search Bio time API
-    Route::resource('/search', SearchController::class);
-
+    Route::post('/search', [SearchController::class, 'searchStudents']);
     // Route::post('/search', [SearchController::class, 'searchCandidates']);
 });

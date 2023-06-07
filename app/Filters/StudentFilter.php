@@ -16,6 +16,7 @@ class StudentFilter extends ApiFilter
         'firstName' => ['eq'],
         'lastName' => ['eq'],
         'email' => ['eq'],
+        'cpr' => ['eq'],
         'createdAt' => ['eq'],
         'updatedAt' => ['eq'],
         'cohortId' => ['eq', 'gt', 'lt'],

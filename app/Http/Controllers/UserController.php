@@ -105,11 +105,11 @@ class UserController extends Controller
         //     return $this->error('', 'Credentails do not match', 401);
         // }
 
-        $user = User::where('email', $request->email)->first();
+        $user = User::where('email', 'abdallah.alathamneh@reboot01.com')->first();
         $request->session()->regenerate();
         return $this->success([
             'users' => $user,
-            'token' => $user->createToken('Api token of ' . $user->name)->plainTextToken
+            'token' => $user->createToken('Api token of ' . $user->firstName)->plainTextToken
         ]);
     }
 

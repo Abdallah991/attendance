@@ -4,12 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Laravel\Scout\Searchable;
 
 class Cohort extends Model
 {
 
-    use Searchable;
+    // use Searchable;
     use HasFactory;
     // these are all optional fields 
     // name of the table

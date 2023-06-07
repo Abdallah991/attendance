@@ -130,12 +130,19 @@ return [
     */
 
     'meilisearch' => [
-        'host' => env('MEILISEARCH_HOST', 'http://localhost:7700'),
+        'host' => env('MEILISEARCH_HOST', 'http://localhost:7700/'),
         'key' => env('MEILISEARCH_KEY'),
+        // , '1VRSRWgJ48bUyvpjhIBIyu32x_VuNukllXYndpVxjrA'
         'index-settings' => [
-            // 'users' => [
-            //     'filterableAttributes'=> ['id', 'name', 'email'],
-            // ],
+            Cohort::class => [
+                'filterableAttributes' => ['id', 'name', 'school', 'year'],
+                'sortableAttributes' => ['id', 'year'],
+                // Other settings fields...
+            ],
+            Students::class => [
+                'filterableAttributes' => ['id', 'platformId', 'firstName', 'lastName', 'email', 'gender', 'dob', 'cohortId'],
+                'sortableAttributes' => ['cohortId', 'id', 'platformId', 'dob'],
+            ],
         ],
     ],
 

@@ -96,10 +96,29 @@ class StudentsController extends Controller
             'Content-Type' => 'application/json',
             // ! this token have to be recreated every 2 days
             // maybe a cron function will work that
-            'Authorization' => 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMCIsImlhdCI6MTY4NDU4NjMwNCwiaXAiOiIxMC4xLjIwMS40MSwgMTcyLjE4LjAuMiIsImV4cCI6MTY4NTAxODMwNCwiaHR0cHM6Ly9oYXN1cmEuaW8vand0L2NsYWltcyI6eyJ4LWhhc3VyYS1hbGxvd2VkLXJvbGVzIjpbInVzZXIiLCJhZG1pbl9yZWFkX29ubHkiXSwieC1oYXN1cmEtY2FtcHVzZXMiOiJ7fSIsIngtaGFzdXJhLWRlZmF1bHQtcm9sZSI6ImFkbWluX3JlYWRfb25seSIsIngtaGFzdXJhLXVzZXItaWQiOiIxMCIsIngtaGFzdXJhLXRva2VuLWlkIjoiNmRiYTY2YTMtMmUwZS00NmE2LWIxMjQtNzY2ZjlkNDBmYjBiIn19.dC2tKrRk2J9CZrhRWW48rBlqSbWZ9mKURMADDd3xI8s'
+            'Authorization' => 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMCIsImlhdCI6MTY4NTUyMDU5MiwiaXAiOiIxMC4xLjIwMC4xNDAsIDE3Mi4xOC4wLjIiLCJleHAiOjE2ODU5NTI1OTIsImh0dHBzOi8vaGFzdXJhLmlvL2p3dC9jbGFpbXMiOnsieC1oYXN1cmEtYWxsb3dlZC1yb2xlcyI6WyJ1c2VyIiwiYWRtaW5fcmVhZF9vbmx5Il0sIngtaGFzdXJhLWNhbXB1c2VzIjoie30iLCJ4LWhhc3VyYS1kZWZhdWx0LXJvbGUiOiJhZG1pbl9yZWFkX29ubHkiLCJ4LWhhc3VyYS11c2VyLWlkIjoiMTAiLCJ4LWhhc3VyYS10b2tlbi1pZCI6ImVjYmQ3MGJiLTQ3NjctNDcxMi1hZmI2LTQzYzdhMzg0MThjOSJ9fQ.f5GHp35bWz74_U5OVwBIclK3kBpOxV5tKgq2ThsVxMA'
         ])->post('https://learn.reboot01.com/api/graphql-engine/v1/graphql', [
             'query' => $query
         ]);
+
+
+        // ! response if the token expired
+        // TODO: call for Token when you get response
+        // {
+        //     "errors": [
+        //         {
+        //             "extensions": {
+        //                 "code": "invalid-jwt",
+        //                 "path": "$"
+        //             },
+        //             "message": "Could not verify JWT: JWTExpired"
+        //         }
+        //     ]
+        // }
+
+        // TODO: Call for the token and save it
+        // TODO: Call again for the get the users, if didnt work response with in-vaild JWT token
+        // go back to the top and call again
 
         // get the item from an array
         if ($response->json()['data']['user']) {
@@ -124,6 +143,7 @@ class StudentsController extends Controller
             'phone' => $platformUser['phone'],
             'gender' => $platformUser['gender'],
             'nationality' => $platformUser['nationality'],
+            'cpr' => $request->cpr,
             'dob' => date("Y-m-d H:i:s", strtotime($platformUser['dob'])),
             'acadamicQualification' => $platformUser['acadamicQualification'],
             'acadamicSpecialization' => $request->acadamicSpecialization,

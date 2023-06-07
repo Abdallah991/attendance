@@ -4,13 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Laravel\Scout\Searchable;
 
 
 class Permission extends Model
 {
 
-    use Searchable;
+    // use Searchable;
     use HasFactory;
 
     // name of the table

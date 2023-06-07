@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('phone');
             $table->string('gender');
             $table->string('nationality');
+            $table->string('cpr');
             $table->timestamp('dob');
             $table->string('acadamicQualification');
             $table->string('acadamicSpecialization');

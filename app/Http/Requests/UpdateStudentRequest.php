@@ -40,6 +40,7 @@ class UpdateStudentRequest extends FormRequest
                 'phone' => ['sometimes'],
                 'gender' => ['sometimes'],
                 'nationality' => ['sometimes'],
+                'cpr' => ['sometimes'],
                 'dob' => ['sometimes'],
                 'acadamicQualification' => ['sometimes'],
                 'acadamicSpecialization' => ['sometimes'],
