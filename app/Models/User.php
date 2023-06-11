@@ -31,7 +31,6 @@ class User extends Authenticatable
         'dob',
         'roleId',
         'position',
-        'cpr',
         'joinDate',
         'gender'
 

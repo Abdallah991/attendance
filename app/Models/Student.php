@@ -20,7 +20,9 @@ class Student extends Model
 
         'firstName', 'lastName', 'email', 'nationality', 'gender',
 
-        'cohortId', 'supportedByTamkeen', 'gender', 'phone', 'dob'
+        'cohortId', 'supportedByTamkeen', 'gender', 'phone', 'dob',
+        'cpr'
+
     ];
 
     //  primary key setting
