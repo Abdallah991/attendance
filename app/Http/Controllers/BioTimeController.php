@@ -22,7 +22,7 @@ class BioTimeController extends Controller
     {
         // you can define the response size
 
-        $pageSize = 10;
+        $pageSize = 1000;
         // directly call the api using ::get
         // get all employees students and admin and staff
         $response = Http::withHeaders([

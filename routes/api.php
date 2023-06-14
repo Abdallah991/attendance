@@ -66,9 +66,10 @@ Route::group(['middleware' => ['web']], function () {
     // cohort API
     Route::resource('/cohorts', CohortController::class);
     // attendance API
-    Route::resource('/attendance', BioTimeController::class);
+    Route::resource('/attendance-students', BioTimeController::class);
     // attendance API
-    Route::resource('/candidate', AttendanceController::class);
+    // only get a specific student work
+    Route::resource('/attendance', AttendanceController::class);
     // bio time user API
     Route::resource('/candidate-info', CandidateController::class);
     // search Bio time API
