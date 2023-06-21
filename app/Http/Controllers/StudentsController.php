@@ -68,6 +68,8 @@ class StudentsController extends Controller
         // Validate request through Request rules
         $request->validated($request->all());
         $platformId = $request->platformId;
+        // Token expires every 3 days
+        $apiToken =  config('app.GRAPHQL_TOKEN');
 
         // query
         // TODO: final score
@@ -96,7 +98,7 @@ class StudentsController extends Controller
             'Content-Type' => 'application/json',
             // ! this token have to be recreated every 2 days
             // maybe a cron function will work that
-            'Authorization' => 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMCIsImlhdCI6MTY4NjQ3NDcyNiwiaXAiOiIxMC4xLjIwMS40MSwgMTcyLjE4LjAuMiIsImV4cCI6MTY4NjkwNjcyNiwiaHR0cHM6Ly9oYXN1cmEuaW8vand0L2NsYWltcyI6eyJ4LWhhc3VyYS1hbGxvd2VkLXJvbGVzIjpbInVzZXIiLCJhZG1pbl9yZWFkX29ubHkiXSwieC1oYXN1cmEtY2FtcHVzZXMiOiJ7fSIsIngtaGFzdXJhLWRlZmF1bHQtcm9sZSI6ImFkbWluX3JlYWRfb25seSIsIngtaGFzdXJhLXVzZXItaWQiOiIxMCIsIngtaGFzdXJhLXRva2VuLWlkIjoiMjU3YjUwZjUtODhhZS00YmVjLWIxZDAtZmQyNTFkN2E2YjEwIn19.pU1X3zFZ7Y3n4hNNCWALqGSNRYSloT3kJKfdwPKtn_s'
+            'Authorization' => 'Bearer ' . $apiToken
         ])->post('https://learn.reboot01.com/api/graphql-engine/v1/graphql', [
             'query' => $query
         ]);
