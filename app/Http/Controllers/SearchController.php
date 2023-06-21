@@ -8,7 +8,6 @@ use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
-use function PHPSTORM_META\map;
 
 class SearchController extends Controller
 {
@@ -79,12 +78,20 @@ class SearchController extends Controller
         // return $request;
         for ($i = 0; $i < count($students); $i++) {
 
+            // making sure that our search considers capital and lowercase characters
+            // search on the
+            // 1- email
+            // 2- first name 
+            // 3- last name 
+            // 4- cpr
+            // 5- platformId
             if (
-                str_contains($students[$i]['email'], $searchValue) ||
-                str_contains($students[$i]['firstName'], $searchValue) ||
-                str_contains($students[$i]['lastName'], $searchValue) ||
-                str_contains($students[$i]['cpr'], $searchValue) ||
-                str_contains($students[$i]['platformId'], $searchValue)
+                str_contains(strtolower($students[$i]['email']), strtolower($searchValue)) ||
+                str_contains(strtolower($students[$i]['firstName']), strtolower($searchValue)) ||
+                str_contains(strtolower($students[$i]['firstName']) . ' ' . strtolower($students[$i]['lastName']), strtolower($searchValue)) ||
+                str_contains(strtolower($students[$i]['lastName']), strtolower($searchValue)) ||
+                str_contains(strtolower($students[$i]['cpr']), strtolower($searchValue)) ||
+                str_contains(strtolower($students[$i]['platformId']), strtolower($searchValue))
             ) {
 
                 array_push($filteredArray, $students[$i]);

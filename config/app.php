@@ -16,6 +16,8 @@ return [
     */
 
     'name' => env('APP_NAME', 'Laravel'),
+    'PLATFORM_TOKEN' => env('PLATFORM_TOKEN', 'Laravel'),
+    'GRAPHQL_TOKEN' => env('GRAPHQL_TOKEN', 'Laravel'),
 
     /*
     |--------------------------------------------------------------------------
