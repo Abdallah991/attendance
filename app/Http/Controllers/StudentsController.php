@@ -37,15 +37,14 @@ class StudentsController extends Controller
         // dump($filter);
         $queryItems = $filter->transform($request);
         // if query items are null, then its like there is no condition so it will pull all the
-        $students = Student::where($queryItems);
+        $students = Student::all();
         // ? get the students log 
         // TODO: Figure out a way to return the logs with the students
         // $students = $students->with('studentLogs');
         // return the message in success format
         return $this->success([
             'students' => new StudentCollection(
-                $students->paginate()
-                    ->appends($request->query())
+                $students
             ),
         ]);
     }
