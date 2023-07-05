@@ -44,18 +44,14 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 Route::group(['middleware' => ['web']], function () {
     // Login API
     Route::post('/login', [UserController::class, 'login']);
-
     // update password
-    Route::get('/password', [UserController::class, 'updatePassword']);
-
-
+    Route::post('/password', [UserController::class, 'updatePassword']);
     // Register API
     // TODO: make sure the API have captcha
     // TODO: make sure of the limit of the calls
     Route::post('/register', [UserController::class, 'register']);
     // Logout API
     Route::post('/logout', [UserController::class, 'logout']);
-
     // TODO: Remove later
     // students APIs
     Route::Resource('/students', StudentsController::class);

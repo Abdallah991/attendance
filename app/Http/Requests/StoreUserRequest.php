@@ -33,6 +33,7 @@ class StoreUserRequest extends FormRequest
             // make sure that the users have unique email
             // otherwise they will receive an error with  email being in use
             'email' => ['required', 'unique:users'],
+            // This will make sure that the users have a minimum password of 6 digists.
             'password' => ['required', 'min:6'],
 
 

@@ -16,10 +16,9 @@ use App\Http\Resources\UserResource;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Requests\LoginUserRequest;
-// Auth
-use Illuminate\Support\Facades\Auth;
 // trait
 use App\Traits\HttpResponses;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -30,13 +29,10 @@ class UserController extends Controller
     // register functionality and creating a user and their authenitication info
     function register(StoreUserRequest $request)
     {
-
         // Validate request
         $request->validated($request->all());
-
         // create user
         // $user = new UserResource(User::create($request->all()));
-
         $user = User::create([
             'firstName' => $request->firstName,
             'lastName' => $request->lastName,
@@ -63,33 +59,30 @@ class UserController extends Controller
     //? change password implementation
     //! have to be under sanctum
 
-    function updatePassword(ChangePasswordRequest $request)
+    function updatePassword(Request $request)
     {
         # Validation
         # Validation
-        var_dump($request);
-        $request->validated($request->all());
+        # Validation
+        $request->validate([
+            'oldPassword' => ['required', 'min:6'],
+            'newPassword' => ['required'],
+            'id' => ['required'],
+        ]);
 
-        $id = $request['id'];
-        $oldPassword = $request['oldPassword'];
-        $newPassword = $request['newPassword'];
-
-        $user = User::find($id);
+        // return User::find($request->id)->password;
 
         #Match The Old Password
-        if (!Hash::check($oldPassword, $user->password)) {
-            return back()->with("error", "Old Password Doesn't match!");
+        if (!Hash::check($request->oldPassword, User::find($request->id)->password)) {
+            return $this->error("", "Old password doesnt match the new Password", 401);
         }
 
-
         #Update the new Password
-        User::whereId(auth()->user()->id)->update([
-            'password' => Hash::make($newPassword)
+        User::whereId($request->id)->update([
+            'password' => Hash::make($request->newPassword)
         ]);
 
-        return $this->success([
-            'users' => $user,
-        ]);
+        return $this->success("Password Has been updated", "Password has been updated", 200);
     }
 
     // login functionality for the users
@@ -97,36 +90,39 @@ class UserController extends Controller
     // TODO: need to tie this functionality to the guard in the front end
     function login(LoginUserRequest $request)
     {
+
         // validate request
         $request->validated($request->all());
 
-
-        // if (!Auth::attempt($request->only(['email', 'password']))) {
-        //     return $this->error('', 'Credentails do not match', 401);
-        // }
-
-        $user = User::where('email', 'abdallah.alathamneh@reboot01.com')->first();
-        $request->session()->regenerate();
-        return $this->success([
-            'users' => $user,
-            'token' => $user->createToken('Api token of ' . $user->firstName)->plainTextToken
+        $credentials = $request->validate([
+            'email' => ['required', 'email'],
+            'password' => ['required'],
         ]);
+
+        // return $credentials;
+        if (Auth::attempt($credentials)) {
+            $user = User::where('email', $request->email)->first();
+            // destroy token
+            $request->session()->regenerate();
+            // regenrate token
+            return $this->success([
+                'users' => $user,
+                'token' => $user->createToken('Api token of ' . $user->firstName)->plainTextToken
+            ]);
+        } else {
+            return $this->error('', 'Invalid credentials', 401);
+        }
     }
 
     public function logout(Request $request)
     {
-        // ! logout implementation
-        // $request->user()->tokens()->delete();
-        // TODO: Figure out a way to destroy the token
-        // $request->user()->currentAccessToken()->delete();
-
-        // Auth::user()->tokens->each(function ($token, $key) {
-        //     $token->delete();
-        // });
-
-
-
-        return $this->success('', "Logged out successfully, Your token have been deleted!");
+        // logout using Auth
+        Auth::logout();
+        // remove the session data
+        $request->session()->invalidate();
+        // remove the CSRF token
+        $request->session()->regenerateToken();
+        return $this->success('', "Logged out successfully, Your token and session have been deleted!");
     }
 
 
@@ -134,12 +130,10 @@ class UserController extends Controller
     // Get all users implemnetation
     public function index(Request $request)
     {
-
         $filter = new UserFilter();
         $queryItems = $filter->transform($request);
         // if query items are null, then its like there is no condition so it will pull all the
         $users = User::where($queryItems);
-
         // return users and paginate through query
         return $this->success([
             'users' => new UserCollection($users->paginate()->appends($request->query())),
