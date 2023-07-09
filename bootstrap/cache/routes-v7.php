@@ -96,82 +96,6 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/api/login' => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'generated::iSsNxFbp0XNoa35y',
-          ),
-          1 => NULL,
-          2 => 
-          array (
-            'POST' => 0,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => false,
-          6 => NULL,
-        ),
-      ),
-      '/api/password' => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'generated::IbWiKv2rfv5Y1LQo',
-          ),
-          1 => NULL,
-          2 => 
-          array (
-            'POST' => 0,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => false,
-          6 => NULL,
-        ),
-      ),
-      '/api/register' => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'generated::tC9OvhrprdN7hQJh',
-          ),
-          1 => NULL,
-          2 => 
-          array (
-            'POST' => 0,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => false,
-          6 => NULL,
-        ),
-      ),
-      '/api/logout' => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'generated::A2NJ8Qo5BN5ZtSO2',
-          ),
-          1 => NULL,
-          2 => 
-          array (
-            'POST' => 0,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => false,
-          6 => NULL,
-        ),
-      ),
       '/api/students' => 
       array (
         0 => 
@@ -333,6 +257,101 @@ app('router')->setCompiledRoutes(
           array (
             'GET' => 0,
             'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/api/password' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'generated::XuMizvy2EnL2crSi',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/api/register' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'generated::A84lw619rkmce8d1',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/api/search' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'generated::kFD2MtkzW9qsEibv',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/api/logout' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'generated::OzoovtgH5lnllSZ9',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/api/login' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'generated::aG4F1geZYSDDRplW',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'POST' => 0,
           ),
           3 => NULL,
           4 => false,
@@ -508,32 +527,13 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/api/search' => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'generated::C9IyHizD3eRmHSKV',
-          ),
-          1 => NULL,
-          2 => 
-          array (
-            'POST' => 0,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => false,
-          6 => NULL,
-        ),
-      ),
       '/' => 
       array (
         0 => 
         array (
           0 => 
           array (
-            '_route' => 'generated::i4T8IphyUkCra0Dk',
+            '_route' => 'generated::EwRHxNFsny89SUQQ',
           ),
           1 => NULL,
           2 => 
@@ -1243,154 +1243,6 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::iSsNxFbp0XNoa35y' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'POST',
-      ),
-      'uri' => 'api/login',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'api',
-          1 => 'web',
-        ),
-        'uses' => 'App\\Http\\Controllers\\UserController@login',
-        'controller' => 'App\\Http\\Controllers\\UserController@login',
-        'namespace' => NULL,
-        'prefix' => 'api',
-        'where' => 
-        array (
-        ),
-        'as' => 'generated::iSsNxFbp0XNoa35y',
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'generated::IbWiKv2rfv5Y1LQo' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'POST',
-      ),
-      'uri' => 'api/password',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'api',
-          1 => 'web',
-        ),
-        'uses' => 'App\\Http\\Controllers\\UserController@updatePassword',
-        'controller' => 'App\\Http\\Controllers\\UserController@updatePassword',
-        'namespace' => NULL,
-        'prefix' => 'api',
-        'where' => 
-        array (
-        ),
-        'as' => 'generated::IbWiKv2rfv5Y1LQo',
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'generated::tC9OvhrprdN7hQJh' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'POST',
-      ),
-      'uri' => 'api/register',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'api',
-          1 => 'web',
-        ),
-        'uses' => 'App\\Http\\Controllers\\UserController@register',
-        'controller' => 'App\\Http\\Controllers\\UserController@register',
-        'namespace' => NULL,
-        'prefix' => 'api',
-        'where' => 
-        array (
-        ),
-        'as' => 'generated::tC9OvhrprdN7hQJh',
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'generated::A2NJ8Qo5BN5ZtSO2' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'POST',
-      ),
-      'uri' => 'api/logout',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'api',
-          1 => 'web',
-        ),
-        'uses' => 'App\\Http\\Controllers\\UserController@logout',
-        'controller' => 'App\\Http\\Controllers\\UserController@logout',
-        'namespace' => NULL,
-        'prefix' => 'api',
-        'where' => 
-        array (
-        ),
-        'as' => 'generated::A2NJ8Qo5BN5ZtSO2',
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
     'students.index' => 
     array (
       'methods' => 
@@ -1404,7 +1256,7 @@ app('router')->setCompiledRoutes(
         'middleware' => 
         array (
           0 => 'api',
-          1 => 'web',
+          1 => 'auth:sanctum',
         ),
         'as' => 'students.index',
         'uses' => 'App\\Http\\Controllers\\StudentsController@index',
@@ -1442,7 +1294,7 @@ app('router')->setCompiledRoutes(
         'middleware' => 
         array (
           0 => 'api',
-          1 => 'web',
+          1 => 'auth:sanctum',
         ),
         'as' => 'students.create',
         'uses' => 'App\\Http\\Controllers\\StudentsController@create',
@@ -1479,7 +1331,7 @@ app('router')->setCompiledRoutes(
         'middleware' => 
         array (
           0 => 'api',
-          1 => 'web',
+          1 => 'auth:sanctum',
         ),
         'as' => 'students.store',
         'uses' => 'App\\Http\\Controllers\\StudentsController@store',
@@ -1517,7 +1369,7 @@ app('router')->setCompiledRoutes(
         'middleware' => 
         array (
           0 => 'api',
-          1 => 'web',
+          1 => 'auth:sanctum',
         ),
         'as' => 'students.show',
         'uses' => 'App\\Http\\Controllers\\StudentsController@show',
@@ -1555,7 +1407,7 @@ app('router')->setCompiledRoutes(
         'middleware' => 
         array (
           0 => 'api',
-          1 => 'web',
+          1 => 'auth:sanctum',
         ),
         'as' => 'students.edit',
         'uses' => 'App\\Http\\Controllers\\StudentsController@edit',
@@ -1593,7 +1445,7 @@ app('router')->setCompiledRoutes(
         'middleware' => 
         array (
           0 => 'api',
-          1 => 'web',
+          1 => 'auth:sanctum',
         ),
         'as' => 'students.update',
         'uses' => 'App\\Http\\Controllers\\StudentsController@update',
@@ -1630,7 +1482,7 @@ app('router')->setCompiledRoutes(
         'middleware' => 
         array (
           0 => 'api',
-          1 => 'web',
+          1 => 'auth:sanctum',
         ),
         'as' => 'students.destroy',
         'uses' => 'App\\Http\\Controllers\\StudentsController@destroy',
@@ -1668,7 +1520,7 @@ app('router')->setCompiledRoutes(
         'middleware' => 
         array (
           0 => 'api',
-          1 => 'web',
+          1 => 'auth:sanctum',
         ),
         'as' => 'users.index',
         'uses' => 'App\\Http\\Controllers\\UserController@index',
@@ -1706,7 +1558,7 @@ app('router')->setCompiledRoutes(
         'middleware' => 
         array (
           0 => 'api',
-          1 => 'web',
+          1 => 'auth:sanctum',
         ),
         'as' => 'users.create',
         'uses' => 'App\\Http\\Controllers\\UserController@create',
@@ -1743,7 +1595,7 @@ app('router')->setCompiledRoutes(
         'middleware' => 
         array (
           0 => 'api',
-          1 => 'web',
+          1 => 'auth:sanctum',
         ),
         'as' => 'users.store',
         'uses' => 'App\\Http\\Controllers\\UserController@store',
@@ -1781,7 +1633,7 @@ app('router')->setCompiledRoutes(
         'middleware' => 
         array (
           0 => 'api',
-          1 => 'web',
+          1 => 'auth:sanctum',
         ),
         'as' => 'users.show',
         'uses' => 'App\\Http\\Controllers\\UserController@show',
@@ -1819,7 +1671,7 @@ app('router')->setCompiledRoutes(
         'middleware' => 
         array (
           0 => 'api',
-          1 => 'web',
+          1 => 'auth:sanctum',
         ),
         'as' => 'users.edit',
         'uses' => 'App\\Http\\Controllers\\UserController@edit',
@@ -1857,7 +1709,7 @@ app('router')->setCompiledRoutes(
         'middleware' => 
         array (
           0 => 'api',
-          1 => 'web',
+          1 => 'auth:sanctum',
         ),
         'as' => 'users.update',
         'uses' => 'App\\Http\\Controllers\\UserController@update',
@@ -1894,7 +1746,7 @@ app('router')->setCompiledRoutes(
         'middleware' => 
         array (
           0 => 'api',
-          1 => 'web',
+          1 => 'auth:sanctum',
         ),
         'as' => 'users.destroy',
         'uses' => 'App\\Http\\Controllers\\UserController@destroy',
@@ -1932,7 +1784,7 @@ app('router')->setCompiledRoutes(
         'middleware' => 
         array (
           0 => 'api',
-          1 => 'web',
+          1 => 'auth:sanctum',
         ),
         'as' => 'cohorts.index',
         'uses' => 'App\\Http\\Controllers\\CohortController@index',
@@ -1970,7 +1822,7 @@ app('router')->setCompiledRoutes(
         'middleware' => 
         array (
           0 => 'api',
-          1 => 'web',
+          1 => 'auth:sanctum',
         ),
         'as' => 'cohorts.create',
         'uses' => 'App\\Http\\Controllers\\CohortController@create',
@@ -2007,7 +1859,7 @@ app('router')->setCompiledRoutes(
         'middleware' => 
         array (
           0 => 'api',
-          1 => 'web',
+          1 => 'auth:sanctum',
         ),
         'as' => 'cohorts.store',
         'uses' => 'App\\Http\\Controllers\\CohortController@store',
@@ -2045,7 +1897,7 @@ app('router')->setCompiledRoutes(
         'middleware' => 
         array (
           0 => 'api',
-          1 => 'web',
+          1 => 'auth:sanctum',
         ),
         'as' => 'cohorts.show',
         'uses' => 'App\\Http\\Controllers\\CohortController@show',
@@ -2083,7 +1935,7 @@ app('router')->setCompiledRoutes(
         'middleware' => 
         array (
           0 => 'api',
-          1 => 'web',
+          1 => 'auth:sanctum',
         ),
         'as' => 'cohorts.edit',
         'uses' => 'App\\Http\\Controllers\\CohortController@edit',
@@ -2121,7 +1973,7 @@ app('router')->setCompiledRoutes(
         'middleware' => 
         array (
           0 => 'api',
-          1 => 'web',
+          1 => 'auth:sanctum',
         ),
         'as' => 'cohorts.update',
         'uses' => 'App\\Http\\Controllers\\CohortController@update',
@@ -2158,7 +2010,7 @@ app('router')->setCompiledRoutes(
         'middleware' => 
         array (
           0 => 'api',
-          1 => 'web',
+          1 => 'auth:sanctum',
         ),
         'as' => 'cohorts.destroy',
         'uses' => 'App\\Http\\Controllers\\CohortController@destroy',
@@ -2168,6 +2020,191 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'generated::XuMizvy2EnL2crSi' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'api/password',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'api',
+          1 => 'auth:sanctum',
+        ),
+        'uses' => 'App\\Http\\Controllers\\UserController@updatePassword',
+        'controller' => 'App\\Http\\Controllers\\UserController@updatePassword',
+        'namespace' => NULL,
+        'prefix' => 'api',
+        'where' => 
+        array (
+        ),
+        'as' => 'generated::XuMizvy2EnL2crSi',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'generated::A84lw619rkmce8d1' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'api/register',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'api',
+          1 => 'auth:sanctum',
+        ),
+        'uses' => 'App\\Http\\Controllers\\UserController@register',
+        'controller' => 'App\\Http\\Controllers\\UserController@register',
+        'namespace' => NULL,
+        'prefix' => 'api',
+        'where' => 
+        array (
+        ),
+        'as' => 'generated::A84lw619rkmce8d1',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'generated::kFD2MtkzW9qsEibv' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'api/search',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'api',
+          1 => 'auth:sanctum',
+        ),
+        'uses' => 'App\\Http\\Controllers\\SearchController@searchStudents',
+        'controller' => 'App\\Http\\Controllers\\SearchController@searchStudents',
+        'namespace' => NULL,
+        'prefix' => 'api',
+        'where' => 
+        array (
+        ),
+        'as' => 'generated::kFD2MtkzW9qsEibv',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'generated::OzoovtgH5lnllSZ9' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'api/logout',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'api',
+          1 => 'auth:sanctum',
+        ),
+        'uses' => 'App\\Http\\Controllers\\UserController@logout',
+        'controller' => 'App\\Http\\Controllers\\UserController@logout',
+        'namespace' => NULL,
+        'prefix' => 'api',
+        'where' => 
+        array (
+        ),
+        'as' => 'generated::OzoovtgH5lnllSZ9',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'generated::aG4F1geZYSDDRplW' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'api/login',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'api',
+          1 => 'web',
+        ),
+        'uses' => 'App\\Http\\Controllers\\UserController@login',
+        'controller' => 'App\\Http\\Controllers\\UserController@login',
+        'namespace' => NULL,
+        'prefix' => 'api',
+        'where' => 
+        array (
+        ),
+        'as' => 'generated::aG4F1geZYSDDRplW',
       ),
       'fallback' => false,
       'defaults' => 
@@ -2975,44 +3012,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::C9IyHizD3eRmHSKV' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'POST',
-      ),
-      'uri' => 'api/search',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'api',
-          1 => 'web',
-        ),
-        'uses' => 'App\\Http\\Controllers\\SearchController@searchStudents',
-        'controller' => 'App\\Http\\Controllers\\SearchController@searchStudents',
-        'namespace' => NULL,
-        'prefix' => 'api',
-        'where' => 
-        array (
-        ),
-        'as' => 'generated::C9IyHizD3eRmHSKV',
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'generated::i4T8IphyUkCra0Dk' => 
+    'generated::EwRHxNFsny89SUQQ' => 
     array (
       'methods' => 
       array (
@@ -3028,13 +3028,13 @@ app('router')->setCompiledRoutes(
         ),
         'uses' => 'O:47:"Laravel\\SerializableClosure\\SerializableClosure":1:{s:12:"serializable";O:46:"Laravel\\SerializableClosure\\Serializers\\Signed":2:{s:12:"serializable";s:262:"O:46:"Laravel\\SerializableClosure\\Serializers\\Native":5:{s:3:"use";a:0:{}s:8:"function";s:44:"function () {
     return \\view(\'welcome\');
-}";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"00000000000004ed0000000000000000";}";s:4:"hash";s:44:"Do6YsOmnMmnEm95prAHI5BaAsizvTwX5dm0wXMa6YE8=";}}',
+}";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"00000000000008fb0000000000000000";}";s:4:"hash";s:44:"tI6e7TUzIqmIIqLjWG8jonqyoS1j3/qCoswNyOTQCR0=";}}',
         'namespace' => NULL,
         'prefix' => '',
         'where' => 
         array (
         ),
-        'as' => 'generated::i4T8IphyUkCra0Dk',
+        'as' => 'generated::EwRHxNFsny89SUQQ',
       ),
       'fallback' => false,
       'defaults' => 

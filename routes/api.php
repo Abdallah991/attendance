@@ -27,16 +27,20 @@ use App\Http\Controllers\UserController;
 
 // *protected routes 
 Route::group(['middleware' => ['auth:sanctum']], function () {
-    // // students APIs
-    // Route::Resource('/students', StudentsController::class);
-    // // users APIs
-    // Route::Resource('/users', UserController::class);
-    // // Logs API
-    // Route::resource('/logs', StudentLogsController::class);
-    // // Events API
-    // Route::resource('/events', EventController::class);
-    // // cohort API
-    // Route::resource('/cohorts', CohortController::class);
+    // students APIs
+    Route::Resource('/students', StudentsController::class);
+    // users APIs
+    Route::Resource('/users', UserController::class);
+    // cohort API
+    Route::resource('/cohorts', CohortController::class);
+    // update password
+    Route::post('/password', [UserController::class, 'updatePassword']);
+    // Register user
+    Route::post('/register', [UserController::class, 'register']);
+    // search Bio time API
+    Route::post('/search', [SearchController::class, 'searchStudents']);
+    // Logout API
+    Route::post('/logout', [UserController::class, 'logout']);
 });
 
 
@@ -44,31 +48,12 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 Route::group(['middleware' => ['web']], function () {
     // Login API
     Route::post('/login', [UserController::class, 'login']);
-    // update password
-    Route::post('/password', [UserController::class, 'updatePassword']);
-    // Register API
-    // TODO: make sure the API have captcha
-    // TODO: make sure of the limit of the calls
-    Route::post('/register', [UserController::class, 'register']);
-    // Logout API
-    Route::post('/logout', [UserController::class, 'logout']);
     // TODO: Remove later
-    // students APIs
-    Route::Resource('/students', StudentsController::class);
-    // users APIs
-    Route::Resource('/users', UserController::class);
-    // transactions API
-    // Route::resource('/logs', StudentLogsController::class);
-    // cohort API
-    Route::resource('/cohorts', CohortController::class);
-    // attendance API
+    // TODO: Make sure these are used
     Route::resource('/attendance-students', BioTimeController::class);
     // attendance API
     // only get a specific student work
     Route::resource('/attendance', AttendanceController::class);
     // bio time user API
     Route::resource('/candidate-info', CandidateController::class);
-    // search Bio time API
-    Route::post('/search', [SearchController::class, 'searchStudents']);
-    // Route::post('/search', [SearchController::class, 'searchCandidates']);
 });
