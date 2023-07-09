@@ -270,7 +270,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::XuMizvy2EnL2crSi',
+            '_route' => 'generated::EUSlCi6guQKiVqf6',
           ),
           1 => NULL,
           2 => 
@@ -289,7 +289,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::A84lw619rkmce8d1',
+            '_route' => 'generated::KnS7quaNeSWlxK98',
           ),
           1 => NULL,
           2 => 
@@ -308,7 +308,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::kFD2MtkzW9qsEibv',
+            '_route' => 'generated::vJyy7WF2SBDjnf3x',
           ),
           1 => NULL,
           2 => 
@@ -327,12 +327,68 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::OzoovtgH5lnllSZ9',
+            '_route' => 'generated::OGE8XnJfxfK3GsjE',
           ),
           1 => NULL,
           2 => 
           array (
             'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/api/vacations' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'vacations.index',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+        1 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'vacations.store',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/api/vacations/create' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'vacations.create',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
           ),
           3 => NULL,
           4 => false,
@@ -346,7 +402,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::aG4F1geZYSDDRplW',
+            '_route' => 'generated::BpykFNroDt16TY5c',
           ),
           1 => NULL,
           2 => 
@@ -533,7 +589,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::EwRHxNFsny89SUQQ',
+            '_route' => 'generated::FRFr9T5C7bzJFRCr',
           ),
           1 => NULL,
           2 => 
@@ -550,7 +606,7 @@ app('router')->setCompiledRoutes(
     ),
     2 => 
     array (
-      0 => '{^(?|/api/(?|students/([^/]++)(?|(*:35)|/edit(*:47)|(*:54))|users/([^/]++)(?|(*:79)|/edit(*:91)|(*:98))|c(?|ohorts/([^/]++)(?|(*:128)|/edit(*:141)|(*:149))|andidate\\-info/([^/]++)(?|(*:184)|/edit(*:197)|(*:205)))|attendance(?|\\-students/([^/]++)(?|(*:250)|/edit(*:263)|(*:271))|/([^/]++)(?|(*:292)|/edit(*:305)|(*:313)))))/?$}sDu',
+      0 => '{^(?|/api/(?|students/([^/]++)(?|(*:35)|/edit(*:47)|(*:54))|users/([^/]++)(?|(*:79)|/edit(*:91)|(*:98))|c(?|ohorts/([^/]++)(?|(*:128)|/edit(*:141)|(*:149))|andidate\\-info/([^/]++)(?|(*:184)|/edit(*:197)|(*:205)))|vacations/([^/]++)(?|(*:236)|/edit(*:249)|(*:257))|attendance(?|\\-students/([^/]++)(?|(*:301)|/edit(*:314)|(*:322))|/([^/]++)(?|(*:343)|/edit(*:356)|(*:364)))))/?$}sDu',
     ),
     3 => 
     array (
@@ -906,7 +962,95 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      250 => 
+      236 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'vacations.show',
+          ),
+          1 => 
+          array (
+            0 => 'vacation',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      249 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'vacations.edit',
+          ),
+          1 => 
+          array (
+            0 => 'vacation',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      257 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'vacations.update',
+          ),
+          1 => 
+          array (
+            0 => 'vacation',
+          ),
+          2 => 
+          array (
+            'PUT' => 0,
+            'PATCH' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+        1 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'vacations.destroy',
+          ),
+          1 => 
+          array (
+            0 => 'vacation',
+          ),
+          2 => 
+          array (
+            'DELETE' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      301 => 
       array (
         0 => 
         array (
@@ -929,7 +1073,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      263 => 
+      314 => 
       array (
         0 => 
         array (
@@ -952,7 +1096,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      271 => 
+      322 => 
       array (
         0 => 
         array (
@@ -994,7 +1138,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      292 => 
+      343 => 
       array (
         0 => 
         array (
@@ -1017,7 +1161,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      305 => 
+      356 => 
       array (
         0 => 
         array (
@@ -1040,7 +1184,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      313 => 
+      364 => 
       array (
         0 => 
         array (
@@ -2035,7 +2179,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::XuMizvy2EnL2crSi' => 
+    'generated::EUSlCi6guQKiVqf6' => 
     array (
       'methods' => 
       array (
@@ -2056,7 +2200,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::XuMizvy2EnL2crSi',
+        'as' => 'generated::EUSlCi6guQKiVqf6',
       ),
       'fallback' => false,
       'defaults' => 
@@ -2072,7 +2216,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::A84lw619rkmce8d1' => 
+    'generated::KnS7quaNeSWlxK98' => 
     array (
       'methods' => 
       array (
@@ -2093,7 +2237,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::A84lw619rkmce8d1',
+        'as' => 'generated::KnS7quaNeSWlxK98',
       ),
       'fallback' => false,
       'defaults' => 
@@ -2109,7 +2253,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::kFD2MtkzW9qsEibv' => 
+    'generated::vJyy7WF2SBDjnf3x' => 
     array (
       'methods' => 
       array (
@@ -2130,7 +2274,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::kFD2MtkzW9qsEibv',
+        'as' => 'generated::vJyy7WF2SBDjnf3x',
       ),
       'fallback' => false,
       'defaults' => 
@@ -2146,7 +2290,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::OzoovtgH5lnllSZ9' => 
+    'generated::OGE8XnJfxfK3GsjE' => 
     array (
       'methods' => 
       array (
@@ -2167,7 +2311,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::OzoovtgH5lnllSZ9',
+        'as' => 'generated::OGE8XnJfxfK3GsjE',
       ),
       'fallback' => false,
       'defaults' => 
@@ -2183,7 +2327,271 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::aG4F1geZYSDDRplW' => 
+    'vacations.index' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'api/vacations',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'api',
+          1 => 'web',
+        ),
+        'as' => 'vacations.index',
+        'uses' => 'App\\Http\\Controllers\\VacationController@index',
+        'controller' => 'App\\Http\\Controllers\\VacationController@index',
+        'namespace' => NULL,
+        'prefix' => 'api/',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'vacations.create' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'api/vacations/create',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'api',
+          1 => 'web',
+        ),
+        'as' => 'vacations.create',
+        'uses' => 'App\\Http\\Controllers\\VacationController@create',
+        'controller' => 'App\\Http\\Controllers\\VacationController@create',
+        'namespace' => NULL,
+        'prefix' => 'api/',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'vacations.store' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'api/vacations',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'api',
+          1 => 'web',
+        ),
+        'as' => 'vacations.store',
+        'uses' => 'App\\Http\\Controllers\\VacationController@store',
+        'controller' => 'App\\Http\\Controllers\\VacationController@store',
+        'namespace' => NULL,
+        'prefix' => 'api/',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'vacations.show' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'api/vacations/{vacation}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'api',
+          1 => 'web',
+        ),
+        'as' => 'vacations.show',
+        'uses' => 'App\\Http\\Controllers\\VacationController@show',
+        'controller' => 'App\\Http\\Controllers\\VacationController@show',
+        'namespace' => NULL,
+        'prefix' => 'api/',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'vacations.edit' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'api/vacations/{vacation}/edit',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'api',
+          1 => 'web',
+        ),
+        'as' => 'vacations.edit',
+        'uses' => 'App\\Http\\Controllers\\VacationController@edit',
+        'controller' => 'App\\Http\\Controllers\\VacationController@edit',
+        'namespace' => NULL,
+        'prefix' => 'api/',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'vacations.update' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'PUT',
+        1 => 'PATCH',
+      ),
+      'uri' => 'api/vacations/{vacation}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'api',
+          1 => 'web',
+        ),
+        'as' => 'vacations.update',
+        'uses' => 'App\\Http\\Controllers\\VacationController@update',
+        'controller' => 'App\\Http\\Controllers\\VacationController@update',
+        'namespace' => NULL,
+        'prefix' => 'api/',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'vacations.destroy' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'DELETE',
+      ),
+      'uri' => 'api/vacations/{vacation}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'api',
+          1 => 'web',
+        ),
+        'as' => 'vacations.destroy',
+        'uses' => 'App\\Http\\Controllers\\VacationController@destroy',
+        'controller' => 'App\\Http\\Controllers\\VacationController@destroy',
+        'namespace' => NULL,
+        'prefix' => 'api/',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'generated::BpykFNroDt16TY5c' => 
     array (
       'methods' => 
       array (
@@ -2204,7 +2612,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::aG4F1geZYSDDRplW',
+        'as' => 'generated::BpykFNroDt16TY5c',
       ),
       'fallback' => false,
       'defaults' => 
@@ -3012,7 +3420,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::EwRHxNFsny89SUQQ' => 
+    'generated::FRFr9T5C7bzJFRCr' => 
     array (
       'methods' => 
       array (
@@ -3028,13 +3436,13 @@ app('router')->setCompiledRoutes(
         ),
         'uses' => 'O:47:"Laravel\\SerializableClosure\\SerializableClosure":1:{s:12:"serializable";O:46:"Laravel\\SerializableClosure\\Serializers\\Signed":2:{s:12:"serializable";s:262:"O:46:"Laravel\\SerializableClosure\\Serializers\\Native":5:{s:3:"use";a:0:{}s:8:"function";s:44:"function () {
     return \\view(\'welcome\');
-}";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"00000000000008fb0000000000000000";}";s:4:"hash";s:44:"tI6e7TUzIqmIIqLjWG8jonqyoS1j3/qCoswNyOTQCR0=";}}',
+}";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"00000000000004ed0000000000000000";}";s:4:"hash";s:44:"Do6YsOmnMmnEm95prAHI5BaAsizvTwX5dm0wXMa6YE8=";}}',
         'namespace' => NULL,
         'prefix' => '',
         'where' => 
         array (
         ),
-        'as' => 'generated::EwRHxNFsny89SUQQ',
+        'as' => 'generated::FRFr9T5C7bzJFRCr',
       ),
       'fallback' => false,
       'defaults' => 

@@ -8,6 +8,8 @@ use App\Http\Controllers\SearchController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StudentsController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\VacationController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -21,14 +23,14 @@ use App\Http\Controllers\UserController;
 // APIs
 // There is public routes and protetcted routes
 
-//!
-//!
-//! Add Sanctum
+
 
 // *protected routes 
 Route::group(['middleware' => ['auth:sanctum']], function () {
     // students APIs
     Route::Resource('/students', StudentsController::class);
+    // !vacations APIs
+    // Route::Resource('/vacations', VacationController::class);
     // users APIs
     Route::Resource('/users', UserController::class);
     // cohort API
@@ -46,6 +48,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
 // *Public routes 
 Route::group(['middleware' => ['web']], function () {
+    // ! vacation API
+    Route::Resource('/vacations', VacationController::class);
     // Login API
     Route::post('/login', [UserController::class, 'login']);
     // TODO: Remove later

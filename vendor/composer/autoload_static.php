@@ -617,6 +617,7 @@ class ComposerStaticInit0fab7671bc6b3c04e1372e754797ee73
         'App\\Models\\Student' => __DIR__ . '/../..' . '/app/Models/Student.php',
         'App\\Models\\Transaction' => __DIR__ . '/../..' . '/app/Models/Transaction.php',
         'App\\Models\\User' => __DIR__ . '/../..' . '/app/Models/User.php',
+        'App\\Models\\Vacation' => __DIR__ . '/../..' . '/app/Models/Vacation.php',
         'App\\Policies\\CohortPolicy' => __DIR__ . '/../..' . '/app/Policies/CohortPolicy.php',
         'App\\Policies\\EventPolicy' => __DIR__ . '/../..' . '/app/Policies/EventPolicy.php',
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',
