@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Http;
 
 
@@ -12,35 +11,15 @@ use Illuminate\Support\Facades\Http;
 class AttendanceController extends Controller
 {
 
-
-
-    public function string_between_two_string($str, $starting_word, $ending_word)
-    {
-        $subtring_start = strpos($str, $starting_word);
-        //Adding the starting index of the starting word to
-        //its length would give its ending index
-        $subtring_start += strlen($starting_word);
-        //Length of our required sub string
-        $size = strpos($str, $ending_word, $subtring_start) - $subtring_start;
-        // Return the substring from the index substring_start of length size
-        return substr($str, $subtring_start, $size);
-    }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    // Getting the attendance for a specific employer
+    // ? Get Students Transactions and Activity
+    // TODO: Move to another controller
     public function index()
     {
-        // platform token to get the API Token
+        // platform token to get the API Token from .env
         $platformToken =  config('app.PLATFORM_TOKEN');
-        // Token expires every 3 days
+        // !Token expires every 3 days
         $apiToken =  config('app.GRAPHQL_TOKEN');
-        // return $apiToken;
-
-        // return $apiToken;
-        // students query
+        // get all students from cohort query
         $cohortStudents = <<<GQL
      query {
             event (where: {path: {_eq: "/bahrain/bh-module"}}) {
@@ -55,8 +34,8 @@ class AttendanceController extends Controller
 }
 GQL;
 
-        // get transactions of students in the cohort
-        $firstProjectActivity = <<<GQL
+        // get transactions of students in the cohort for all projects
+        $ProjectActivity = <<<GQL
      query {
             transaction
   (where: { path: {_regex: "/bahrain/bh-module/*"}}) 
@@ -77,67 +56,31 @@ GQL;
   }
 }
 GQL;
-
-
-        // 
-        // return Config::get('app.GRAPHQL_TOKEN');
         //  graph api call for students
-        // return Config::get('app.GRAPHQL_TOKEN');
         $students = Http::withHeaders([
             'Accept' => 'application/json',
             'Content-Type' => 'application/json',
-            // ! this token have to be recreated every 2 days
             // maybe a cron function will work that
             'Authorization' => 'Bearer ' . $apiToken
         ])->post('https://learn.reboot01.com/api/graphql-engine/v1/graphql', [
             'query' => $cohortStudents
         ]);
 
-        //  graph api call to show all students transactions
-        $firstProjectResponse = Http::withHeaders([
+        //  graph api call to show all students transactions in cohort
+        $ProjectResponse = Http::withHeaders([
             'Accept' => 'application/json',
             'Content-Type' => 'application/json',
-            // ! this token have to be recreated every 2 days
             // maybe a cron function will work that
             'Authorization' => 'Bearer ' . $apiToken
         ])->post('https://learn.reboot01.com/api/graphql-engine/v1/graphql', [
-            'query' => $firstProjectActivity
+            'query' => $ProjectActivity
         ]);
-        // get the token in an amazing way
 
-        // return $apiToken;
         // ! This condition works when the token is expired
-        // if ($firstProjectResponse->json()['errors']) {
+        // TODO: Write a global function that gets the token for 01 graphql
 
-        //     // $path = base_path('.env');
-        //     // $test = file_get_contents($path);
-        //     // $token = $this->string_between_two_string($test, "PLATFORM_TOKEN=", "\n");
-        //     // return $token;
-        //     $apiToken =
-        //         // config('session');
-        //         Http::withHeaders([
-        //             'Accept' => 'application/json',
-        //             'Content-Type' => 'application/json',
-        //         ])->get('https://learn.reboot01.com/api/auth/token?token=' . $platformToken)->json();
-        //     // set api token
-
-        //     // return $apiToken;
-        //     Config::set('app.GRAPHQL_TOKEN', $apiToken);
-        //     Config::get('app.GRAPHQL_TOKEN');
-        //     Config::set('app.GRAPHQL_TOKEN', $apiToken);
-        //     return Config::get('app.GRAPHQL_TOKEN');
-        //     Config::set('app.GRAPHQL_TOKEN', $apiToken);
-
-        //     // config(['app.GRAPHQL_TOKEN' => $apiToken]);
-
-        //     return config('app.GRAPHQL_TOKEN');
-        //     // return "Please call the API again, The token has been refreshed";
-        // }
-        // ! This above should be done
         // get the data in json object
-        // return $firstProjectResponse;
-        $firstProjectArray = $firstProjectResponse->json()['data']['transaction'];
-        // students of the cohort
+        $firstProjectArray = $ProjectResponse->json()['data']['transaction'];
         $studentsArray = $students->json()['data']['event'][0]['users'];
         $result = array();
         // 1- when the result array is empty, add the object
@@ -151,25 +94,25 @@ GQL;
                             case "up":
                                 $result[$key]['transaction']++;
                                 $result[$key]['up']++;
-                                $result[$key]['createdAt'] = $transaction['createdAt'];
+                                $result[$key]['createdAt'] = explode("T", $transaction['createdAt'])[0];
                                 $result[$key]['projectAt'] = $transaction['object']['name'];
                                 break;
                             case "down":
                                 $result[$key]['transaction']++;
                                 $result[$key]['down']++;
-                                $result[$key]['createdAt'] = $transaction['createdAt'];
+                                $result[$key]['createdAt'] = explode("T", $transaction['createdAt'])[0];
                                 $result[$key]['projectAt'] = $transaction['object']['name'];
                                 break;
                             case "skill_go":
                                 $result[$key]['transaction']++;
                                 $result[$key]['skill_go']++;
-                                $result[$key]['createdAt'] = $transaction['createdAt'];
+                                $result[$key]['createdAt'] = explode("T", $transaction['createdAt'])[0];
                                 $result[$key]['projectAt'] = $transaction['object']['name'];
                                 break;
                             case "skill_algo":
                                 $result[$key]['transaction']++;
                                 $result[$key]['skill_algo']++;
-                                $result[$key]['createdAt'] = $transaction['createdAt'];
+                                $result[$key]['createdAt'] = explode("T", $transaction['createdAt'])[0];
                                 $result[$key]['projectAt'] = $transaction['object']['name'];
                                 break;
                         }
@@ -195,7 +138,7 @@ GQL;
                             'skill_go' => 0,
                             'skill_algo' => 0,
                             'projectAt' => $transaction['object']['name'],
-                            'createdAt' => $transaction['createdAt']
+                            'createdAt' => explode("T", $transaction['createdAt'])[0]
 
                         ]
                     );
@@ -216,7 +159,7 @@ GQL;
                             'skill_go' => 0,
                             'skill_algo' => 0,
                             'projectAt' => $transaction['object']['name'],
-                            'createdAt' => $transaction['createdAt']
+                            'createdAt' => explode("T", $transaction['createdAt'])[0]
 
                         ]
                     );
@@ -237,7 +180,7 @@ GQL;
                             'skill_go' => 1,
                             'skill_algo' => 0,
                             'projectAt' => $transaction['object']['name'],
-                            'createdAt' => $transaction['createdAt']
+                            'createdAt' => explode("T", $transaction['createdAt'])[0]
 
                         ]
                     );
@@ -257,7 +200,7 @@ GQL;
                             'skill_go' => 0,
                             'skill_algo' => 1,
                             'projectAt' => $transaction['object']['name'],
-                            'createdAt' => $transaction['createdAt']
+                            'createdAt' => explode("T", $transaction['createdAt'])[0]
 
                         ]
                     );
@@ -265,36 +208,33 @@ GQL;
             }
         }
 
+        // TODO: Use better algorithm
+        foreach ($studentsArray as $student) {
+            $match = false;
+            foreach ($result as $activeStudent) {
+                if ($student['login'] == $activeStudent['login']) {
+                    $match = true;
+                }
+            }
+            if (!$match) {
+                array_push($result, $student);
+            }
+        }
+
         return $result;
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
+    // TODO: Create User attendance
     public function create()
     {
-        //
     }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StoreCohortRequest  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Cohort  $cohort
-     * @return \Illuminate\Http\Response
-     */
-    // ? get method with id of student to get attendance
+
+    // ? get Attendance for specific user
     public function show($id)
     {
         //TODO: add support for start time and end time
@@ -320,34 +260,20 @@ GQL;
         ];
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Cohort  $cohort
-     * @return \Illuminate\Http\Response
-     */
+
+
+    // ? is it possible to edit a certain attendance 
+    // ! No 
     public function edit($id)
     {
         //
     }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdateCohortRequest  $request
-     * @param  \App\Models\Cohort  $cohort
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Cohort  $cohort
-     * @return \Illuminate\Http\Response
-     */
+
+    // Delete a certain transaction
     public function destroy($id)
     {
     }
