@@ -31,8 +31,6 @@ use App\Http\Controllers\StatisticsController;
 Route::group(['middleware' => ['auth:sanctum']], function () {
     // students APIs
     Route::Resource('/students', StudentsController::class);
-    // !vacations APIs
-    // Route::Resource('/vacations', VacationController::class);
     // users APIs
     Route::Resource('/users', UserController::class);
     // cohort API
@@ -47,13 +45,14 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/logout', [UserController::class, 'logout']);
     // student's progress API
     Route::get('/students-progress', [StatisticsController::class, 'studentsProgress']);
+    // Vacation API
+    Route::Resource('/vacations', VacationController::class);
 });
 
 
 // *Public routes 
 Route::group(['middleware' => ['web']], function () {
-    // ! vacation API
-    Route::Resource('/vacations', VacationController::class);
+
     // Login API
     Route::post('/login', [UserController::class, 'login']);
     // TODO: Remove later

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Student;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
@@ -14,6 +16,9 @@ class StatisticsController extends Controller
     // ? Get Students Transactions and Activity
     public function studentsProgress()
     {
+
+        $student = Student::all();
+        return $student;
 
         // platform token to get the API Token from .env
         $platformToken =  config('app.PLATFORM_TOKEN');
@@ -128,9 +133,8 @@ GQL;
                             'transaction' => 1,
                             'up' => 1,
                             'down' => 0,
-                            // 'skill_go' => 0,
-                            // 'skill_algo' => 0,
                             'lastProjectGaveAuditTo' => $transaction['object']['name'],
+                            'progressAt' => '-',
                             'auditDate' => explode("T", $transaction['createdAt'])[0]
 
                         ]
@@ -149,8 +153,6 @@ GQL;
                             'transaction' => 1,
                             'up' => 0,
                             'down' => 1,
-                            // 'skill_go' => 0,
-                            // 'skill_algo' => 0,
                             'progressAt' => $transaction['object']['name'],
                             'auditDate' => explode("T", $transaction['createdAt'])[0]
 
@@ -162,18 +164,76 @@ GQL;
         }
 
         // TODO: Use better algorithm
+        // TODO: add the level
+        // ? desired logic
+        // same as below but
+        // 1-remove time complexity to be O(n)
+        // 2- add level and 
+
+
+        //? current logic
+        // loop over each student which have the level, audit ratio and user information
         foreach ($studentsArray as $student) {
+            // set match valve to be false
             $match = false;
+            // loop over the result students who had any transaction
             foreach ($result as $activeStudent) {
+                // if any student  who had a transaction in the students array
                 if ($student['user']['login'] == $activeStudent['login']) {
+                    // they matched
                     $match = true;
                 }
             }
+            // if they didnt match add the student to the result array to have all students as response
             if (!$match) {
-                array_push($result, $student['user']);
+                array_push($result, [
+                    'login' => $student['user']['login'],
+                    'firstName' => $student['user']['firstName'],
+                    'lastName' => $student['user']['lastName'],
+                    'email' => $student['user']['email'],
+                    'phone' => $student['user']['phone'],
+                    'transaction' => '-',
+                    'up' => 0,
+                    'down' => 0,
+                    'lastProjectGaveAuditTo' => '-',
+                    'auditDate' =>  '-',
+                    'progressAt' =>  '-',
+                    'level' => 0,
+                    'userAuditRatio' => '-',
+                ]);
             }
         }
 
-        return $result;
+        $finalResult = [];
+        // o(n2)
+        foreach ($result as $student) {
+            // return $student;
+            foreach ($studentsArray as $leveledStudent) {
+                if ($leveledStudent['user']['login'] == $student['login']) {
+                    // return $leveledStudent;
+                    // try {
+                    array_push($finalResult, [
+                        'login' => $student['login'],
+                        'firstName' => $student['firstName'],
+                        'lastName' => $student['lastName'],
+                        'email' => $student['email'],
+                        'phone' => $student['phone'],
+                        'transaction' => $student['transaction'],
+                        'up' => $student['up'],
+                        'down' => $student['down'],
+                        'lastProjectGaveAuditTo' => $student['lastProjectGaveAuditTo'],
+                        'auditDate' =>  $student['auditDate'],
+                        'progressAt' =>  $student['progressAt'],
+                        'level' => $leveledStudent['level'],
+                        'userAuditRatio' => $leveledStudent['userAuditRatio']
+                    ]);
+                    // } catch (Exception) {
+                    //     return $student;
+                    // }
+                }
+            }
+        }
+
+        return $finalResult;
     }
 }
