@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StudentsController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VacationController;
+use App\Http\Controllers\StatisticsController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -43,6 +45,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/search', [SearchController::class, 'searchStudents']);
     // Logout API
     Route::post('/logout', [UserController::class, 'logout']);
+    // student's progress API
+    Route::get('/students-progress', [StatisticsController::class, 'studentsProgress']);
 });
 
 

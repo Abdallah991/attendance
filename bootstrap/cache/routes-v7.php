@@ -270,7 +270,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::zoGVd7PEMQ35Qo2V',
+            '_route' => 'generated::hnTUG2JM43FaMGmD',
           ),
           1 => NULL,
           2 => 
@@ -289,7 +289,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::0WTJaR2oJwUYv4zo',
+            '_route' => 'generated::gE6fc7eqSdB29FGa',
           ),
           1 => NULL,
           2 => 
@@ -308,7 +308,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::NalqnrdpCeqHNGZu',
+            '_route' => 'generated::05oXM4Z0uE0Aj0Sb',
           ),
           1 => NULL,
           2 => 
@@ -327,12 +327,32 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::YaZpPd95Qu2IJvCd',
+            '_route' => 'generated::DsaVFWLZ2mK7ZIbV',
           ),
           1 => NULL,
           2 => 
           array (
             'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/api/students-progress' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'generated::RezskiW0w3BPEpcV',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
           ),
           3 => NULL,
           4 => false,
@@ -402,7 +422,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::k1jZPf25KBraQHPy',
+            '_route' => 'generated::Tn1mHAeabd2fEdIy',
           ),
           1 => NULL,
           2 => 
@@ -589,7 +609,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::gsz5d51K7NkT5720',
+            '_route' => 'generated::jb8ABC4Kn0Aamz17',
           ),
           1 => NULL,
           2 => 
@@ -2179,7 +2199,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::zoGVd7PEMQ35Qo2V' => 
+    'generated::hnTUG2JM43FaMGmD' => 
     array (
       'methods' => 
       array (
@@ -2200,7 +2220,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::zoGVd7PEMQ35Qo2V',
+        'as' => 'generated::hnTUG2JM43FaMGmD',
       ),
       'fallback' => false,
       'defaults' => 
@@ -2216,7 +2236,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::0WTJaR2oJwUYv4zo' => 
+    'generated::gE6fc7eqSdB29FGa' => 
     array (
       'methods' => 
       array (
@@ -2237,7 +2257,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::0WTJaR2oJwUYv4zo',
+        'as' => 'generated::gE6fc7eqSdB29FGa',
       ),
       'fallback' => false,
       'defaults' => 
@@ -2253,7 +2273,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::NalqnrdpCeqHNGZu' => 
+    'generated::05oXM4Z0uE0Aj0Sb' => 
     array (
       'methods' => 
       array (
@@ -2274,7 +2294,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::NalqnrdpCeqHNGZu',
+        'as' => 'generated::05oXM4Z0uE0Aj0Sb',
       ),
       'fallback' => false,
       'defaults' => 
@@ -2290,7 +2310,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::YaZpPd95Qu2IJvCd' => 
+    'generated::DsaVFWLZ2mK7ZIbV' => 
     array (
       'methods' => 
       array (
@@ -2311,7 +2331,45 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::YaZpPd95Qu2IJvCd',
+        'as' => 'generated::DsaVFWLZ2mK7ZIbV',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'generated::RezskiW0w3BPEpcV' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'api/students-progress',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'api',
+          1 => 'auth:sanctum',
+        ),
+        'uses' => 'App\\Http\\Controllers\\StatisticsController@studentsProgress',
+        'controller' => 'App\\Http\\Controllers\\StatisticsController@studentsProgress',
+        'namespace' => NULL,
+        'prefix' => 'api',
+        'where' => 
+        array (
+        ),
+        'as' => 'generated::RezskiW0w3BPEpcV',
       ),
       'fallback' => false,
       'defaults' => 
@@ -2591,7 +2649,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::k1jZPf25KBraQHPy' => 
+    'generated::Tn1mHAeabd2fEdIy' => 
     array (
       'methods' => 
       array (
@@ -2612,7 +2670,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::k1jZPf25KBraQHPy',
+        'as' => 'generated::Tn1mHAeabd2fEdIy',
       ),
       'fallback' => false,
       'defaults' => 
@@ -3420,7 +3478,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::gsz5d51K7NkT5720' => 
+    'generated::jb8ABC4Kn0Aamz17' => 
     array (
       'methods' => 
       array (
@@ -3442,7 +3500,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::gsz5d51K7NkT5720',
+        'as' => 'generated::jb8ABC4Kn0Aamz17',
       ),
       'fallback' => false,
       'defaults' => 
