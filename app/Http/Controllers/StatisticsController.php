@@ -17,8 +17,6 @@ class StatisticsController extends Controller
     public function studentsProgress()
     {
 
-        $student = Student::all();
-        return $student;
 
         // platform token to get the API Token from .env
         $platformToken =  config('app.PLATFORM_TOKEN');
