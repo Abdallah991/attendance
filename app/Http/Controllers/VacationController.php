@@ -70,7 +70,7 @@ class VacationController extends Controller
         $vacation->update($request->all());
         // return the value of the updated vacation
         return $this->success([
-            'vacation' => new $vacation,
+            'vacation' =>  $vacation,
         ]);
     }
 
