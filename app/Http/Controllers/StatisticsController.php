@@ -190,7 +190,7 @@ GQL;
                     'lastName' => $student['user']['lastName'],
                     'email' => $student['user']['email'],
                     'phone' => $student['user']['phone'],
-                    'transaction' => '-',
+                    'transaction' => 0,
                     'up' => 0,
                     'down' => 0,
                     'lastProjectGaveAuditTo' => '-',
