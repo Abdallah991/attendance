@@ -146,7 +146,7 @@ class StudentsController extends Controller
             'nationality' => $platformUser['nationality'],
             'cpr' => $request->cpr,
             'dob' => date("Y-m-d H:i:s", strtotime($platformUser['dob'])),
-            'acadamicQualification' => $platformUser['acadamicQualification'],
+            'acadamicQualification' => $platformUser['acadamicQualification'] == null ? 'placeholder' : $platformUser['acadamicQualification'],
             'acadamicSpecialization' => $request->acadamicSpecialization,
             'scholarship' => 'Tamkeen',
             'supportedByTamkeen' => 'Yes',
