@@ -1,9 +1,11 @@
 <?php
 
+use App\Http\Controllers\ApplicantController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\BioTimeController;
 use App\Http\Controllers\CandidateController;
 use App\Http\Controllers\CohortController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SearchController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StudentsController;
@@ -47,6 +49,12 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/students-progress', [StatisticsController::class, 'studentsProgress']);
     // Vacation API
     Route::Resource('/vacations', VacationController::class);
+    // Roles API
+    Route::Resource('/roles', RoleController::class);
+    // All Applicants API
+    Route::post('/applicants', [ApplicantController::class, 'applicants']);
+    // applicants in date formate
+    Route::post('/applicants-sync', [ApplicantController::class, 'syncApplicants']);
 });
 
 

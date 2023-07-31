@@ -15,6 +15,8 @@ use App\Http\Resources\StudentCollection;
 // response
 use App\Traits\HttpResponses;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Auth;
+
 
 // !
 // !
@@ -46,6 +48,7 @@ class StudentsController extends Controller
             'students' => new StudentCollection(
                 $students
             ),
+            'user' => Auth::user()
         ]);
     }
 
