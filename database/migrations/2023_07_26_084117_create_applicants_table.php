@@ -29,6 +29,7 @@ return new class extends Migration
             $table->string('employment');
             $table->string('howDidYouHear');
             $table->json('progresses')->nullable();
+            $table->json('registrations')->nullable();
             // $table->integer('score');
             $table->float('score', 8, 2);
             $table->string('lastGameDate');

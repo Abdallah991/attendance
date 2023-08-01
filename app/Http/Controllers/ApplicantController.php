@@ -54,8 +54,13 @@ class ApplicantController extends Controller
                         progresses{
                             path
                             }
+                        registrations {
+                            registration {
+                                path
+                                    }
+                                }
                          }
-                         }
+                    }
         }
         GQL;
 
@@ -101,7 +106,7 @@ class ApplicantController extends Controller
                 $existingApplicant->dob = $dobStr;
                 $existingApplicant->acadamicQualification = $applicant['candidate']['acadamicQualification'] ?? null;
                 $existingApplicant->acadamicSpecialization = $applicant['candidate']['acadamicSpecialization'] ?? null;
-                // TODO: update the status differently
+                // TODO: update the status differently, with an API
                 // $existingApplicant->status = 'Awaiting Call';
                 $existingApplicant->score = $applicant['final_score'] ?? 0;
                 $existingApplicant->lastGameDate = Carbon::parse($applicant['updated_at'])->toDateString();
@@ -109,6 +114,8 @@ class ApplicantController extends Controller
                 $existingApplicant->employment = $applicant['candidate']['employment'];
                 $existingApplicant->howDidYouHear = $applicant['candidate']['howDidYouHear'];
                 $existingApplicant->progresses = json_encode($applicant['candidate']['progresses']);
+                $existingApplicant->registrations = json_encode($applicant['candidate']['registrations']);
+
 
                 // Save the updated Applicant model to the database
                 $existingApplicant->save();
@@ -135,7 +142,7 @@ class ApplicantController extends Controller
                 $newApplicant->employment = $applicant['candidate']['employment'];
                 $newApplicant->howDidYouHear = $applicant['candidate']['howDidYouHear'];
                 $newApplicant->progresses = json_encode($applicant['candidate']['progresses']);
-
+                $newApplicant->registrations = json_encode($applicant['candidate']['registrations']);
                 // Save the new Applicant model to the database
                 $newApplicant->save();
             }
