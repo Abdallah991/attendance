@@ -202,4 +202,81 @@ class ApplicantController extends Controller
 
         return $applicants;
     }
+
+    public function checkInCount(Request $request)
+    {
+
+        $apiToken =  config('app.GRAPHQL_TOKEN');
+
+        // $startDate = '2023-05-14';
+        // $endDate = $request->endDate;
+
+        $query = <<<GQL
+        query {
+            registration (where : {id: {_eq: 41}}) { 
+                users 
+                {
+                firstName: attrs(path: "firstName")
+                lastName: attrs(path: "lastName")
+                email: attrs(path: "email")
+                phone: attrs(path: "Phone")
+                phoneNumber: attrs(path: "PhoneNumber")
+                gender: attrs(path: "gender")
+                dob:attrs(path: "dateOfBirth")
+                acadamicQualification:attrs(path: "qualification")
+                acadamicSpecialization:attrs(path: "Degree")
+                nationality:attrs(path: "country")
+                genders: attrs(path: "genders")
+                howDidYouHear: attrs(path: "qualifica")
+                employment: attrs(path: "employment")
+                }
+                }
+        }
+        GQL;
+
+        //  graph ql 
+        $response = Http::withHeaders([
+            'Accept' => 'application/json',
+            'Content-Type' => 'application/json',
+            // maybe a cron function will work that
+            'Authorization' => 'Bearer ' . $apiToken
+        ])->post('https://learn.reboot01.com/api/graphql-engine/v1/graphql', [
+            'query' => $query
+        ]);
+
+        // return $response;
+
+        $registrationInCheckIn = $response['data']['registration'][0]['users'];
+
+        $numberOfRegistrations = count($registrationInCheckIn);
+
+        return $numberOfRegistrations;
+    }
+
+
+    public function updateApplicantsStatus(Request $request)
+    {
+        // get the platform Id & status
+        $platformId = $request->platformId;
+
+        // return $platformId;
+        // get the applicant updated 
+        $existingApplicant = Applicant::where('platformId', $platformId)->first();
+        // the value of status
+        $status = $existingApplicant->status;
+        $statusUpdate = explode(" ", $status)[1];
+
+        if ($statusUpdate == 'Call') {
+            $status = 'Called 1 time';
+        } else {
+            $number = (int) $statusUpdate;
+            $number++;
+            $status = 'Called ' . $number . ' Times';
+        }
+
+        $existingApplicant->status = $status;
+        $existingApplicant->save();
+
+        return $existingApplicant;
+    }
 }

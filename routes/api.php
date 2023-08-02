@@ -55,6 +55,10 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/applicants', [ApplicantController::class, 'applicants']);
     // applicants in date formate
     Route::post('/applicants-sync', [ApplicantController::class, 'syncApplicants']);
+    // update applicants
+    Route::post('/applicants-update', [ApplicantController::class, 'updateApplicantsStatus']);
+    // number of people in registrations
+    Route::get('/applicants-check-in', [ApplicantController::class, 'checkInCount']);
 });
 
 
