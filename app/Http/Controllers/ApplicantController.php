@@ -258,21 +258,12 @@ class ApplicantController extends Controller
     {
         // get the platform Id & status
         $platformId = $request->platformId;
+        $status = $request->status;
 
         // return $platformId;
         // get the applicant updated 
         $existingApplicant = Applicant::where('platformId', $platformId)->first();
-        // the value of status
-        $status = $existingApplicant->status;
-        $statusUpdate = explode(" ", $status)[1];
 
-        if ($statusUpdate == 'Call') {
-            $status = 'Called 1 time';
-        } else {
-            $number = (int) $statusUpdate;
-            $number++;
-            $status = 'Called ' . $number . ' Times';
-        }
 
         $existingApplicant->status = $status;
         $existingApplicant->save();
