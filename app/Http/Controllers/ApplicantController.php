@@ -203,6 +203,9 @@ class ApplicantController extends Controller
         return $applicants;
     }
 
+
+    // ! make an api call for events 
+    // !make an api call to registration with event id / registration id
     public function checkInCount(Request $request)
     {
 
@@ -269,5 +272,55 @@ class ApplicantController extends Controller
         $existingApplicant->save();
 
         return $existingApplicant;
+    }
+
+
+
+    // ! make an api call for events 
+    // !make an api call to registration with event id / registration id
+    public function selectionPool()
+    {
+        $apiToken =  config('app.GRAPHQL_TOKEN');
+
+        $query = <<<GQL
+        query {
+            registration (where : {id: {_eq: 42}}) { 
+                users 
+                {
+                firstName: attrs(path: "firstName")
+                lastName: attrs(path: "lastName")
+                email: attrs(path: "email")
+                phone: attrs(path: "Phone")
+                phoneNumber: attrs(path: "PhoneNumber")
+                gender: attrs(path: "gender")
+                dob:attrs(path: "dateOfBirth")
+                acadamicQualification:attrs(path: "qualification")
+                acadamicSpecialization:attrs(path: "Degree")
+                nationality:attrs(path: "country")
+                genders: attrs(path: "genders")
+                howDidYouHear: attrs(path: "qualifica")
+                employment: attrs(path: "employment")
+                }
+                }
+        }
+        GQL;
+
+        //  graph ql 
+        $response = Http::withHeaders([
+            'Accept' => 'application/json',
+            'Content-Type' => 'application/json',
+            // maybe a cron function will work that
+            'Authorization' => 'Bearer ' . $apiToken
+        ])->post('https://learn.reboot01.com/api/graphql-engine/v1/graphql', [
+            'query' => $query
+        ]);
+
+        // return $response;
+
+        $registrationInSP = $response['data']['registration'][0]['users'];
+
+        $numberOfRegistrations = count($registrationInSP);
+
+        return $numberOfRegistrations;
     }
 }

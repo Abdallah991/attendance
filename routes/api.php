@@ -59,6 +59,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/applicants-update', [ApplicantController::class, 'updateApplicantsStatus']);
     // number of people in registrations
     Route::get('/applicants-check-in', [ApplicantController::class, 'checkInCount']);
+    // number of people in selection pool
+    Route::get('/applicants-sp', [ApplicantController::class, 'selectionPool']);
 });
 
 
