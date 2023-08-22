@@ -77,4 +77,6 @@ Route::group(['middleware' => ['web']], function () {
     Route::resource('/attendance', AttendanceController::class);
     // bio time user API
     Route::resource('/candidate-info', CandidateController::class);
+    // apis
+    Route::get('/birthdays', [StudentsController::class, 'birthdays']);
 });

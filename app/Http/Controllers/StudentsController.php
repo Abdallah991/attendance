@@ -232,4 +232,26 @@ class StudentsController extends Controller
             'message' => 'The student has been deleted!'
         ]);
     }
+
+    public function birthdays(Request $request)
+    {
+        // get all students
+        $students = Student::all();
+        $birthdays = [];
+        // ? get the students log 
+        foreach ($students as $student) {
+
+            array_push($birthdays, [
+                'name' => $student['firstName'] . ' ' . $student['lastName'],
+                'date' => $student['dob'],
+            ]);
+        }
+        // TODO: Figure out a way to return the logs with the students
+        // $students = $students->with('studentLogs');
+        // return the message in success format
+        return $this->success([
+            'birthdays' =>
+            $birthdays,
+        ]);
+    }
 }
