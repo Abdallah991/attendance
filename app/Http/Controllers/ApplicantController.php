@@ -211,12 +211,14 @@ class ApplicantController extends Controller
 
         $apiToken =  config('app.GRAPHQL_TOKEN');
 
+        $eventNumber = $request->eventId;
+
         // $startDate = '2023-05-14';
         // $endDate = $request->endDate;
 
         $query = <<<GQL
         query {
-            registration (where : {id: {_eq: 41}}) { 
+            registration (where : {id: {_eq: $eventNumber}}) { 
                 users 
                 {
                 firstName: attrs(path: "firstName")
