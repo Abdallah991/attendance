@@ -111,8 +111,8 @@ class ApplicantController extends Controller
                 $existingApplicant->score = $applicant['final_score'] ?? 0;
                 $existingApplicant->lastGameDate = Carbon::parse($applicant['updated_at'])->toDateString();
                 $existingApplicant->updatedBy = null;
-                $existingApplicant->employment = $applicant['candidate']['employment'];
-                $existingApplicant->howDidYouHear = $applicant['candidate']['howDidYouHear'];
+                $existingApplicant->employment = $applicant['candidate']['employment'] ? $applicant['candidate']['employment'] : 'unknown';
+                $existingApplicant->howDidYouHear = $applicant['candidate']['howDidYouHear'] ? $applicant['candidate']['howDidYouHear'] : 'unknown';
                 $existingApplicant->progresses = json_encode($applicant['candidate']['progresses']);
                 $existingApplicant->registrations = json_encode($applicant['candidate']['registrations']);
 
@@ -139,8 +139,8 @@ class ApplicantController extends Controller
                 $newApplicant->score = $applicant['final_score'] ?? 0;
                 $newApplicant->lastGameDate = Carbon::parse($applicant['updated_at'])->toDateString();
                 $newApplicant->updatedBy = null;
-                $newApplicant->employment = $applicant['candidate']['employment'];
-                $newApplicant->howDidYouHear = $applicant['candidate']['howDidYouHear'];
+                $newApplicant->employment = $applicant['candidate']['employment'] ? $applicant['candidate']['employment'] : 'unknown';
+                $newApplicant->howDidYouHear = $applicant['candidate']['howDidYouHear'] ? $applicant['candidate']['howDidYouHear'] : 'unknown';
                 $newApplicant->progresses = json_encode($applicant['candidate']['progresses']);
                 $newApplicant->registrations = json_encode($applicant['candidate']['registrations']);
                 // Save the new Applicant model to the database
