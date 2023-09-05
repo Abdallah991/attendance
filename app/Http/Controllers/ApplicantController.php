@@ -113,9 +113,8 @@ class ApplicantController extends Controller
                 $existingApplicant->updatedBy = null;
                 $existingApplicant->employment = $applicant['candidate']['employment'];
                 $existingApplicant->howDidYouHear = $applicant['candidate']['howDidYouHear'];
-                $existingApplicant->progresses = 'something';
-                $existingApplicant->registrations  = 'something';
-                // $existingApplicant->registrations = json_encode($applicant['candidate']['registrations']);
+                $existingApplicant->progresses = json_encode($applicant['candidate']['progresses']);
+                $existingApplicant->registrations = json_encode($applicant['candidate']['registrations']);
 
 
                 // Save the updated Applicant model to the database
@@ -142,10 +141,8 @@ class ApplicantController extends Controller
                 $newApplicant->updatedBy = null;
                 $newApplicant->employment = $applicant['candidate']['employment'];
                 $newApplicant->howDidYouHear = $applicant['candidate']['howDidYouHear'];
-                $existingApplicant->progresses = 'something';
-                $existingApplicant->registrations  = 'something';
-                // $newApplicant->progresses = json_encode($applicant['candidate']['progresses']);
-                // $newApplicant->registrations = json_encode($applicant['candidate']['registrations']);
+                $newApplicant->progresses = json_encode($applicant['candidate']['progresses']);
+                $newApplicant->registrations = json_encode($applicant['candidate']['registrations']);
                 // Save the new Applicant model to the database
                 $newApplicant->save();
             }
