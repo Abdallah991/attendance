@@ -93,8 +93,8 @@ class ApplicantController extends Controller
 
             if ($existingApplicant) {
                 // Update the existing applicant's fields with data from the API response
-                $existingApplicant->firstName = $applicant['candidate']['firstName'];
-                $existingApplicant->lastName = $applicant['candidate']['lastName'];
+                $existingApplicant->firstName = $applicant['candidate']['firstName'] ? $applicant['candidate']['firstName'] : 'unKnown';
+                $existingApplicant->lastName = $applicant['candidate']['lastName'] ? $applicant['candidate']['lastName'] : 'unKnown';
                 $existingApplicant->email = $applicant['candidate']['email'];
                 $existingApplicant->phone = $applicant['candidate']['phone'] ?? $applicant['candidate']['phoneNumber'] ?? '';
                 $existingApplicant->gender = $applicant['candidate']['gender'] ?? $applicant['candidate']['genders'] ?? null;
@@ -123,8 +123,8 @@ class ApplicantController extends Controller
                 // Create a new Applicant model and set its fields based on the API response
                 $newApplicant = new Applicant();
                 $newApplicant->platformId = $applicant['candidate']['login'];
-                $newApplicant->firstName = $applicant['candidate']['firstName'];
-                $newApplicant->lastName = $applicant['candidate']['lastName'];
+                $newApplicant->firstName = $applicant['candidate']['firstName'] ? $applicant['candidate']['firstName'] : 'Unknown';
+                $newApplicant->lastName = $applicant['candidate']['lastName'] ? $applicant['candidate']['lastName'] : 'Unknown';
                 $newApplicant->email = $applicant['candidate']['email'];
                 $newApplicant->phone = $applicant['candidate']['phone'] ?? $applicant['candidate']['phoneNumber'] ?? '';
                 $newApplicant->gender = $applicant['candidate']['gender'] ?? $applicant['candidate']['genders'] ?? null;
