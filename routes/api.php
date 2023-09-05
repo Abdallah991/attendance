@@ -30,7 +30,9 @@ use App\Http\Controllers\StatisticsController;
 
 
 // *protected routes 
-Route::group(['middleware' => ['auth:sanctum']], function () {
+// Route::group(['middleware' => ['auth:sanctum']], function () {
+Route::group(['middleware' => ['web']], function () {
+
     // students APIs
     Route::Resource('/students', StudentsController::class);
     // users APIs
@@ -45,8 +47,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/search', [SearchController::class, 'searchStudents']);
     // Logout API
     Route::post('/logout', [UserController::class, 'logout']);
-    // student's progress API
-    Route::get('/students-progress', [StatisticsController::class, 'studentsProgress']);
+    // // student's progress API
+    // Route::get('/students-progress', [StatisticsController::class, 'studentsProgress']);
     // Vacation API
     Route::Resource('/vacations', VacationController::class);
     // Roles API
@@ -54,18 +56,18 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     // All Applicants API
     Route::post('/applicants', [ApplicantController::class, 'applicants']);
     // applicants in date formate
-    Route::post('/applicants-sync', [ApplicantController::class, 'syncApplicants']);
-    // update applicants
-    Route::post('/applicants-update', [ApplicantController::class, 'updateApplicantsStatus']);
+    // Route::post('/applicants-sync', [ApplicantController::class, 'syncApplicants']);
+    // // update applicants
+    // Route::post('/applicants-update', [ApplicantController::class, 'updateApplicantsStatus']);
     // number of people in registrations
     Route::post('/applicants-check-in', [ApplicantController::class, 'checkInCount']);
     // number of people in selection pool
     Route::get('/applicants-sp', [ApplicantController::class, 'selectionPool']);
-});
+    // });
 
 
-// *Public routes 
-Route::group(['middleware' => ['web']], function () {
+    // *Public routes 
+    // Route::group(['middleware' => ['web']], function () {
 
     // Login API
     Route::post('/login', [UserController::class, 'login']);
@@ -79,4 +81,11 @@ Route::group(['middleware' => ['web']], function () {
     Route::resource('/candidate-info', CandidateController::class);
     // apis
     Route::get('/birthdays', [StudentsController::class, 'birthdays']);
+    // ! change back
+    // applicants in date formate
+    Route::post('/applicants-sync', [ApplicantController::class, 'syncApplicants']);
+    // update applicants
+    Route::post('/applicants-update', [ApplicantController::class, 'updateApplicantsStatus']);
+    // student's progress API
+    Route::get('/students-progress', [StatisticsController::class, 'studentsProgress']);
 });
