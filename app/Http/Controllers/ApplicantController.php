@@ -325,4 +325,107 @@ class ApplicantController extends Controller
 
         return $numberOfRegistrations;
     }
+
+    public function selectionPoolApplicants()
+    {
+        $apiToken =  config('app.GRAPHQL_TOKEN');
+
+        // query to get all selection pool users
+        $query = <<<GQL
+        query {
+            event(where: {id: {_eq: 37}}) {
+                users {
+                    login
+                    firstName: attrs(path: "firstName")
+                    lastName: attrs(path: "lastName")
+                    email: attrs(path: "email")
+                    phone: attrs(path: "Phone")
+                    phoneNumber: attrs(path: "PhoneNumber")
+                    gender: attrs(path: "gender")
+                    dob: attrs(path: "dateOfBirth")
+                    acadamicQualification: attrs(path: "qualification")
+                    acadamicSpecialization: attrs(path: "Degree")
+                    nationality: attrs(path: "country")
+                    genders: attrs(path: "genders")
+                    howDidYouHear: attrs(path: "qualifica")
+                    employment: attrs(path: "employment")
+                    }
+                    }
+        }
+        GQL;
+
+        // query to get all users progresses
+        $queryProgresses = <<<GQL
+        query {
+            toad_sessions(where: {final_score: {_gte: 20}}) {
+                final_score
+                created_at
+                updated_at
+                candidate {
+                    login
+                    firstName
+                    lastName
+                    email
+                    phone: attrs(path: "Phone")
+                    PhoneNumber: attrs(path: "PhoneNumber")
+                    progresses {
+                        path
+                        updatedAt
+                        grade
+                        isDone
+                        
+                        }
+                        }
+                        }
+                        }
+        GQL;
+
+        //  graph ql 
+        $response = Http::withHeaders([
+            'Accept' => 'application/json',
+            'Content-Type' => 'application/json',
+            // maybe a cron function will work that
+            'Authorization' => 'Bearer ' . $apiToken
+        ])->post('https://learn.reboot01.com/api/graphql-engine/v1/graphql', [
+            'query' => $query
+        ]);
+
+        //  graph ql 
+        $responseProgresses = Http::withHeaders([
+            'Accept' => 'application/json',
+            'Content-Type' => 'application/json',
+            // maybe a cron function will work that
+            'Authorization' => 'Bearer ' . $apiToken
+        ])->post('https://learn.reboot01.com/api/graphql-engine/v1/graphql', [
+            'query' => $queryProgresses
+        ]);
+
+
+        $spApplicants = $response['data']['event'][0]['users'];
+        $userProgresses = $responseProgresses['data']['toad_sessions'];
+
+        // TODO: Continue adding the progresses for each user
+        // TODO: Create a new table for selection pool candidates
+
+        // return $userProgresses;
+
+        for ($i = 0; $i < count($spApplicants); $i++) {
+            // return $spApplicants[$i];
+
+            foreach ($userProgresses as $spProgress) {
+
+                if (isset($spApplicants[$i]['login']) && isset($spProgress['candidate']['login'])) {
+
+
+                    if ($spApplicants[$i]['login'] == $spProgress['candidate']['login']) {
+                        $spApplicants[$i]['progresses'] = $spProgress['candidate']['progresses'];
+                    }
+                } else {
+                    // return $spApplicants[$i];
+                }
+            }
+        }
+
+        return $spApplicants;
+    }
 }
