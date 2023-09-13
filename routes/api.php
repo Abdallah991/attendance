@@ -47,7 +47,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/search', [SearchController::class, 'searchStudents']);
     // Logout API
     Route::post('/logout', [UserController::class, 'logout']);
-    // // student's progress API
+    // student's progress API
     Route::get('/students-progress', [StatisticsController::class, 'studentsProgress']);
     // Vacation API
     Route::Resource('/vacations', VacationController::class);

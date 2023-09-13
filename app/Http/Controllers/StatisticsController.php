@@ -74,6 +74,8 @@ GQL;
             'query' => $cohortStudents
         ]);
 
+        // return $students;
+
         //  graph api call to show all students transactions in cohort
         $ProjectResponse = Http::withHeaders([
             'Accept' => 'application/json',
@@ -98,6 +100,7 @@ GQL;
             if (count($result) != 0) {
                 for ($key = 0; $key < count($result); $key++) {
                     if ($result[$key]['login'] == $transaction['user']['login']) {
+                        // return $transaction['object']['name'];
                         switch ($transaction['type']) {
                             case "up":
                                 $result[$key]['transaction']++;
@@ -110,6 +113,8 @@ GQL;
                                 $result[$key]['down']++;
                                 $result[$key]['auditDate'] = explode("T", $transaction['createdAt'])[0];
                                 $result[$key]['progressAt'] = $transaction['object']['name'];
+                                $result[$key]['lastProjectGaveAuditTo'] = '-';
+
                                 break;
                         }
 
@@ -208,7 +213,8 @@ GQL;
             // return $student;
             foreach ($studentsArray as $leveledStudent) {
                 if ($leveledStudent['user']['login'] == $student['login']) {
-                    // return $leveledStudent;
+
+                    // return $student;
                     // try {
                     array_push($finalResult, [
                         'login' => $student['login'],
