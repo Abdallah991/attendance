@@ -12,6 +12,8 @@ use App\Http\Controllers\StudentsController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VacationController;
 use App\Http\Controllers\StatisticsController;
+use App\Http\Controllers\PlatformController;
+
 
 
 /*
@@ -65,6 +67,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/applicants-sp', [ApplicantController::class, 'selectionPool']);
     //  selection pool candidates
     Route::get('/selection-pool', [ApplicantController::class, 'selectionPoolApplicants']);
+    // update 01 platform token in the .env file
+    Route::get('/getToken', [PlatformController::class, 'getPlatformToken']);
 });
 
 
@@ -83,7 +87,10 @@ Route::group(['middleware' => ['web']], function () {
     Route::resource('/candidate-info', CandidateController::class);
     // apis
     Route::get('/birthdays', [StudentsController::class, 'birthdays']);
-    // ! change back
+    // * for testing comment when needed
+    // Route::get('/tokens', [PlatformController::class, 'fetchToken']);
+
+
     // // applicants in date formate
     // Route::post('/applicants-sync', [ApplicantController::class, 'syncApplicants']);
     // // update applicants
