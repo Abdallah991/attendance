@@ -67,8 +67,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/applicants-sp', [ApplicantController::class, 'selectionPool']);
     //  selection pool candidates
     Route::get('/selection-pool', [ApplicantController::class, 'selectionPoolApplicants']);
-    // update 01 platform token in the .env file
-    Route::get('/getToken', [PlatformController::class, 'getPlatformToken']);
 });
 
 
@@ -87,9 +85,8 @@ Route::group(['middleware' => ['web']], function () {
     Route::resource('/candidate-info', CandidateController::class);
     // apis
     Route::get('/birthdays', [StudentsController::class, 'birthdays']);
-    // * for testing comment when needed
-    // Route::get('/tokens', [PlatformController::class, 'fetchToken']);
-
+    // update 01 platform token in the .env file
+    Route::get('/getToken', [PlatformController::class, 'getPlatformToken']);
 
     // // applicants in date formate
     // Route::post('/applicants-sync', [ApplicantController::class, 'syncApplicants']);
