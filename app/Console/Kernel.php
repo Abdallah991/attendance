@@ -47,7 +47,7 @@ class Kernel extends ConsoleKernel
                 // file_put_contents($path, str_replace('GRAPHQL_TOKEN=' . $apiToken, 'GRAPHQL_TOKEN=' . $response, $fileContents));
             }
             Artisan::call('optimize', ['--quiet' => true]);
-        })->everyMinute();
+        })->dailyAt('07:00');
     }
 
     /**
