@@ -85,8 +85,8 @@ Route::group(['middleware' => ['web']], function () {
     Route::resource('/candidate-info', CandidateController::class);
     // apis
     Route::get('/birthdays', [StudentsController::class, 'birthdays']);
-    // update 01 platform token in the .env file
-    Route::get('/getToken', [PlatformController::class, 'getPlatformToken']);
+    // ! comment if cron job successful
+    // Route::get('/getToken', [PlatformController::class, 'getPlatformToken']);
 
     // // applicants in date formate
     // Route::post('/applicants-sync', [ApplicantController::class, 'syncApplicants']);
