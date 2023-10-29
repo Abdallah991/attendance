@@ -225,7 +225,7 @@ GQL;
                         'transaction' => $student['transaction'],
                         'up' => $student['up'],
                         'down' => $student['down'],
-                        'lastProjectGaveAuditTo' => $student['lastProjectGaveAuditTo'],
+                        'lastProjectGaveAuditTo' => $student['lastProjectGaveAuditTo'] ?? '-',
                         'auditDate' =>  $student['auditDate'],
                         'progressAt' =>  $student['progressAt'],
                         'level' => $leveledStudent['level'],
