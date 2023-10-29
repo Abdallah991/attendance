@@ -87,6 +87,8 @@ class StudentsController extends Controller
         acadamicQualification:attrs(path: "howdidyou")
         dob:attrs(path: "dateOfBirth")
         phone: attrs(path: "Phone")
+        phoneNumber: attrs(path: "PhoneNumber")
+
    
          }
      }
@@ -144,7 +146,7 @@ class StudentsController extends Controller
             'firstName' => $request->firstName,
             'lastName' => $request->lastName,
             'email' => $platformUser['email'],
-            'phone' => $platformUser['phone'],
+            'phone' => $platformUser['phone'] ?? $platformUser['phoneNumber'] ?? '',
             'gender' => $platformUser['gender'],
             'nationality' => $platformUser['nationality'],
             'cpr' => $request->cpr,
