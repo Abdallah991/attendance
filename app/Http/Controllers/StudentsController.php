@@ -83,6 +83,7 @@ class StudentsController extends Controller
         lastName
         login
         gender: attrs(path: "gender")
+        genders: attrs(path: "genders")
         nationality: attrs(path: "country")
         acadamicQualification:attrs(path: "howdidyou")
         dob:attrs(path: "dateOfBirth")
@@ -147,7 +148,7 @@ class StudentsController extends Controller
             'lastName' => $request->lastName,
             'email' => $platformUser['email'],
             'phone' => $platformUser['phone'] ?? $platformUser['phoneNumber'] ?? '',
-            'gender' => $platformUser['gender'],
+            'gender' => $platformUser['gender'] ?? $platformUser['genders'] ?? 'NA',
             'nationality' => $platformUser['nationality'],
             'cpr' => $request->cpr,
             'dob' => date("Y-m-d H:i:s", strtotime($platformUser['dob'])),
