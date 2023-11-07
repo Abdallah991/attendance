@@ -280,13 +280,15 @@ class ApplicantController extends Controller
 
     // ! make an api call for events 
     // !make an api call to registration with event id / registration id
-    public function selectionPool()
+    public function selectionPool(Request $request)
     {
         $apiToken =  config('app.GRAPHQL_TOKEN');
+        $eventNumber = $request->eventId;
+
 
         $query = <<<GQL
         query {
-            registration (where : {id: {_eq: 42}}) { 
+            registration (where : {id: {_eq: $eventNumber}}) { 
                 users 
                 {
                 firstName: attrs(path: "firstName")

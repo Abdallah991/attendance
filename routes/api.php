@@ -64,7 +64,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     // number of people in registrations
     Route::post('/applicants-check-in', [ApplicantController::class, 'checkInCount']);
     // number of people in selection pool
-    Route::get('/applicants-sp', [ApplicantController::class, 'selectionPool']);
+    Route::post('/applicants-sp', [ApplicantController::class, 'selectionPool']);
     //  selection pool candidates
     Route::get('/selection-pool', [ApplicantController::class, 'selectionPoolApplicants']);
 });
@@ -83,15 +83,8 @@ Route::group(['middleware' => ['web']], function () {
     Route::resource('/attendance', AttendanceController::class);
     // bio time user API
     Route::resource('/candidate-info', CandidateController::class);
-    // apis
+    // birthdays
     Route::get('/birthdays', [StudentsController::class, 'birthdays']);
-    // ! comment if cron job successful
-    // Route::get('/getToken', [PlatformController::class, 'getPlatformToken']);
-
-    // // applicants in date formate
-    // Route::post('/applicants-sync', [ApplicantController::class, 'syncApplicants']);
-    // // update applicants
-    // Route::post('/applicants-update', [ApplicantController::class, 'updateApplicantsStatus']);
-    // // student's progress API
-    // Route::get('/students-progress', [StatisticsController::class, 'studentsProgress']);
+    // enable to sync student data with multiple variables such as attendance/ platform activity/ personal information
+    Route::get('/students-sync', [StudentsController::class, 'syncStudents']);
 });

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Filters\StudentFilter;
 use Illuminate\Http\Request;
 use App\Models\Student;
 // import resource to use it
@@ -16,34 +15,22 @@ use App\Http\Resources\StudentCollection;
 use App\Traits\HttpResponses;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
+use DateTime;
 
 
-// !
-// !
-// ! Remember to find a way to generate token to be used by the platforms
+
 class StudentsController extends Controller
 {
 
     // use custom responses
     use HttpResponses;
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-
+    // get all the students
+    // response will get the user signed in data
     public function index(Request $request)
     {
-        $filter = new StudentFilter();
-        // dump($filter);
-        $queryItems = $filter->transform($request);
-        // if query items are null, then its like there is no condition so it will pull all the
         $students = Student::all();
-        // ? get the students log 
-        // TODO: Figure out a way to return the logs with the students
-        // $students = $students->with('studentLogs');
-        // return the message in success format
+        // response will get the user signed in data
         return $this->success([
             'students' => new StudentCollection(
                 $students
@@ -52,19 +39,9 @@ class StudentsController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
 
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+    // store the value of the student
+    // ! dob causes problems if before 1970 because of sql datatype
     public function store(StoreStudentRequest $request)
     {
         // Validate request through Request rules
@@ -72,9 +49,7 @@ class StudentsController extends Controller
         $platformId = $request->platformId;
         // Token expires every 3 days
         $apiToken =  config('app.GRAPHQL_TOKEN');
-
-        // query
-        // TODO: final score
+        // * adding gender and genders and phone and phoneNumber to avoid null exception writing to the database
         $query = <<<GQL
      query {
       user (where:{login:{_eq:$platformId}}) {
@@ -94,21 +69,14 @@ class StudentsController extends Controller
          }
      }
      GQL;
-
-
-
-        //  graph ql 
+        //  API call to the platform with QL query 
         $response = Http::withHeaders([
             'Accept' => 'application/json',
             'Content-Type' => 'application/json',
-            // ! this token have to be recreated every 2 days
-            // maybe a cron function will work that
             'Authorization' => 'Bearer ' . $apiToken
         ])->post('https://learn.reboot01.com/api/graphql-engine/v1/graphql', [
             'query' => $query
         ]);
-
-
         // ! response if the token expired
         // TODO: call for Token when you get response
         // {
@@ -123,16 +91,11 @@ class StudentsController extends Controller
         //     ]
         // }
 
-        // TODO: Call for the token and save it
-        // TODO: Call again for the get the users, if didnt work response with in-vaild JWT token
-        // go back to the top and call again
-
         // get the item from an array
         if ($response->json()['data']['user']) {
             $platformUser = $response->json()['data']['user'][0];
         } else {
-
-            // return new created student
+            // return error if the student not found
             return $this->error(
                 ['platformId' => $platformId],
                 'No student found،',
@@ -141,6 +104,7 @@ class StudentsController extends Controller
         }
 
         // create student
+        // date of birth 
         $student = new StudentResource(Student::create([
             'id' => $request->id,
             'platformId' => $platformId,
@@ -159,8 +123,6 @@ class StudentsController extends Controller
             'fcmToken' => $request->fcmToken,
             'cohortId' => $request->cohortId,
             // TODO: change to add the socre, level
-
-
         ]));
         // return new created student
         return $this->success([
@@ -169,12 +131,7 @@ class StudentsController extends Controller
         ]);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    // call a student
     public function show($id)
     {
         $student = Student::find($id);
@@ -187,24 +144,13 @@ class StudentsController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
+
     public function edit($id)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(UpdateStudentRequest $request, $id)
     {
         // get the student using the id
@@ -217,12 +163,8 @@ class StudentsController extends Controller
         ]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
+    // delete student
     public function destroy($id)
     {
         // get the student
@@ -236,12 +178,13 @@ class StudentsController extends Controller
         ]);
     }
 
+    // get birthdays of students
     public function birthdays(Request $request)
     {
         // get all students
         $students = Student::all();
         $birthdays = [];
-        // ? get the students log 
+        // loop ofver students and push names and birthdays
         foreach ($students as $student) {
 
             array_push($birthdays, [
@@ -249,12 +192,89 @@ class StudentsController extends Controller
                 'date' => $student['dob'],
             ]);
         }
-        // TODO: Figure out a way to return the logs with the students
-        // $students = $students->with('studentLogs');
-        // return the message in success format
+        // return birthdays
         return $this->success([
             'birthdays' =>
             $birthdays,
         ]);
+    }
+
+
+    // sync students data 
+    // * sync students data
+    public function syncStudents(Request $request)
+    {
+        // get all students from sis database
+        $systemStudents = Student::all();
+        // get the students from 01 database
+        $apiToken =  config('app.GRAPHQL_TOKEN');
+        // * adding gender and genders and phone and phoneNumber to avoid null exception writing to the database
+        $query = <<<GQL
+      query {
+       event(where:{registrationId:{_eq:23}}) {
+        users {
+            email: attrs(path: "email")
+            firstName: attrs(path: "firstName")
+            lastName: attrs(path: "lastName")
+            login
+         gender: attrs(path: "gender")
+         genders: attrs(path: "genders")
+         nationality: attrs(path: "country")
+         acadamicQualification:attrs(path: "howdidyou")
+         dob:attrs(path: "dateOfBirth")
+         phone: attrs(path: "Phone")
+         phoneNumber: attrs(path: "PhoneNumber")
+        }
+        }
+        }
+      GQL;
+        //  API call to the platform with QL query 
+        $response = Http::withHeaders([
+            'Accept' => 'application/json',
+            'Content-Type' => 'application/json',
+            'Authorization' => 'Bearer ' . $apiToken
+        ])->post('https://learn.reboot01.com/api/graphql-engine/v1/graphql', [
+            'query' => $query
+        ]);
+
+
+
+        $platformStudents = $response['data']['event'][0]['users'];
+        // return [
+        //     'platformStudents' => $platformStudents,
+        //     'system students' => $systemStudents
+        // ];
+        foreach ($platformStudents as $platformStudent) {
+            // return $platformStudent;
+            // return $platformStudent['login'];
+            $existingStudent = Student::where('platformId', $platformStudent['login'])->first();
+
+            if ($existingStudent) {
+                //* uncomment unnecessary updates.
+                // Update the existing student's fields with data from the API response
+                //    $existingStudent->firstName = $platformStudent['firstName'];
+                //    $existingStudent->lastName = $platformStudent['lastName'];
+                //    $existingStudent->email = $platformStudent['email'];
+                //    $existingStudent->phone = $platformStudent['candidate']['phone'] ?? $platformStudent['candidate']['phoneNumber'] ?? '';
+                $existingStudent->gender = $platformStudent['gender'] ?? $platformStudent['genders'] ?? null;
+                $existingStudent->nationality = $platformStudent['nationality'] ?? null;
+
+                // Parse the date of birth from the API response into a DateTime object and format it to the 'YYYY-MM-DD' format
+                $dob = $platformStudent['dob'] ? new DateTime(substr($platformStudent['dob'], 0, 10)) : null;
+                $dobStr = $dob ? $dob->format('Y-m-d') : null;
+                $existingStudent->dob = $dobStr;
+                // $existingStudent->acadamicQualification = $platformStudent['acadamicQualification'] ?? null;
+                // $existingStudent->acadamicSpecialization = $platformStudent['acadamicSpecialization'] ?? null;
+                //* uncomment unnecessary updates.
+                // $existingStudent->employment = $platformStudent['candidate']['employment'] ? $platformStudent['candidate']['employment'] : 'unknown';
+                // $existingStudent->howDidYouHear = $platformStudent['candidate']['howDidYouHear'] ? $platformStudent['candidate']['howDidYouHear'] : 'unknown';
+                // $existingStudent->progresses = json_encode($platformStudent['candidate']['progresses']);
+                // $existingStudent->registrations = json_encode($platformStudent['candidate']['registrations']);
+                // Save the updated Applicant model to the database
+                $existingStudent->save();
+            }
+        }
+
+        return Student::all();
     }
 }

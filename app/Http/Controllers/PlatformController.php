@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Http;
 
@@ -48,12 +47,12 @@ class PlatformController extends Controller
             'Content-Type' => 'application/json',
         ])->get('https://learn.reboot01.com/api/auth/token?token=' . $platformToken);
         // if the file exist
-        if (file_exists($path)) {
-            // replace graph ql token content
-            file_put_contents($path, str_replace('GRAPHQL_TOKEN="' . $apiToken . '"', 'GRAPHQL_TOKEN=' . $response, $fileContents));
-        }
-        Artisan::call('optimize', ['--quiet' => true]);
+        // if (file_exists($path)) {
+        //     // replace graph ql token content
+        //     file_put_contents($path, str_replace('GRAPHQL_TOKEN="' . $apiToken . '"', 'GRAPHQL_TOKEN=' . $response, $fileContents));
+        // }
+        // Artisan::call('optimize', ['--quiet' => true]);
 
-        return 'success';
+        return $response;
     }
 }
