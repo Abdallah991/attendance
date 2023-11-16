@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Http;
 use DateTime;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
+
 
 
 
@@ -328,6 +330,7 @@ class ApplicantController extends Controller
         return $numberOfRegistrations;
     }
 
+    // TODO: 
     public function selectionPoolApplicants()
     {
         $apiToken =  config('app.GRAPHQL_TOKEN');
@@ -351,6 +354,8 @@ class ApplicantController extends Controller
                     genders: attrs(path: "genders")
                     howDidYouHear: attrs(path: "qualifica")
                     employment: attrs(path: "employment")
+                    id: attrs(path: "id-cardUploadId")
+                    profile: attrs(path: "pro-picUploadId")
                     }
                     }
         }
@@ -420,7 +425,10 @@ class ApplicantController extends Controller
 
 
                     if ($spApplicants[$i]['login'] == $spProgress['candidate']['login']) {
+                        $candidateImageUrl = 'https://learn.reboot01.com/api/storage/?token=' . $apiToken . '&fileId=' . $spApplicants[$i]['profile'];
+
                         $spApplicants[$i]['progresses'] = $spProgress['candidate']['progresses'];
+                        $spApplicants[$i]['profileImage'] = $candidateImageUrl;
                     }
                 } else {
                     // return $spApplicants[$i];
@@ -429,5 +437,78 @@ class ApplicantController extends Controller
         }
 
         return $spApplicants;
+    }
+
+
+    // TODO: create a table for selection pool candidates
+    // TODO: Create a sync function 
+    // TODO: create a function that gets the image of the candidate.
+    // TODO: create a function that 
+    // ! how are you going to handle progresses
+    //* This is getting a specific user 
+    function selectionPoolApplicant(Request $request)
+    {
+
+        // 1-  get student 
+        $platformId = $request->platformId;
+        $apiToken =  config('app.GRAPHQL_TOKEN');
+
+        // query to get all users progresses
+        $querySpCandidate = <<<GQL
+        query {
+            user(where:{login: {_eq: $platformId}}) {    
+                firstName: attrs(path: "firstName")
+                lastName: attrs(path: "lastName")
+                email: attrs(path: "email")
+                phone: attrs(path: "Phone")
+                phoneNumber: attrs(path: "PhoneNumber")
+                gender: attrs(path: "gender")
+                dob: attrs(path: "dateOfBirth")
+                acadamicQualification: attrs(path: "qualification")
+                acadamicSpecialization: attrs(path: "Degree")
+                nationality: attrs(path: "country")
+                genders: attrs(path: "genders")
+                howDidYouHear: attrs(path: "qualifica")
+                employment: attrs(path: "employment")
+                degree: attrs(path: "Degree")
+                id: attrs(path: "id-cardUploadId")
+                profile: attrs(path: "pro-picUploadId")
+                progresses {
+                    path
+                    updatedAt
+                    isDone
+                    grade
+                    }
+                    }
+                        }
+        GQL;
+
+        //  graph ql 
+        $response = Http::withHeaders([
+            'Accept' => 'application/json',
+            'Content-Type' => 'application/json',
+            // maybe a cron function will work that
+            'Authorization' => 'Bearer ' . $apiToken
+        ])->post('https://learn.reboot01.com/api/graphql-engine/v1/graphql', [
+            'query' => $querySpCandidate
+        ]);
+
+        $candidate = $response['data']['user'][0];
+
+        // 2- Formulate candidate image
+        $candidateImageUrl = 'https://learn.reboot01.com/api/storage/?token=' . $apiToken . '&fileId=' . $candidate['profile'];
+        // ! Imporant to retrive the images from candidates
+        $filename =  $platformId . '.jpg';
+        // how to save the file
+        // $path = Storage::put($filename, file_get_contents($candidateImageUrl));
+        // getting the whole path
+        // $appFilePath = storage_path('app/' . $filename);
+        // ! here
+
+        return [
+            'profileImage' => $candidateImageUrl,
+            'candidate' => $candidate,
+            // 'path' => $path
+        ];
     }
 }
