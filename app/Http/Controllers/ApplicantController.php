@@ -338,7 +338,7 @@ class ApplicantController extends Controller
         // query to get all selection pool users
         $query = <<<GQL
         query {
-            event(where: {id: {_eq: 37}}) {
+            event(where: {id: {_eq: 57}}) {
                 users {
                     login
                     firstName: attrs(path: "firstName")
