@@ -511,4 +511,8 @@ class ApplicantController extends Controller
             // 'path' => $path
         ];
     }
+
+    public function syncSelectionPoolApplicants(Request $request)
+    {
+    }
 }
