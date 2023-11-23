@@ -30,6 +30,7 @@ return new class extends Migration
             $table->string('acadamicSpecialization')->nullable();
             $table->string('employment');
             $table->string('howDidYouHear');
+            $table->string('sp');
             $table->json('progresses')->nullable();
             $table->json('registrations')->nullable();
             $table->string('lastActivity')->nullable();

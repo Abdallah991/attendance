@@ -512,7 +512,27 @@ class ApplicantController extends Controller
         ];
     }
 
+    // * Sync applicants and get lightening mode
     public function syncSelectionPoolApplicants(Request $request)
     {
+        //TODO: 1- Get selection pool applicants depending on the 
+        //TODO: 2- Get the XP of the students 
+        //TODO: 3- Get the level of the students
+        //TODO: 4- Add or update the selection pool data
+    }
+
+
+    // * get selection pool applicants from SIS database
+    public function SelectionPoolApplicantsLightening(Request $request)
+    {
+        // TODO: 1- Get Selection pool sepecific
+        // TODO: 2- Get Comments applicant specific 
+        // TODO: 3- Formulate a response
+    }
+
+    // * write comments
+    public function CommentOnApplicant()
+    {
+        // TODO: 1- If commented by staff member is there, update the column. if not create it.
     }
 }
