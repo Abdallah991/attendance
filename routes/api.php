@@ -65,8 +65,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/applicants-check-in', [ApplicantController::class, 'checkInCount']);
     // number of people in selection pool
     Route::post('/applicants-sp', [ApplicantController::class, 'selectionPool']);
-    //  selection pool candidates
-    Route::get('/selection-pool', [ApplicantController::class, 'selectionPoolApplicants']);
+
     // enable to sync student data with multiple variables such as attendance/ platform activity/ personal information
     Route::get('/students-sync', [StudentsController::class, 'syncStudents']);
     // selection pool candidate
@@ -89,4 +88,6 @@ Route::group(['middleware' => ['web']], function () {
     Route::resource('/candidate-info', CandidateController::class);
     // birthdays
     Route::get('/birthdays', [StudentsController::class, 'birthdays']);
+    //  selection pool candidates
+    Route::get('/selection-pool', [ApplicantController::class, 'selectionPoolApplicants']);
 });

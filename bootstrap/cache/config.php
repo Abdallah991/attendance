@@ -3,7 +3,7 @@
   array (
     'name' => 'Laravel',
     'PLATFORM_TOKEN' => 'c532c9dfb0e85ff559456639642ad9a3f0543480',
-    'GRAPHQL_TOKEN' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMCIsImlhdCI6MTY4OTQ5NDkwNiwiaXAiOiIxMC4xLjIwNC4yMywgMTcyLjE4LjAuMiIsImV4cCI6MTY4OTkyNjkwNiwiaHR0cHM6Ly9oYXN1cmEuaW8vand0L2NsYWltcyI6eyJ4LWhhc3VyYS1hbGxvd2VkLXJvbGVzIjpbInVzZXIiLCJhZG1pbl9yZWFkX29ubHkiXSwieC1oYXN1cmEtY2FtcHVzZXMiOiJ7fSIsIngtaGFzdXJhLWRlZmF1bHQtcm9sZSI6ImFkbWluX3JlYWRfb25seSIsIngtaGFzdXJhLXVzZXItaWQiOiIxMCIsIngtaGFzdXJhLXRva2VuLWlkIjoiZDdkZjJiNjEtNTRiMi00ZTZmLWI2MDAtMjI1MzA5MTIyZjgwIn19.84a2yk3vqKPtNdse4tDWfHsUuenCncgAA57F1RbiOPU',
+    'GRAPHQL_TOKEN' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMCIsImlhdCI6MTcwMDcyODY3NywiaXAiOiIxMC4xLjIwNC4xNDMsIDE3Mi4xOC4wLjIiLCJleHAiOjE3MDExNjA2NzcsImh0dHBzOi8vaGFzdXJhLmlvL2p3dC9jbGFpbXMiOnsieC1oYXN1cmEtYWxsb3dlZC1yb2xlcyI6WyJ1c2VyIiwiYWRtaW5fcmVhZF9vbmx5Il0sIngtaGFzdXJhLWNhbXB1c2VzIjoie30iLCJ4LWhhc3VyYS1kZWZhdWx0LXJvbGUiOiJhZG1pbl9yZWFkX29ubHkiLCJ4LWhhc3VyYS11c2VyLWlkIjoiMTAiLCJ4LWhhc3VyYS10b2tlbi1pZCI6IjJkN2Q1Yzk4LWYwYzktNDJhMi1hZjIyLWMzODIzMzZmZDU3MiJ9fQ._L7mumf4fRML1OZWA7Ojux7KbeZIG1Olz1FXh0sFsdI',
     'env' => 'local',
     'debug' => true,
     'url' => 'http://localhost',
@@ -633,6 +633,7 @@
       0 => 'web',
     ),
     'expiration' => 43800,
+    'token_prefix' => '',
     'middleware' => 
     array (
       'verify_csrf_token' => 'App\\Http\\Middleware\\VerifyCsrfToken',
@@ -829,6 +830,13 @@
     'local_sites_path' => '',
     'housekeeping_endpoint_prefix' => '_ignition',
     'settings_file_path' => '',
+    'recorders' => 
+    array (
+      0 => 'Spatie\\LaravelIgnition\\Recorders\\DumpRecorder\\DumpRecorder',
+      1 => 'Spatie\\LaravelIgnition\\Recorders\\JobRecorder\\JobRecorder',
+      2 => 'Spatie\\LaravelIgnition\\Recorders\\LogRecorder\\LogRecorder',
+      3 => 'Spatie\\LaravelIgnition\\Recorders\\QueryRecorder\\QueryRecorder',
+    ),
   ),
   'tinker' => 
   array (
