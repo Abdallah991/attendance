@@ -70,6 +70,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/students-sync', [StudentsController::class, 'syncStudents']);
     // selection pool candidate
     Route::get('/sp-applicant', [ApplicantController::class, 'selectionPoolApplicant']);
+    //  selection pool candidates
+    Route::get('/selection-pool', [ApplicantController::class, 'selectionPoolApplicants']);
 });
 
 
@@ -88,6 +90,4 @@ Route::group(['middleware' => ['web']], function () {
     Route::resource('/candidate-info', CandidateController::class);
     // birthdays
     Route::get('/birthdays', [StudentsController::class, 'birthdays']);
-    //  selection pool candidates
-    Route::get('/selection-pool', [ApplicantController::class, 'selectionPoolApplicants']);
 });
