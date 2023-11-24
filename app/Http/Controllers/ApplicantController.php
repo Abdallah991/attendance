@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Models\Applicant;
+
 use Illuminate\Http\Request;
 // response
 use App\Traits\HttpResponses;
@@ -10,7 +12,6 @@ use Illuminate\Support\Facades\Http;
 use DateTime;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Storage;
 
 
 
@@ -18,10 +19,10 @@ use Illuminate\Support\Facades\Storage;
 class ApplicantController extends Controller
 {
 
+    use HttpResponses;
 
 
-    // * Syncing applications 
-    // !crone function
+    // * Syncing applications possible for SP
     public function syncApplicants(Request $request)
     {
         $apiToken =  config('app.GRAPHQL_TOKEN');
@@ -51,6 +52,8 @@ class ApplicantController extends Controller
                         acadamicSpecialization:attrs(path: "Degree")
                         nationality:attrs(path: "country")
                         genders: attrs(path: "genders")
+                        gender: attrs(path: "genders")
+
                         howDidYouHear: attrs(path: "qualifica")
                         employment: attrs(path: "employment")
                         progresses{
@@ -85,10 +88,8 @@ class ApplicantController extends Controller
         });
 
 
-        // TODO: 
         // 1- Create Applicans if they dont exist yet
         // 2- update feilds firstName, lastName phone, gender, nationality, dob, acadamicQualification, acadamicSpecialization, status, progresses, howDidYouHear, score, lastGameDate, employment, howDidYouHear
-
         foreach ($applicants as $applicant) {
             // Check if the applicant already exists in the database
             $existingApplicant = Applicant::where('platformId', $applicant['candidate']['login'])->first();
@@ -108,7 +109,6 @@ class ApplicantController extends Controller
                 $existingApplicant->dob = $dobStr;
                 $existingApplicant->acadamicQualification = $applicant['candidate']['acadamicQualification'] ?? null;
                 $existingApplicant->acadamicSpecialization = $applicant['candidate']['acadamicSpecialization'] ?? null;
-                // TODO: update the status differently, with an API
                 // $existingApplicant->status = 'Awaiting Call';
                 $existingApplicant->score = $applicant['final_score'] ?? 0;
                 $existingApplicant->lastGameDate = Carbon::parse($applicant['updated_at'])->toDateString();
@@ -117,8 +117,6 @@ class ApplicantController extends Controller
                 $existingApplicant->howDidYouHear = $applicant['candidate']['howDidYouHear'] ? $applicant['candidate']['howDidYouHear'] : 'unknown';
                 $existingApplicant->progresses = json_encode($applicant['candidate']['progresses']);
                 $existingApplicant->registrations = json_encode($applicant['candidate']['registrations']);
-
-
                 // Save the updated Applicant model to the database
                 $existingApplicant->save();
             } else {
@@ -153,10 +151,7 @@ class ApplicantController extends Controller
         return $applicants;
     }
 
-    // TODO: Applicants Controller suppose to
-    // ! Getting the progresses 
     // * Getting applicants with filters
-
     public function applicants(Request $request)
     {
         $startDate = $request->startDate;
@@ -164,7 +159,7 @@ class ApplicantController extends Controller
         $status = $request->status; // pass, fail, all, or null
         $gradeStart = $request->gradeStart; // start grade (integer)
         $gradeEnd = $request->gradeEnd; // end grade (integer)
-        $sort = $request->sort; // end grade (integer)
+        $sort = $request->sort; // ASC or DESC
 
         $query = Applicant::query();
 
@@ -206,17 +201,12 @@ class ApplicantController extends Controller
     }
 
 
-    // ! make an api call for events 
-    // !make an api call to registration with event id / registration id
     public function checkInCount(Request $request)
     {
 
         $apiToken =  config('app.GRAPHQL_TOKEN');
 
         $eventNumber = $request->eventId;
-
-        // $startDate = '2023-05-14';
-        // $endDate = $request->endDate;
 
         $query = <<<GQL
         query {
@@ -245,13 +235,10 @@ class ApplicantController extends Controller
         $response = Http::withHeaders([
             'Accept' => 'application/json',
             'Content-Type' => 'application/json',
-            // maybe a cron function will work that
             'Authorization' => 'Bearer ' . $apiToken
         ])->post('https://learn.reboot01.com/api/graphql-engine/v1/graphql', [
             'query' => $query
         ]);
-
-        // return $response;
 
         $registrationInCheckIn = $response['data']['registration'][0]['users'];
 
@@ -266,22 +253,14 @@ class ApplicantController extends Controller
         // get the platform Id & status
         $platformId = $request->platformId;
         $status = $request->status;
-
-        // return $platformId;
         // get the applicant updated 
         $existingApplicant = Applicant::where('platformId', $platformId)->first();
-
-
         $existingApplicant->status = $status;
         $existingApplicant->save();
-
         return $existingApplicant;
     }
 
 
-
-    // ! make an api call for events 
-    // !make an api call to registration with event id / registration id
     public function selectionPool(Request $request)
     {
         $apiToken =  config('app.GRAPHQL_TOKEN');
@@ -328,211 +307,5 @@ class ApplicantController extends Controller
         $numberOfRegistrations = count($registrationInSP);
 
         return $numberOfRegistrations;
-    }
-
-    // TODO: 
-    public function selectionPoolApplicants()
-    {
-        $apiToken =  config('app.GRAPHQL_TOKEN');
-
-        // query to get all selection pool users
-        $query = <<<GQL
-        query {
-            event(where: {id: {_eq: 57}}) {
-                users {
-                    login
-                    firstName: attrs(path: "firstName")
-                    lastName: attrs(path: "lastName")
-                    email: attrs(path: "email")
-                    phone: attrs(path: "Phone")
-                    phoneNumber: attrs(path: "PhoneNumber")
-                    gender: attrs(path: "gender")
-                    dob: attrs(path: "dateOfBirth")
-                    acadamicQualification: attrs(path: "qualification")
-                    acadamicSpecialization: attrs(path: "Degree")
-                    nationality: attrs(path: "country")
-                    genders: attrs(path: "genders")
-                    howDidYouHear: attrs(path: "qualifica")
-                    employment: attrs(path: "employment")
-                    id: attrs(path: "id-cardUploadId")
-                    profile: attrs(path: "pro-picUploadId")
-                    }
-                    }
-        }
-        GQL;
-
-        // query to get all users progresses
-        $queryProgresses = <<<GQL
-        query {
-            toad_sessions(where: {final_score: {_gte: 20}}) {
-                final_score
-                created_at
-                updated_at
-                candidate {
-                    login
-                    firstName
-                    lastName
-                    email
-                    phone: attrs(path: "Phone")
-                    PhoneNumber: attrs(path: "PhoneNumber")
-                    progresses {
-                        path
-                        updatedAt
-                        grade
-                        isDone
-                        
-                        }
-                        }
-                        }
-                        }
-        GQL;
-
-        //  graph ql 
-        $response = Http::withHeaders([
-            'Accept' => 'application/json',
-            'Content-Type' => 'application/json',
-            // maybe a cron function will work that
-            'Authorization' => 'Bearer ' . $apiToken
-        ])->post('https://learn.reboot01.com/api/graphql-engine/v1/graphql', [
-            'query' => $query
-        ]);
-
-        //  graph ql 
-        $responseProgresses = Http::withHeaders([
-            'Accept' => 'application/json',
-            'Content-Type' => 'application/json',
-            // maybe a cron function will work that
-            'Authorization' => 'Bearer ' . $apiToken
-        ])->post('https://learn.reboot01.com/api/graphql-engine/v1/graphql', [
-            'query' => $queryProgresses
-        ]);
-
-
-        $spApplicants = $response['data']['event'][0]['users'];
-        $userProgresses = $responseProgresses['data']['toad_sessions'];
-
-        // TODO: Continue adding the progresses for each user
-        // TODO: Create a new table for selection pool candidates
-
-        // return $userProgresses;
-
-        for ($i = 0; $i < count($spApplicants); $i++) {
-            // return $spApplicants[$i];
-
-            foreach ($userProgresses as $spProgress) {
-
-                if (isset($spApplicants[$i]['login']) && isset($spProgress['candidate']['login'])) {
-
-
-                    if ($spApplicants[$i]['login'] == $spProgress['candidate']['login']) {
-                        $candidateImageUrl = 'https://learn.reboot01.com/api/storage/?token=' . $apiToken . '&fileId=' . $spApplicants[$i]['profile'];
-
-                        $spApplicants[$i]['progresses'] = $spProgress['candidate']['progresses'];
-                        $spApplicants[$i]['profileImage'] = $candidateImageUrl;
-                    }
-                } else {
-                    // return $spApplicants[$i];
-                }
-            }
-        }
-
-        return $spApplicants;
-    }
-
-
-    // TODO: create a table for selection pool candidates
-    // TODO: Create a sync function 
-    // TODO: create a function that gets the image of the candidate.
-    // TODO: create a function that 
-    // ! how are you going to handle progresses
-    //* This is getting a specific user 
-    function selectionPoolApplicant(Request $request)
-    {
-
-        // 1-  get student 
-        $platformId = $request->platformId;
-        $apiToken =  config('app.GRAPHQL_TOKEN');
-
-        // query to get all users progresses
-        $querySpCandidate = <<<GQL
-        query {
-            user(where:{login: {_eq: $platformId}}) {    
-                firstName: attrs(path: "firstName")
-                lastName: attrs(path: "lastName")
-                email: attrs(path: "email")
-                phone: attrs(path: "Phone")
-                phoneNumber: attrs(path: "PhoneNumber")
-                gender: attrs(path: "gender")
-                dob: attrs(path: "dateOfBirth")
-                acadamicQualification: attrs(path: "qualification")
-                acadamicSpecialization: attrs(path: "Degree")
-                nationality: attrs(path: "country")
-                genders: attrs(path: "genders")
-                howDidYouHear: attrs(path: "qualifica")
-                employment: attrs(path: "employment")
-                degree: attrs(path: "Degree")
-                id: attrs(path: "id-cardUploadId")
-                profile: attrs(path: "pro-picUploadId")
-                progresses {
-                    path
-                    updatedAt
-                    isDone
-                    grade
-                    }
-                    }
-                        }
-        GQL;
-
-        //  graph ql 
-        $response = Http::withHeaders([
-            'Accept' => 'application/json',
-            'Content-Type' => 'application/json',
-            // maybe a cron function will work that
-            'Authorization' => 'Bearer ' . $apiToken
-        ])->post('https://learn.reboot01.com/api/graphql-engine/v1/graphql', [
-            'query' => $querySpCandidate
-        ]);
-
-        $candidate = $response['data']['user'][0];
-
-        // 2- Formulate candidate image
-        $candidateImageUrl = 'https://learn.reboot01.com/api/storage/?token=' . $apiToken . '&fileId=' . $candidate['profile'];
-        // ! Imporant to retrive the images from candidates
-        $filename =  $platformId . '.jpg';
-        // how to save the file
-        // $path = Storage::put($filename, file_get_contents($candidateImageUrl));
-        // getting the whole path
-        // $appFilePath = storage_path('app/' . $filename);
-        // ! here
-
-        return [
-            'profileImage' => $candidateImageUrl,
-            'candidate' => $candidate,
-            // 'path' => $path
-        ];
-    }
-
-    // * Sync applicants and get lightening mode
-    public function syncSelectionPoolApplicants(Request $request)
-    {
-        //TODO: 1- Get selection pool applicants depending on the 
-        //TODO: 2- Get the XP of the students 
-        //TODO: 3- Get the level of the students
-        //TODO: 4- Add or update the selection pool data
-    }
-
-
-    // * get selection pool applicants from SIS database
-    public function SelectionPoolApplicantsLightening(Request $request)
-    {
-        // TODO: 1- Get Selection pool sepecific
-        // TODO: 2- Get Comments applicant specific 
-        // TODO: 3- Formulate a response
-    }
-
-    // * write comments
-    public function CommentOnApplicant()
-    {
-        // TODO: 1- If commented by staff member is there, update the column. if not create it.
     }
 }

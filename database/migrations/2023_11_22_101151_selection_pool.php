@@ -22,8 +22,8 @@ return new class extends Migration
             $table->string('phone');
             $table->string('gender')->nullable();
             $table->string('nationality')->nullable();
-            $table->string('profilePicture')->nullable();
-            $table->string('cprPicture')->nullable();
+            $table->text('profilePicture')->nullable();
+            $table->text('cprPicture')->nullable();
             $table->boolean('pictureChanged')->default(0)->nullable();
             $table->date('dob')->nullable();
             $table->string('acadamicQualification')->nullable();
@@ -33,7 +33,6 @@ return new class extends Migration
             $table->string('sp');
             $table->json('progresses')->nullable();
             $table->json('registrations')->nullable();
-            $table->string('lastActivity')->nullable();
             $table->bigInteger('xp')->nullable();
             $table->integer('level')->nullable();
             $table->timestamps();

@@ -12,7 +12,8 @@ use App\Http\Controllers\StudentsController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VacationController;
 use App\Http\Controllers\StatisticsController;
-use App\Http\Controllers\PlatformController;
+use App\Http\Controllers\CommentController;
+use App\Http\Controllers\SPController;
 
 
 
@@ -69,7 +70,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     // enable to sync student data with multiple variables such as attendance/ platform activity/ personal information
     Route::get('/students-sync', [StudentsController::class, 'syncStudents']);
     // selection pool candidate
-    Route::get('/sp-applicant', [ApplicantController::class, 'selectionPoolApplicant']);
+    Route::get('/sp-applicant', [SPController::class, 'selectionPoolApplicant']);
 });
 
 
@@ -89,5 +90,10 @@ Route::group(['middleware' => ['web']], function () {
     // birthdays
     Route::get('/birthdays', [StudentsController::class, 'birthdays']);
     //  selection pool candidates
-    Route::get('/selection-pool', [ApplicantController::class, 'selectionPoolApplicants']);
+    Route::get('/selection-pool', [SPController::class, 'selectionPoolApplicants']);
+    // Comment on Applicant
+    Route::post('/sp-comment', [CommentController::class, 'CommentOnApplicant']);
+    // 
+    Route::get('/sp-applicant-comment', [CommentController::class, 'getComments']);
+    Route::post('/sync-sp', [SPController::class, 'syncSelectionPoolApplicants']);
 });

@@ -13,7 +13,9 @@ class Sp extends Model
     protected $table = 'sp';
     // fillable items in the create method
     protected $fillable = [
-        'platformId', 'firstName', 'lastName', 'email', 'phone', 'xp', 'level', 'lastActivity'
+        'platformId', 'firstName', 'lastName', 'email', 'phone', 'xp', 'level', 'gender', 'nationality', 'profilePicture',
+        'cprPicture', 'pictureChanged', 'dob', 'acadamicQualification', 'acadamicSpecialization', 'employment', 'howDidYouHear',
+        'sp', 'progresses', 'registrations'
     ];
 
     protected $casts = [
