@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use App\Models\SP;
+use App\Models\Comment;
+
 
 
 
@@ -182,6 +184,12 @@ class SPController extends Controller
             $existingApplicant = SP::where('platformId', $applicant['login'])->first();
 
             if ($existingApplicant) {
+                $existingApplicant->sp = $applicant['sp'] ?? 'unknown';
+                $existingApplicant->xp = $applicant['xp'] ?? 'unknown';
+                $existingApplicant->level = $applicant['level'] ?? 'unknown';
+                $existingApplicant->progresses = json_encode($applicant['progresses']);
+                $existingApplicant->registrations = json_encode($applicant['registrations']);
+                $existingApplicant->save();
             } else {
                 $newApplicant = new SP();
                 $newApplicant->platformId = $applicant['login'];
@@ -228,112 +236,129 @@ class SPController extends Controller
     //* selection pool Applicants
     public function selectionPoolApplicants()
     {
-        $apiToken =  config('app.GRAPHQL_TOKEN');
 
-        // query to get all selection pool users
-        $query = <<<GQL
-        query {
-            event(where: {id: {_eq: 57}}) {
-                users {
-                    login
-                    firstName: attrs(path: "firstName")
-                    lastName: attrs(path: "lastName")
-                    email: attrs(path: "email")
-                    phone: attrs(path: "Phone")
-                    phoneNumber: attrs(path: "PhoneNumber")
-                    gender: attrs(path: "gender")
-                    dob: attrs(path: "dateOfBirth")
-                    acadamicQualification: attrs(path: "qualification")
-                    acadamicSpecialization: attrs(path: "Degree")
-                    nationality: attrs(path: "country")
-                    genders: attrs(path: "genders")
-                    howDidYouHear: attrs(path: "qualifica")
-                    employment: attrs(path: "employment")
-                    id: attrs(path: "id-cardUploadId")
-                    profile: attrs(path: "pro-picUploadId")
-                    }
-                    }
-        }
-        GQL;
+        // * Filtering and searching can be done here as well
 
-        // query to get all users progresses
-        $queryProgresses = <<<GQL
-        query {
-            toad_sessions(where: {final_score: {_gte: 20}}) {
-                final_score
-                created_at
-                updated_at
-                candidate {
-                    login
-                    firstName
-                    lastName
-                    email
-                    phone: attrs(path: "Phone")
-                    PhoneNumber: attrs(path: "PhoneNumber")
-                    # Limit the query to last three items
-                    progresses(limit:3, order_by: {updatedAt: desc}) {
-                        path
-                        updatedAt
-                        grade
-                        isDone
-                        
-                        }
-                    registrations {
-                    createdAt
-                    registration{
-                      path
-                      createdAt
-                    }
-                  }
-                        }
-                        }
-                        }
-        GQL;
-
-        //  API calls
-        $response = Http::withHeaders([
-            'Accept' => 'application/json',
-            'Content-Type' => 'application/json',
-            // maybe a cron function will work that
-            'Authorization' => 'Bearer ' . $apiToken
-        ])->post('https://learn.reboot01.com/api/graphql-engine/v1/graphql', [
-            'query' => $query
-        ]);
-
-        $responseProgresses = Http::withHeaders([
-            'Accept' => 'application/json',
-            'Content-Type' => 'application/json',
-            // maybe a cron function will work that
-            'Authorization' => 'Bearer ' . $apiToken
-        ])->post('https://learn.reboot01.com/api/graphql-engine/v1/graphql', [
-            'query' => $queryProgresses
-        ]);
-
-
-        $spApplicants = $response['data']['event'][0]['users'];
-        $userProgresses = $responseProgresses['data']['toad_sessions'];
-
+        $spApplicants = SP::all();
+        // add the comments to the response
         for ($i = 0; $i < count($spApplicants); $i++) {
-
-            foreach ($userProgresses as $spProgress) {
-
-                if (isset($spApplicants[$i]['login']) && isset($spProgress['candidate']['login'])) {
-
-
-                    if ($spApplicants[$i]['login'] == $spProgress['candidate']['login']) {
-                        $candidateImageUrl = 'https://learn.reboot01.com/api/storage/?token=' . $apiToken . '&fileId=' . $spApplicants[$i]['profile'];
-
-                        // add progresses and registrations to the applicants response
-                        $spApplicants[$i]['progresses'] = $spProgress['candidate']['progresses'];
-                        $spApplicants[$i]['registrations'] = $spProgress['candidate']['registrations'];
-
-                        $spApplicants[$i]['profileImage'] = $candidateImageUrl;
-                    }
-                }
+            $comments = Comment::where('platformId', $spApplicants[$i]['platformId'])->get();
+            if (count($comments)) {
+                $spApplicants[$i]['comments'] = $comments;
+            } else {
+                $spApplicants[$i]['comments'] = [];
             }
         }
 
+
         return $spApplicants;
+
+        // $apiToken =  config('app.GRAPHQL_TOKEN');
+
+        // // query to get all selection pool users
+        // $query = <<<GQL
+        // query {
+        //     event(where: {id: {_eq: 57}}) {
+        //         users {
+        //             login
+        //             firstName: attrs(path: "firstName")
+        //             lastName: attrs(path: "lastName")
+        //             email: attrs(path: "email")
+        //             phone: attrs(path: "Phone")
+        //             phoneNumber: attrs(path: "PhoneNumber")
+        //             gender: attrs(path: "gender")
+        //             dob: attrs(path: "dateOfBirth")
+        //             acadamicQualification: attrs(path: "qualification")
+        //             acadamicSpecialization: attrs(path: "Degree")
+        //             nationality: attrs(path: "country")
+        //             genders: attrs(path: "genders")
+        //             howDidYouHear: attrs(path: "qualifica")
+        //             employment: attrs(path: "employment")
+        //             id: attrs(path: "id-cardUploadId")
+        //             profile: attrs(path: "pro-picUploadId")
+        //             }
+        //             }
+        // }
+        // GQL;
+
+        // // query to get all users progresses
+        // $queryProgresses = <<<GQL
+        // query {
+        //     toad_sessions(where: {final_score: {_gte: 20}}) {
+        //         final_score
+        //         created_at
+        //         updated_at
+        //         candidate {
+        //             login
+        //             firstName
+        //             lastName
+        //             email
+        //             phone: attrs(path: "Phone")
+        //             PhoneNumber: attrs(path: "PhoneNumber")
+        //             # Limit the query to last three items
+        //             progresses(limit:3, order_by: {updatedAt: desc}) {
+        //                 path
+        //                 updatedAt
+        //                 grade
+        //                 isDone
+
+        //                 }
+        //             registrations {
+        //             createdAt
+        //             registration{
+        //               path
+        //               createdAt
+        //             }
+        //           }
+        //                 }
+        //                 }
+        //                 }
+        // GQL;
+
+        // //  API calls
+        // $response = Http::withHeaders([
+        //     'Accept' => 'application/json',
+        //     'Content-Type' => 'application/json',
+        //     // maybe a cron function will work that
+        //     'Authorization' => 'Bearer ' . $apiToken
+        // ])->post('https://learn.reboot01.com/api/graphql-engine/v1/graphql', [
+        //     'query' => $query
+        // ]);
+
+        // $responseProgresses = Http::withHeaders([
+        //     'Accept' => 'application/json',
+        //     'Content-Type' => 'application/json',
+        //     // maybe a cron function will work that
+        //     'Authorization' => 'Bearer ' . $apiToken
+        // ])->post('https://learn.reboot01.com/api/graphql-engine/v1/graphql', [
+        //     'query' => $queryProgresses
+        // ]);
+
+
+        // $spApplicants = $response['data']['event'][0]['users'];
+        // $userProgresses = $responseProgresses['data']['toad_sessions'];
+
+        // for ($i = 0; $i < count($spApplicants); $i++) {
+
+        //     foreach ($userProgresses as $spProgress) {
+
+        //         if (isset($spApplicants[$i]['login']) && isset($spProgress['candidate']['login'])) {
+
+
+        //             if ($spApplicants[$i]['login'] == $spProgress['candidate']['login']) {
+        //                 $candidateImageUrl = 'https://learn.reboot01.com/api/storage/?token=' . $apiToken . '&fileId=' . $spApplicants[$i]['profile'];
+
+        //                 // add progresses and registrations to the applicants response
+        //                 $spApplicants[$i]['progresses'] = $spProgress['candidate']['progresses'];
+        //                 $spApplicants[$i]['registrations'] = $spProgress['candidate']['registrations'];
+
+        //                 $spApplicants[$i]['profileImage'] = $candidateImageUrl;
+        //             }
+        //         }
+        //     }
+        // }
+
+        // return $spApplicants;
     }
 
 

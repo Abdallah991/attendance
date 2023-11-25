@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 
 
 
-class ApplicantController extends Controller
+class CommentController extends Controller
 {
     use HttpResponses;
 
