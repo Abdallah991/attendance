@@ -13,7 +13,9 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\VacationController;
 use App\Http\Controllers\StatisticsController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\ImagesController;
 use App\Http\Controllers\SPController;
+
 
 
 
@@ -33,7 +35,7 @@ use App\Http\Controllers\SPController;
 
 
 // *protected routes 
-Route::group(['middleware' => ['auth:sanctum']], function () {
+Route::group(['middleware' => ['auth:sanctum', 'throttle:api']], function () {
     // Route::group(['middleware' => ['web']], function () {
 
     // students APIs
@@ -75,7 +77,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
 
 // *Public routes 
-Route::group(['middleware' => ['web']], function () {
+Route::group(['middleware' => ['web', 'throttle:api']], function () {
 
     // Login API
     Route::post('/login', [UserController::class, 'login']);
@@ -96,4 +98,5 @@ Route::group(['middleware' => ['web']], function () {
     // 
     Route::get('/sp-applicant-comment', [CommentController::class, 'getComments']);
     Route::post('/sync-sp', [SPController::class, 'syncSelectionPoolApplicants']);
+    Route::get('/user-image', [ImagesController::class, 'getImage']);
 });
