@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use App\Models\SP;
 use App\Models\Comment;
+use Exception;
+use Illuminate\Support\Facades\Storage;
 
 
 
@@ -184,9 +186,27 @@ class SPController extends Controller
             $existingApplicant = SP::where('platformId', $applicant['login'])->first();
 
             if ($existingApplicant) {
+                // this to account when the token is changed, to update this as well
+                $candidateImageUrl = 'https://learn.reboot01.com/api/storage/?token=' . $apiToken . '&fileId=' . $applicant['profile'];
+                $candidateCPRUrl = 'https://learn.reboot01.com/api/storage/?token=' . $apiToken . '&fileId=' . $applicant['id'];
+
+                if ($existingApplicant->pictureChanged) {
+                    // TODO: Save CPR images on desk
+                    // TODO: save personal images
+
+                } else {
+                    // the image links only updates for false value
+                    // ! possibility to change and save images
+                    // $this->saveImageOnDisk($existingApplicant->platformId, $candidateImageUrl);
+                    $existingApplicant->profilePicture = $candidateImageUrl ?? 'unknown';
+                }
+
+
+
                 $existingApplicant->sp = $applicant['sp'] ?? 'unknown';
                 $existingApplicant->xp = $applicant['xp'] ?? 'unknown';
                 $existingApplicant->level = $applicant['level'] ?? 'unknown';
+                $existingApplicant->cprPicture = $candidateCPRUrl ?? 'unknown';
                 $existingApplicant->progresses = json_encode($applicant['progresses']);
                 $existingApplicant->registrations = json_encode($applicant['registrations']);
                 $existingApplicant->save();
@@ -431,5 +451,15 @@ class SPController extends Controller
             'candidate' => $candidate,
             // 'path' => $path
         ];
+    }
+
+    public function saveImageOnDisk($id, $url)
+    {
+        $filename = $id . '.jpg'; // Desired filename for the saved image
+        try {
+            $imageContents = file_get_contents($url);
+            Storage::disk('public')->put('images/' . $filename, $imageContents);
+        } catch (Exception $e) {
+        }
     }
 }

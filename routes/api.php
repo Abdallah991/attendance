@@ -99,4 +99,7 @@ Route::group(['middleware' => ['web', 'throttle:api']], function () {
     Route::get('/sp-applicant-comment', [CommentController::class, 'getComments']);
     Route::post('/sync-sp', [SPController::class, 'syncSelectionPoolApplicants']);
     Route::get('/user-image', [ImagesController::class, 'getImage']);
+    Route::post('/upload-image', [ImagesController::class, 'upload']);
+
+    // Route::get('/images/{imageName}', 'App\Http\Controllers\ImageApiController@getImageUrl');
 });
