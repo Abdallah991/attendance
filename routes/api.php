@@ -48,8 +48,10 @@ Route::group(['middleware' => ['auth:sanctum', 'throttle:api']], function () {
     Route::post('/password', [UserController::class, 'updatePassword']);
     // Register user
     Route::post('/register', [UserController::class, 'register']);
-    // search Bio time API
+    // search students
     Route::post('/search', [SearchController::class, 'searchStudents']);
+    // search applicants
+    Route::post('/search-applicants', [SearchController::class, 'searchApplicants']);
     // Logout API
     Route::post('/logout', [UserController::class, 'logout']);
     // student's progress API
