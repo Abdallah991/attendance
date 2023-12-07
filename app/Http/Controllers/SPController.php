@@ -136,6 +136,39 @@ class SPController extends Controller
         $userProgresses = $responseProgresses['data']['toad_sessions'];
 
 
+        // TODO: 5- get the checkpoints from the users
+
+        $checkpointProgresses = <<<GQL
+         query {
+            event(where: {id: {_eq:$spId}}) {
+                progresses {
+                    user {
+                        login
+                        firstName
+                        lastName
+                        progresses( where:{
+                            _and:[ {path:{_regex:"checkpoint"}}, {grade:{_eq: 1}}, {updatedAt:{_gte:"2023-11-18"}}]},order_by:{updatedAt:asc}) {
+                                path
+                                updatedAt
+                                grade
+                                isDone
+                                }
+                                }
+                                }
+                                }
+                         }
+         GQL;
+
+        $responseCheckpoint = Http::withHeaders([
+            'Accept' => 'application/json',
+            'Content-Type' => 'application/json',
+            // maybe a cron function will work that
+            'Authorization' => 'Bearer ' . $apiToken
+        ])->post('https://learn.reboot01.com/api/graphql-engine/v1/graphql', [
+            'query' => $checkpointProgresses
+        ]);
+
+        $checkpointProgress = $responseCheckpoint['data']['event'][0]['progresses'];
         //TODO: 5- Add or update the selection pool data
         // formulate a holistic object
         // add the levels
@@ -155,6 +188,15 @@ class SPController extends Controller
             // return $userProgresses[$i];
             $userProgresses[$i]['login'] = $userProgresses[$i]['candidate']['login'] ?? '-';
         }
+        // add checkpoint progresses
+        for ($i = 0; $i < count($checkpointProgress); $i++) {
+            for ($j = 0; $j < count($spApplicants); $j++) {
+                if ($checkpointProgress[$i]['user']['login'] == $spApplicants[$j]['login']) {
+                    $spApplicants[$j]['checkpoint'] = $checkpointProgress[$i]['user']['progresses'];
+                }
+            }
+        }
+
         // add the progresses
         for ($i = 0; $i < count($spApplicants); $i++) {
             // return array_column($userProgresses, 'candidate');
@@ -195,14 +237,14 @@ class SPController extends Controller
                     $existingApplicant->profilePicture = $candidateImageUrl ?? 'unknown';
                 }
 
-
-
                 $existingApplicant->sp = $applicant['sp'] ?? 'unknown';
                 $existingApplicant->xp = $applicant['xp'] ?? 'unknown';
                 $existingApplicant->level = $applicant['level'] ?? 'unknown';
                 $existingApplicant->cprPicture = $candidateCPRUrl ?? 'unknown';
                 $existingApplicant->progresses = json_encode($applicant['progresses']);
                 $existingApplicant->registrations = json_encode($applicant['registrations']);
+                $existingApplicant->checkpoints = json_encode($applicant['checkpoint']);
+
                 $existingApplicant->save();
             } else {
                 $newApplicant = new SP();
@@ -228,6 +270,7 @@ class SPController extends Controller
                 $newApplicant->level = $applicant['level'] ?? 'unknown';
                 $newApplicant->progresses = json_encode($applicant['progresses']);
                 $newApplicant->registrations = json_encode($applicant['registrations']);
+                $newApplicant->checkpoints = json_encode($applicant['checkpoint']);
                 // Save the new Applicant model to the database
                 $newApplicant->save();
             }
@@ -263,8 +306,6 @@ class SPController extends Controller
                 $spApplicants[$i]['comments'] = [];
             }
         }
-
-
         return $spApplicants;
     }
 
@@ -276,11 +317,9 @@ class SPController extends Controller
     //* This is getting a specific user 
     function selectionPoolApplicant(Request $request)
     {
-
         // ! get the student using SP table
         $platformId = $request->platformId;
         $apiToken =  config('app.GRAPHQL_TOKEN');
-
         // query to get all users progresses
         $querySpCandidate = <<<GQL
         query {
