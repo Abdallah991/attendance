@@ -75,16 +75,9 @@ Route::group(['middleware' => ['auth:sanctum', 'throttle:api']], function () {
     Route::get('/students-sync', [StudentsController::class, 'syncStudents']);
     // selection pool candidate
     Route::get('/sp-applicant', [SPController::class, 'selectionPoolApplicant']);
-});
-
-
-// *Public routes 
-Route::group(['middleware' => ['web', 'throttle:api']], function () {
-
-    // Login API
-    Route::post('/login', [UserController::class, 'login']);
-    // TODO: Remove later
-    // TODO: Make sure these are used
+    // 
+    // 
+    // 
     Route::resource('/attendance-students', BioTimeController::class);
     // attendance API
     // only get a specific student work
@@ -100,8 +93,20 @@ Route::group(['middleware' => ['web', 'throttle:api']], function () {
     // 
     Route::get('/sp-applicant-comment', [CommentController::class, 'getComments']);
     Route::post('/sync-sp', [SPController::class, 'syncSelectionPoolApplicants']);
+    Route::post('/sp-decision', [SPController::class, 'updateApplicantDecision']);
     Route::get('/user-image', [ImagesController::class, 'getImage']);
     Route::post('/upload-image', [ImagesController::class, 'upload']);
+});
+
+
+// *Public routes 
+Route::group(['middleware' => ['web', 'throttle:api']], function () {
+
+    // Login API
+    Route::post('/login', [UserController::class, 'login']);
+    // TODO: Remove later
+    // TODO: Make sure these are used
+
 
     // Route::get('/images/{imageName}', 'App\Http\Controllers\ImageApiController@getImageUrl');
 });

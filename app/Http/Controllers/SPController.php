@@ -293,9 +293,7 @@ class SPController extends Controller
     //* selection pool Applicants
     public function selectionPoolApplicants()
     {
-
         // * Filtering and searching can be done here as well
-
         $spApplicants = SP::all();
         // add the comments to the response
         for ($i = 0; $i < count($spApplicants); $i++) {
@@ -373,6 +371,21 @@ class SPController extends Controller
             'candidate' => $candidate,
             // 'path' => $path
         ];
+    }
+
+
+    public function updateApplicantDecision(Request $request)
+    {
+        $platformId = $request->platformId;
+        $decision = $request->decision;
+        $comment = $request->comment;
+        // set the decisionand comment
+        $existingApplicant = SP::where('platformId', $platformId)->first();
+        $existingApplicant->decision = $decision;
+        $existingApplicant->finalComment = $comment;
+        $existingApplicant->save();
+        return $existingApplicant;
+        // 
     }
 
 
