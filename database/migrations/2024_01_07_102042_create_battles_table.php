@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('battles', function (Blueprint $table) {
             $table->id();
-            $table->date('date')->nullable();
+            $table->string('winner')->nullable();
             $table->string('name');
             $table->timestamps();
         });
