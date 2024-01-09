@@ -4,6 +4,7 @@ use App\Http\Controllers\ApplicantController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\BioTimeController;
 use App\Http\Controllers\CandidateController;
+use App\Http\Controllers\CodeWarsController;
 use App\Http\Controllers\CohortController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SearchController;
@@ -96,6 +97,21 @@ Route::group(['middleware' => ['auth:sanctum', 'throttle:api']], function () {
     Route::post('/sp-decision', [SPController::class, 'updateApplicantDecision']);
     Route::get('/user-image', [ImagesController::class, 'getImage']);
     Route::post('/upload-image', [ImagesController::class, 'upload']);
+    // Add warrior api
+    Route::post('/warrior', [CodeWarsController::class, 'createWarrior']);
+    // get all warriors api
+    Route::get('/warriors', [CodeWarsController::class, 'getAllWarriors']);
+    // battles APIS
+    Route::post('/create-battle', [CodeWarsController::class, 'createBattle']);
+    // get battle
+    Route::get('/battles', [CodeWarsController::class, 'getAllBattles']);
+    Route::get('/battles/{id}', [CodeWarsController::class, 'getBattle']);
+    // edit battle
+    Route::put('/edit-battle/{id}', [CodeWarsController::class, 'editBattle']);
+    // add warriors to battle
+    Route::post('/add-warriors-battle', [CodeWarsController::class, 'addWarriorsToBattle']);
+    // start battle by updating code wars id
+    Route::post('/start-battle', [CodeWarsController::class, 'updateOldScores']);
 });
 
 
