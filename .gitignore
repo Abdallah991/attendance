@@ -15,3 +15,5 @@ yarn-error.log
 /.idea
 /.vscode
 /Users/abdallah/Documents/attendance/vendor/
+/bootstrap/cache/*.php
+/bootstrap/cache/*.json
