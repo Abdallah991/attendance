@@ -291,8 +291,10 @@ class SPController extends Controller
     }
 
     //* selection pool Applicants
-    public function selectionPoolApplicants()
+    // TODO: add the filters and sorters
+    public function selectionPoolApplicants(Request $request)
     {
+
         // * Filtering and searching can be done here as well
         $spApplicants = SP::all();
         // add the comments to the response
@@ -387,6 +389,7 @@ class SPController extends Controller
         return $existingApplicant;
         // 
     }
+
 
 
 
