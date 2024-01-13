@@ -23,12 +23,6 @@ class Cohort extends Model
     //  primary key setting
     protected $primaryKey = 'id';
 
-    // TODO: create the relationships
-    // !permission: 
-    // 1- User needs admin and to type their password to be able to delete a cohort
-
-
-
     // a cohort has many students
     public function students()
     {

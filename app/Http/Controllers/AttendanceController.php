@@ -32,11 +32,13 @@ class AttendanceController extends Controller
         //TODO: add support for start time and end time
         // you can define the response max size
         $pageSize = 1000;
+        $apiToken =  config('app.ATTENDANCE_TOKEN');
+
         // get all transactions for a specific student and admin and staff
         $response = Http::withHeaders([
             'Accept' => 'application/json',
             'Content-Type' => 'application/json',
-            'Authorization' => 'Token 48e111ccd207225fff4b28cc5f7e6d68acf6b479'
+            'Authorization' => 'Token ' . $apiToken
         ])->get('http://10.1.50.4/iclock/api/transactions/?emp_code='
             . $id .
             '&page_size='
