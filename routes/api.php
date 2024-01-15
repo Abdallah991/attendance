@@ -18,27 +18,8 @@ use App\Http\Controllers\ImagesController;
 use App\Http\Controllers\SPController;
 
 
-
-
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
-// APIs
-// There is public routes and protetcted routes
-
-
-
 // *protected routes 
 Route::group(['middleware' => ['auth:sanctum', 'throttle:api']], function () {
-    // Route::group(['middleware' => ['web']], function () {
-
     // students APIs
     Route::Resource('/students', StudentsController::class);
     // users APIs
@@ -55,8 +36,6 @@ Route::group(['middleware' => ['auth:sanctum', 'throttle:api']], function () {
     Route::post('/search-applicants', [SearchController::class, 'searchApplicants']);
     // Logout API
     Route::post('/logout', [UserController::class, 'logout']);
-    // student's progress API
-    Route::get('/students-progress', [StatisticsController::class, 'studentsProgress']);
     // Vacation API
     Route::Resource('/vacations', VacationController::class);
     // Roles API
@@ -76,11 +55,8 @@ Route::group(['middleware' => ['auth:sanctum', 'throttle:api']], function () {
     Route::get('/students-sync', [StudentsController::class, 'syncStudents']);
     // selection pool candidate
     Route::get('/sp-applicant', [SPController::class, 'selectionPoolApplicant']);
-    // 
-    // 
-    // 
+
     Route::resource('/attendance-students', BioTimeController::class);
-    // attendance API
     // only get a specific student work
     Route::resource('/attendance', AttendanceController::class);
     // bio time user API
@@ -112,17 +88,11 @@ Route::group(['middleware' => ['auth:sanctum', 'throttle:api']], function () {
     Route::post('/add-warriors-battle', [CodeWarsController::class, 'addWarriorsToBattle']);
     // start battle by updating code wars id
     Route::post('/start-battle', [CodeWarsController::class, 'updateOldScores']);
+    // student's progress API
+    Route::get('/students-progress', [StatisticsController::class, 'studentsProgress']);
 });
-
-
 // *Public routes 
 Route::group(['middleware' => ['web', 'throttle:api']], function () {
-
     // Login API
     Route::post('/login', [UserController::class, 'login']);
-    // TODO: Remove later
-    // TODO: Make sure these are used
-
-
-    // Route::get('/images/{imageName}', 'App\Http\Controllers\ImageApiController@getImageUrl');
 });
