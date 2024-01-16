@@ -15,7 +15,6 @@ use App\Http\Resources\StudentCollection;
 use App\Traits\HttpResponses;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Auth;
-use Carbon\Carbon;
 use DateTime;
 
 
@@ -30,6 +29,7 @@ class StudentsController extends Controller
     public function index(Request $request)
     {
         $students = Student::all();
+        // return $students;
         // response will get the user signed in data
         return $this->success([
             'students' => new StudentCollection(

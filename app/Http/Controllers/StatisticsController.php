@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Student;
 use Illuminate\Support\Facades\Http;
 
 class StatisticsController extends Controller
@@ -88,12 +89,13 @@ GQL;
                 'down' => false,
                 'auditDate' => false,
                 'auditGivenDate' => false,
-                'auditRecievedDate' => false
+                'auditReceivedDate' => false
             ]);
         }
 
         // ? optimize rather than using for loop
         // ? time complexity is O(n * m)
+        // ! this is a part of syncing the students progress
         foreach ($firstProjectArray as $transaction) {
             foreach ($students as $key => $student) {
                 if ($student['login'] === $transaction['user']['login']) {
@@ -118,19 +120,40 @@ GQL;
                     if (!$student['down'] && $transaction['type'] == "down") {
                         $students[$key]['down'] = 1;
                         $students[$key]['progressAt'] = $transaction['object']['name'];
-                        $students[$key]['auditRecievedDate'] = $date;
+                        $students[$key]['auditReceivedDate'] = $date;
                     } else if ($transaction['type'] == "down") {
                         $students[$key]['down']++;
-                        if ($students[$key]['auditRecievedDate'] < $date) {
-                            $students[$key]['auditRecievedDate'] = $date;
+                        if ($students[$key]['auditReceivedDate'] < $date) {
+                            $students[$key]['auditReceivedDate'] = $date;
                             $students[$key]['progressAt'] = $transaction['object']['name'];
                         }
                     }
 
-                    $students[$key]['auditDate'] = $students[$key]['auditRecievedDate'] < $students[$key]['auditGivenDate'] ? $students[$key]['auditGivenDate'] : $students[$key]['auditRecievedDate'];
+                    $students[$key]['auditDate'] = $students[$key]['auditReceivedDate'] < $students[$key]['auditGivenDate'] ? $students[$key]['auditGivenDate'] : $students[$key]['auditReceivedDate'];
                 }
             }
         }
+
+        // * update each student with their project 
+        foreach ($students as $key => $student) {
+            // loook up the student
+            $existingStudent = Student::where('platformId', $student['login'])->first();
+            // if student exists
+            if ($existingStudent) {
+                // update information
+                $existingStudent->progressAt = $student['progressAt'];
+                $existingStudent->AuditGiven = $student['up'];
+                $existingStudent->AuditReceived = $student['down'];
+                $existingStudent->userAuditRatio = $student['userAuditRatio'];
+                $existingStudent->level = $student['level'];
+                $existingStudent->auditDate = $student['auditDate'];
+                $existingStudent->auditReceivedDate = $student['auditReceivedDate'];
+                $existingStudent->auditGivenDate = $student['auditGivenDate'];
+                // save the student
+                $existingStudent->save();
+            }
+        }
+
         return $students;
     }
 }
