@@ -145,7 +145,9 @@ GQL;
                 $existingStudent->progressAt = $student['progressAt'];
                 $existingStudent->AuditGiven = $student['up'];
                 $existingStudent->AuditReceived = $student['down'];
-                $existingStudent->userAuditRatio = $student['userAuditRatio'];
+                if ($student['down']) {
+                    $existingStudent->userAuditRatio = $student['userAuditRatio'];
+                }
                 $existingStudent->level = $student['level'];
                 $existingStudent->auditDate = $student['auditDate'];
                 $existingStudent->auditReceivedDate = $student['auditReceivedDate'];
