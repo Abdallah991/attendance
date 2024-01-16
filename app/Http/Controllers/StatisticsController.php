@@ -89,7 +89,8 @@ GQL;
                 'down' => false,
                 'auditDate' => false,
                 'auditGivenDate' => false,
-                'auditReceivedDate' => false
+                'auditReceivedDate' => false,
+                'progressAt' => '-'
             ]);
         }
 
