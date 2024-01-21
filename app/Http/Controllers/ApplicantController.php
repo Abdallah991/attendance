@@ -52,7 +52,6 @@ class ApplicantController extends Controller
                         acadamicSpecialization:attrs(path: "Degree")
                         nationality:attrs(path: "country")
                         genders: attrs(path: "genders")
-                        gender: attrs(path: "genders")
 
                         howDidYouHear: attrs(path: "qualifica")
                         employment: attrs(path: "employment")
@@ -78,7 +77,6 @@ class ApplicantController extends Controller
         ])->post('https://learn.reboot01.com/api/graphql-engine/v1/graphql', [
             'query' => $query
         ]);
-
         // return the data and convert it to json object
         $applicantsData = $response->json()['data']['toad_sessions'];
         // filter the array that has users with no roles
