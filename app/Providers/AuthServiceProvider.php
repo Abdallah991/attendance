@@ -2,11 +2,22 @@
 
 namespace App\Providers;
 
+use Laravel\Sanctum\Sanctum;
+use Laravel\Sanctum\PersonalAccessToken;
+
 // use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
 {
+
+
+
+
+    protected $scopes = [
+        'admin' => 'admin',
+        'user' => 'user',
+    ];
     /**
      * The model to policy mappings for the application.
      *
@@ -24,7 +35,7 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
-
-        //
+        // Register custom scopes
+        Sanctum::usePersonalAccessTokenModel(PersonalAccessToken::class);
     }
 }

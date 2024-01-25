@@ -58,7 +58,7 @@ Route::group(['middleware' => ['auth:sanctum', 'throttle:api']], function () {
 
     Route::resource('/attendance-students', BioTimeController::class);
     // only get a specific student work
-    Route::resource('/attendance', AttendanceController::class);
+    Route::get('/attendance/{id}', [AttendanceController::class, 'getAttendance']);
     // bio time user API
     Route::resource('/candidate-info', CandidateController::class);
     // birthdays
@@ -90,6 +90,11 @@ Route::group(['middleware' => ['auth:sanctum', 'throttle:api']], function () {
     Route::post('/start-battle', [CodeWarsController::class, 'updateOldScores']);
     // student's progress API
     Route::get('/students-progress', [StatisticsController::class, 'studentsProgress']);
+    // test role token
+    Route::get(
+        '/token',
+        [StudentsController::class, 'getUserToken']
+    );
 });
 // *Public routes 
 Route::group(['middleware' => ['web', 'throttle:api']], function () {

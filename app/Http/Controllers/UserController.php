@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 // import model 
 use App\Models\User;
+use App\Models\Role;
+
 // import Filters
 use App\Filters\UserFilter;
 use App\Http\Requests\ChangePasswordRequest;
@@ -102,12 +104,21 @@ class UserController extends Controller
         // return $credentials;
         if (Auth::attempt($credentials)) {
             $user = User::where('email', $request->email)->first();
-            // destroy token
+            // generate new session
             $request->session()->regenerate();
-            // regenrate token
+            // get the role
+            $role = Role::find($user->roleId);
+            $token = '';
+            // each user is an admin or a user
+            if ($role->name === 'Admin') {
+                $token = $user->createToken('My Token', ['admin']);
+            } else {
+                $token = $user->createToken('My Token', ['user']);
+            }
+            // token depending on the role
             return $this->success([
                 'users' => $user,
-                'token' => $user->createToken('Api token of ' . $user->firstName)->plainTextToken
+                'token' => $token->plainTextToken
             ]);
         } else {
             return $this->error('', 'Invalid credentials', 401);

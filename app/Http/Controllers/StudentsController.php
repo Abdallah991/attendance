@@ -4,6 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Student;
+// eeee
+use App\Models\User;
+use Laravel\Sanctum\PersonalAccessToken;
+use Illuminate\Support\Facades\Hash;
+
+
 // import resource to use it
 use App\Http\Resources\StudentResource;
 // import query service
@@ -77,19 +83,6 @@ class StudentsController extends Controller
         ])->post('https://learn.reboot01.com/api/graphql-engine/v1/graphql', [
             'query' => $query
         ]);
-        // ! response if the token expired
-        // TODO: call for Token when you get response
-        // {
-        //     "errors": [
-        //         {
-        //             "extensions": {
-        //                 "code": "invalid-jwt",
-        //                 "path": "$"
-        //             },
-        //             "message": "Could not verify JWT: JWTExpired"
-        //         }
-        //     ]
-        // }
 
         // get the item from an array
         if ($response->json()['data']['user']) {
@@ -204,8 +197,6 @@ class StudentsController extends Controller
     // * sync students data
     public function syncStudents(Request $request)
     {
-        // get all students from sis database
-        $systemStudents = Student::all();
         // get the students from 01 database
         $apiToken =  config('app.GRAPHQL_TOKEN');
         // * adding gender and genders and phone and phoneNumber to avoid null exception writing to the database
@@ -240,41 +231,32 @@ class StudentsController extends Controller
 
 
         $platformStudents = $response['data']['event'][0]['users'];
-        // return [
-        //     'platformStudents' => $platformStudents,
-        //     'system students' => $systemStudents
-        // ];
+
         foreach ($platformStudents as $platformStudent) {
-            // return $platformStudent;
-            // return $platformStudent['login'];
+
             $existingStudent = Student::where('platformId', $platformStudent['login'])->first();
 
             if ($existingStudent) {
-                //* uncomment unnecessary updates.
-                // Update the existing student's fields with data from the API response
-                //    $existingStudent->firstName = $platformStudent['firstName'];
-                //    $existingStudent->lastName = $platformStudent['lastName'];
-                //    $existingStudent->email = $platformStudent['email'];
-                //    $existingStudent->phone = $platformStudent['candidate']['phone'] ?? $platformStudent['candidate']['phoneNumber'] ?? '';
+
                 $existingStudent->gender = $platformStudent['gender'] ?? $platformStudent['genders'] ?? null;
                 $existingStudent->nationality = $platformStudent['nationality'] ?? null;
 
-                // Parse the date of birth from the API response into a DateTime object and format it to the 'YYYY-MM-DD' format
                 $dob = $platformStudent['dob'] ? new DateTime(substr($platformStudent['dob'], 0, 10)) : null;
                 $dobStr = $dob ? $dob->format('Y-m-d') : null;
                 $existingStudent->dob = $dobStr;
-                // $existingStudent->acadamicQualification = $platformStudent['acadamicQualification'] ?? null;
-                // $existingStudent->acadamicSpecialization = $platformStudent['acadamicSpecialization'] ?? null;
-                //* uncomment unnecessary updates.
-                // $existingStudent->employment = $platformStudent['candidate']['employment'] ? $platformStudent['candidate']['employment'] : 'unknown';
-                // $existingStudent->howDidYouHear = $platformStudent['candidate']['howDidYouHear'] ? $platformStudent['candidate']['howDidYouHear'] : 'unknown';
-                // $existingStudent->progresses = json_encode($platformStudent['candidate']['progresses']);
-                // $existingStudent->registrations = json_encode($platformStudent['candidate']['registrations']);
-                // Save the updated Applicant model to the database
                 $existingStudent->save();
             }
         }
 
         return Student::all();
+    }
+
+    function getUserToken(Request $request)
+    {
+        if ($request->user()->tokenCan('admin')) {
+            return "this is admin";
+        } else {
+            return "this is user";
+        }
     }
 }
