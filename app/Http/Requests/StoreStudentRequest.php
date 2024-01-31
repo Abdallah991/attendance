@@ -26,13 +26,13 @@ class StoreStudentRequest extends FormRequest
     public function rules()
     {
         return [
-            'id' => ['required'],
-            'firstName' => ['required', 'sometimes'],
-            'lastName' => ['required'],
-            'platformId' => ['required'],
-            'cpr' => ['required'],
-            'acadamicSpecialization' => ['required'],
-            'cohortId' => ['required'],
+            // 'id' => ['required'],
+            // 'firstName' => ['required', 'sometimes'],
+            // 'lastName' => ['required'],
+            // 'platformId' => ['required'],
+            // 'cpr' => ['required'],
+            // 'acadamicSpecialization' => ['required'],
+            // 'cohortId' => ['required'],
 
 
 
@@ -46,9 +46,9 @@ class StoreStudentRequest extends FormRequest
         $this->merge([
             'firstName' => $this->firstName,
             'lastName' => $this->lastName,
-            'supportedByTamkeen' => $this->supportedByTamkeen,
+            // 'supportedByTamkeen' => $this->supportedByTamkeen,
             'cohortId' => $this->cohortId,
-            'fcmToken' => $this->fcmToken,
+            // 'fcmToken' => $this->fcmToken,
             'created_at' => $this->createdAt,
             'updated_at' => $this->updatedAt,
 

@@ -4,10 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Student;
-// eeee
-use App\Models\User;
-use Laravel\Sanctum\PersonalAccessToken;
-use Illuminate\Support\Facades\Hash;
+
 
 
 // import resource to use it
@@ -110,11 +107,20 @@ class StudentsController extends Controller
             'cpr' => $request->cpr,
             'dob' => date("Y-m-d H:i:s", strtotime($platformUser['dob'])),
             'acadamicQualification' => $platformUser['acadamicQualification'] == null ? 'placeholder' : $platformUser['acadamicQualification'],
-            'acadamicSpecialization' => $request->acadamicSpecialization,
-            'scholarship' => 'Tamkeen',
-            'supportedByTamkeen' => 'Yes',
-            'fcmToken' => $request->fcmToken,
+            'acadamicSpecialization' => $request->academicSpecialization,
             'cohortId' => $request->cohortId,
+            'maritalStatus' => $request->maritalStatus,
+            'highestDegree' => $request->highestDegree,
+            'academicInstitute' => $request->academicInstitute,
+            'graduationDate' => $request->graduationDate,
+            'occupation' => $request->occupation,
+            'currentJobTitle' => $request->currentJobTitle,
+            'companyNameAndCR' => $request->companyNameAndCR,
+            'sp' => $request->sp,
+            'sponsorship' => $request->sponsorship,
+            'unipal' => $request->unipal == 'Yes' ? 1 : 0,
+            'discord' => $request->discord  == 'Yes' ? 1 : 0,
+            'trainMe' => $request->trainMe  == 'Yes' ? 1 : 0,
             // TODO: change to add the socre, level
         ]));
         // return new created student
