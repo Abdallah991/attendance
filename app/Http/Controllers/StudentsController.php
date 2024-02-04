@@ -155,7 +155,27 @@ class StudentsController extends Controller
         // get the student using the id
         $student = Student::find($id);
         // update the values
-        $student->update($request->all());
+        $student->update([
+            'firstName' => $request->firstName,
+            'lastName' => $request->lastName,
+            'phone' => $platformUser['phone'] ?? $platformUser['phoneNumber'] ?? '',
+            'gender' => $platformUser['gender'] ?? $platformUser['genders'] ?? 'NA',
+            'cpr' => $request->cpr,
+            'acadamicSpecialization' => $request->academicSpecialization,
+            'cohortId' => $request->cohortId,
+            'maritalStatus' => $request->maritalStatus,
+            'highestDegree' => $request->highestDegree,
+            'academicInstitute' => $request->academicInstitute,
+            'graduationDate' => $request->graduationDate,
+            'occupation' => $request->occupation,
+            'currentJobTitle' => $request->currentJobTitle,
+            'companyNameAndCR' => $request->companyNameAndCR,
+            'sp' => $request->sp,
+            'sponsorship' => $request->sponsorship,
+            'unipal' => $request->unipal == 'Yes' ? 1 : 0,
+            'discord' => $request->discord  == 'Yes' ? 1 : 0,
+            'trainMe' => $request->trainMe  == 'Yes' ? 1 : 0,
+        ]);
         // return the value of the updated student
         return $this->success([
             'student' => new $student,

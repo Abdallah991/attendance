@@ -44,9 +44,6 @@ class UpdateStudentRequest extends FormRequest
                 'dob' => ['sometimes'],
                 'acadamicQualification' => ['sometimes'],
                 'acadamicSpecialization' => ['sometimes'],
-                'scholarship' => ['sometimes'],
-                'supportedByTamkeen' => ['sometimes'],
-                'fcmToken' => ['sometimes'],
                 'cohortId' => ['sometimes'],
 
             ];
@@ -67,9 +64,6 @@ class UpdateStudentRequest extends FormRequest
                 'dob' => ['sometimes'],
                 'acadamicQualification' => ['sometimes'],
                 'acadamicSpecialization' => ['sometimes'],
-                'scholarship' => ['sometimes'],
-                'supportedByTamkeen' => ['sometimes'],
-                'fcmToken' => ['sometimes'],
                 'cohortId' => ['sometimes'],
 
             ];
