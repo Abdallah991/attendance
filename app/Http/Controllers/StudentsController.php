@@ -158,8 +158,6 @@ class StudentsController extends Controller
         $student->update([
             'firstName' => $request->firstName,
             'lastName' => $request->lastName,
-            'phone' => $platformUser['phone'] ?? $platformUser['phoneNumber'] ?? '',
-            'gender' => $platformUser['gender'] ?? $platformUser['genders'] ?? 'NA',
             'cpr' => $request->cpr,
             'acadamicSpecialization' => $request->academicSpecialization,
             'cohortId' => $request->cohortId,
@@ -178,7 +176,7 @@ class StudentsController extends Controller
         ]);
         // return the value of the updated student
         return $this->success([
-            'student' => new $student,
+            'student' =>  $student,
         ]);
     }
 
