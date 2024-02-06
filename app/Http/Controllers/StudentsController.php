@@ -239,6 +239,8 @@ class StudentsController extends Controller
          dob:attrs(path: "dateOfBirth")
          phone: attrs(path: "Phone")
          phoneNumber: attrs(path: "PhoneNumber")
+         id: attrs(path: "id-cardUploadId")
+         profile: attrs(path: "pro-picUploadId")
         }
         }
         }
@@ -264,7 +266,13 @@ class StudentsController extends Controller
 
                 $existingStudent->gender = $platformStudent['gender'] ?? $platformStudent['genders'] ?? null;
                 $existingStudent->nationality = $platformStudent['nationality'] ?? null;
-
+                // ! check if their photo was perviously updated
+                $candidateImageUrl = 'https://learn.reboot01.com/api/storage/?token=' . $apiToken . '&fileId=' . $platformStudent['profile'];
+                $candidateCPRUrl = 'https://learn.reboot01.com/api/storage/?token=' . $apiToken . '&fileId=' . $platformStudent['id'];
+                if (!$existingStudent->pictureChanged) {
+                    $existingStudent->profilePicture = $candidateImageUrl;
+                }
+                $existingStudent->cprPicture = $candidateCPRUrl;
                 $dob = $platformStudent['dob'] ? new DateTime(substr($platformStudent['dob'], 0, 10)) : null;
                 $dobStr = $dob ? $dob->format('Y-m-d') : null;
                 $existingStudent->dob = $dobStr;

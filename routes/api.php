@@ -73,6 +73,7 @@ Route::group(['middleware' => ['auth:sanctum', 'throttle:api']], function () {
     Route::post('/sp-decision', [SPController::class, 'updateApplicantDecision']);
     Route::get('/user-image', [ImagesController::class, 'getImage']);
     Route::post('/upload-image', [ImagesController::class, 'upload']);
+    Route::post('/upload-student', [ImagesController::class, 'uploadStudent']);
     // Add warrior api
     Route::post('/warrior', [CodeWarsController::class, 'createWarrior']);
     // get all warriors api
