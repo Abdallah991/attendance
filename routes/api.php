@@ -95,13 +95,13 @@ Route::group(['middleware' => ['auth:sanctum', 'throttle:api']], function () {
         '/token',
         [StudentsController::class, 'getUserToken']
     );
+    // comment on student
+    Route::post('/student-comment', [CommentController::class, 'commentOnStudent']);
+    // students APIs
+    Route::Resource('/students', StudentsController::class);
 });
 // *Public routes 
 Route::group(['middleware' => ['web', 'throttle:api']], function () {
     // Login API
     Route::post('/login', [UserController::class, 'login']);
-    // comment on student
-    Route::post('/student-comment', [CommentController::class, 'commentOnStudent']);
-    // students APIs
-    Route::Resource('/students', StudentsController::class);
 });

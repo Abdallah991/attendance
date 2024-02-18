@@ -16,7 +16,6 @@ class SPController extends Controller
     {
 
         // get all query and api call variables
-        // ! these variables are added for each selection pool
         $spId = $request->spId;
         $spConstant = $request->spConstant;
 
@@ -207,7 +206,7 @@ class SPController extends Controller
             $candidateCPRUrl = 'https://learn.reboot01.com/api/storage/?token=' . $apiToken . '&fileId=' . $spApplicants[$i]['id'];
             $spApplicants[$i]['profileImage'] = $candidateImageUrl;
             $spApplicants[$i]['cpr'] = $candidateCPRUrl;
-            $spApplicants[$i]['sp'] = 'SP4';
+            $spApplicants[$i]['sp'] = $spConstant;
         }
         // accomulate the xps 
         for ($i = 0; $i < count($spApplicants); $i++) {
@@ -294,9 +293,12 @@ class SPController extends Controller
     // TODO: add the filters and sorters
     public function selectionPoolApplicants(Request $request)
     {
-
+        // selection pool applicants
+        $spId = $request->spId;
+        $spConstant = $request->spConstant;
+        // $spConstant = 'SP4';
         // * Filtering and searching can be done here as well
-        $spApplicants = SP::all();
+        $spApplicants = SP::where('sp', $spConstant)->get();
         // add the comments to the response
         for ($i = 0; $i < count($spApplicants); $i++) {
             $comments = Comment::where('platformId', $spApplicants[$i]['platformId'])->get();
