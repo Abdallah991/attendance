@@ -69,6 +69,29 @@ class CommentController extends Controller
     }
 
 
+    // comment on student
+    public function commentOnStudent(Request $request)
+    {
+        $id = $request->id;
+        $comment = $request->comment;
+        $comments = Comment::where('platformId', $id)->first();
+        if ($comments) {
+            $comments->comment = $comment;
+            $comments->save();
+        } else {
+            $comments = new CommentResource(Comment::create([
+                'platformId' => $id,
+                'comment' => $comment,
+            ]));
+        }
+
+        return $this->success([
+            'comment' => $comments,
+            'message' => "comment was done successfully"
+        ]);;
+    }
+
+
     // get all comments with platformId
     public function getComments(Request $request)
     {

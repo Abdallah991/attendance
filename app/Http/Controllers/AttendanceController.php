@@ -24,7 +24,7 @@ class AttendanceController extends Controller
         $response = Http::withHeaders([
             'Accept' => 'application/json',
             'Content-Type' => 'application/json',
-            'Authorization' => 'Token ' . $apiToken
+            'Authorization' => 'Token ' . '48e111ccd207225fff4b28cc5f7e6d68acf6b479'
         ])->get('http://10.1.50.4/iclock/api/transactions/?emp_code='
             . $id .
             '&page_size='

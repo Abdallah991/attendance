@@ -20,8 +20,7 @@ use App\Http\Controllers\SPController;
 
 // *protected routes 
 Route::group(['middleware' => ['auth:sanctum', 'throttle:api']], function () {
-    // students APIs
-    Route::Resource('/students', StudentsController::class);
+
     // users APIs
     Route::Resource('/users', UserController::class);
     // cohort API
@@ -101,4 +100,8 @@ Route::group(['middleware' => ['auth:sanctum', 'throttle:api']], function () {
 Route::group(['middleware' => ['web', 'throttle:api']], function () {
     // Login API
     Route::post('/login', [UserController::class, 'login']);
+    // comment on student
+    Route::post('/student-comment', [CommentController::class, 'commentOnStudent']);
+    // students APIs
+    Route::Resource('/students', StudentsController::class);
 });

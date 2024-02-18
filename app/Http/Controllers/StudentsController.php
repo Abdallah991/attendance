@@ -17,7 +17,7 @@ use App\Http\Resources\StudentCollection;
 // response
 use App\Traits\HttpResponses;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Auth;
+use App\Models\Comment;
 use DateTime;
 
 
@@ -31,14 +31,31 @@ class StudentsController extends Controller
     // response will get the user signed in data
     public function index(Request $request)
     {
-        $students = Student::all();
-        // return $students;
+        $sp = $request->sp;
+        $cohortId = $request->cohortId;
+        $query = Student::query();
+
+        if ($sp && $sp != 'all') {
+            $query->where('sp', '=', $sp);
+        }
+        if ($cohortId && $cohortId != 'all') {
+            $query->where('cohortId', '=', $cohortId);
+        }
+        $students = $query->get();
+        for ($i = 0; $i < count($students); $i++) {
+            // get comment
+            $comments = Comment::where('platformId', $students[$i]['id'])->first();
+            // notes
+            if ($comments) {
+                // add the notes
+                $students[$i]['notes'] = $comments->comment;
+            }
+        }
         // response will get the user signed in data
         return $this->success([
-            'students' => new StudentCollection(
-                $students
-            ),
-            'user' => Auth::user()
+            'students' =>
+            $students
+
         ]);
     }
 

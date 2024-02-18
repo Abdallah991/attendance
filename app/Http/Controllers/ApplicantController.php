@@ -15,7 +15,6 @@ use Carbon\Carbon;
 
 
 
-
 class ApplicantController extends Controller
 {
 
