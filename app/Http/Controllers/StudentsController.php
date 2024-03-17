@@ -85,11 +85,11 @@ class StudentsController extends Controller
         phone: attrs(path: "Phone")
         phoneNumber: attrs(path: "PhoneNumber")
 
-   
+
          }
      }
      GQL;
-        //  API call to the platform with QL query 
+        //  API call to the platform with QL query
         $response = Http::withHeaders([
             'Accept' => 'application/json',
             'Content-Type' => 'application/json',
@@ -111,7 +111,7 @@ class StudentsController extends Controller
         }
 
         // create student
-        // date of birth 
+        // date of birth
         $student = new StudentResource(Student::create([
             'id' => $request->id,
             'platformId' => $platformId,
@@ -234,7 +234,7 @@ class StudentsController extends Controller
     }
 
 
-    // sync students data 
+    // sync students data
     // * sync students data
     public function syncStudents(Request $request)
     {
@@ -243,7 +243,7 @@ class StudentsController extends Controller
         // * adding gender and genders and phone and phoneNumber to avoid null exception writing to the database
         $query = <<<GQL
       query {
-       event(where:{registrationId:{_eq:23}}) {
+       event(where:{_or:[{registrationId:{_eq:23}},{registrationId:{_eq:95}}]}) {
         users {
             email: attrs(path: "email")
             firstName: attrs(path: "firstName")
@@ -262,7 +262,7 @@ class StudentsController extends Controller
         }
         }
       GQL;
-        //  API call to the platform with QL query 
+        //  API call to the platform with QL query
         $response = Http::withHeaders([
             'Accept' => 'application/json',
             'Content-Type' => 'application/json',
